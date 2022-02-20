@@ -14,11 +14,6 @@ function App() {
         cookiePolicy={"single_host_origin"}
       />
       <main>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/newPage"> element={<NewPage />}</Route>
-          </Routes>
-        </BrowserRouter>
       </main>
     </div>
   );

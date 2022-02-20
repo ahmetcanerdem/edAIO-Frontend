@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.application-etuao{
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  display: inline-block !important;
+}
+
+.application-menu-container{
+  position: absolute !important;
+  left: 225px !important;
+  top: 0 !important;
+}

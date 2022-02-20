@@ -1,0 +1,38 @@
+ul{
+    list-style-type: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background-color: #f1f1f1 !important;
+}
+li{
+    padding-bottom: 5px !important;
+    padding-top: 5px !important;
+    padding-left: 10px;
+}
+
+li a{
+    display: block !important;
+    color: #000 !important;
+    padding: 8px 16px !important;
+    text-decoration: none !important;
+}
+li a:hover{
+    background-color: #555 !important;
+    color: white !important;
+}
+
+.navigation{
+    width: 200px !important;
+    height: 100% !important;
+}
+
+nav.navbar.navbar-expand.navbar-dark.bg-dark{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.container-navigation{
+    width: 100% !important;
+    height: 100% !important;
+}
