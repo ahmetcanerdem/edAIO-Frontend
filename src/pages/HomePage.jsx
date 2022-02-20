@@ -36,8 +36,9 @@ const Home = () => {
         {loginData ? (
           <div>
             <h3>You logged in as {loginData.name}</h3>
-            <img src={loginData.picture} />
-
+            <div>
+              <img src={loginData.picture} />
+            </div>
             <div>
               <button onClick={handleLogout}>Logout</button>
             </div>

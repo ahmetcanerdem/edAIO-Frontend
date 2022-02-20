@@ -1,0 +1,46 @@
+.loading-page{
+    padding-top: 50px !important;
+    padding-left: 10px !important;
+}
+
+.add-new-page-button{
+    display: inline-block;
+}
+
+.back-page-button{
+    display: inline-block !important;
+}
+
+.add-button{
+    margin-top: 30px !important;
+    width: 150px !important;
+    height: 50px !important;
+    text-align: center !important;
+    margin-left: 15px !important;
+    background-color: #c1a3c5 !important;
+    border-radius: 5px;
+    border-color: #332835 !important;
+}
+
+
+.back-button{
+    margin-top: 30px !important;
+    width: 70px !important;
+    height: 50px !important;
+    text-align: center !important;
+    margin-left: 15px !important;
+    background-color: #c1a3c5 !important;
+    border-radius: 5px;
+    border-color: #332835 !important;
+}
+
+button{
+    margin-top: 30px !important;
+    width: 150px !important;
+    height: 50px !important;
+    text-align: center !important;
+    margin-left: 15px !important;
+    border-radius: 5px;
+    border-color: #332835 !important;
+    background-color: #ffffff !important;;
+}
