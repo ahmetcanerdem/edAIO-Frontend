@@ -2,7 +2,7 @@ import React from "react";
 import GoogleLogin from "react-google-login";
 import { useState } from "react";
 
-const Home = () => {
+const Login = () => {
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
@@ -57,4 +57,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

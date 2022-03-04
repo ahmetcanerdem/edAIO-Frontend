@@ -1,4 +1,20 @@
 export { default as MainHeader} from "./MainHeader";
 export { default as ProfilPage} from "./ProfilPage";
 export { default as LoadingPage} from "./LoadingPage";
-export { default as HomePage} from "./HomePage";
+export { default as Login} from "./Login";
+
+export { default as AdresIletisimBilgileri } from "./AdresIletisimBilgileri";
+export { default as AraSinav } from "./AraSinav";
+export { default as Bilgilerim } from "./Bilgilerim";
+export { default as Blog } from "./Blog";
+export { default as ButunlemeSinavi } from "./ButunlemeSinavi";
+export { default as Derslerim } from "./Derslerim";
+export { default as DersProgrami } from "./DersProgrami";
+export { default as DonemSonuSinavi } from "./DonemSonuSinavi";
+export { default as IkinciYabanciDilBilgileri } from "./IkinciYabanciDilBilgileri";
+export { default as NotGoruntuleme } from "./NotGoruntuleme";
+export { default as OdemeBilgileri } from "./OdemeBilgileri";
+export { default as OgrenciKonseyiSecimi } from "./OgrenciKonseyiSecimi";
+export { default as OrtakEgitimBilgileri } from "./OrtakEgitimBilgileri";
+export { default as Randevu } from "./Randevu";
+export { default as ToplantiYonetimi } from "./ToplantiYonetimi";
