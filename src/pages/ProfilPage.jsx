@@ -1,7 +1,20 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect,useState } from "react";
 
 function ProfilPage() {
-  const studentInfor = {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios.get("https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students/grades")
+    .then(response => {
+      setData(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  },[]);
+  
+  const studentInfor = { //Example for write a page
     idNumber: "001",
     name: "Name 001",
     surname: "Surname 001",
@@ -27,6 +40,10 @@ function ProfilPage() {
             <div>
               <span>Name:</span>
               <span>{studentInfor.surname}</span>
+            </div>
+            <div>
+              <span>Data</span>
+              {!!data && <div>{data.gradesList[0].terms[1].courses[0].grade}</div>}
             </div>
           </div>
         </div>
