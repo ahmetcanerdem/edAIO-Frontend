@@ -1,5 +1,6 @@
 import React from "react";
-import GoogleLogin from "react-google-login";
+
+import Login from "./Login";
 import { useState } from "react";
 
 const Home = () => {
@@ -8,21 +9,6 @@ const Home = () => {
       ? JSON.parse(localStorage.getItem("loginData"))
       : null
   );
-  const handleLogin = async (googleData) => {
-    const res = await fetch("/api/google-login", {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await res.json();
-    setLoginData(data);
-    localStorage.setItem("loginData", JSON.stringify(data));
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");
@@ -37,20 +23,11 @@ const Home = () => {
           <div>
             <h3>You logged in as {loginData.name}</h3>
             <div>
-              <img src={loginData.picture} />
-            </div>
-            <div>
               <button onClick={handleLogout}>Logout</button>
             </div>
           </div>
         ) : (
-          <GoogleLogin
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-            buttonText={"Log in with Google"}
-            onSuccess={handleLogin}
-            onFailure={null}
-            cookiePolicy={"single_host_origin"}
-          ></GoogleLogin>
+          <Login setLoginData={setLoginData} loginData={loginData} />
         )}
       </div>
     </header>
