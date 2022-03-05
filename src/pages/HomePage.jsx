@@ -1,28 +1,27 @@
-import React from "react";
-import GoogleLogin from "react-google-login";
-import { useState } from "react";
-
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import LoginPage from "./LoginPage";
 const Home = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(
+        "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students"
+      )
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
       : null
   );
-  const handleLogin = async (googleData) => {
-    const res = await fetch("/api/google-login", {
-      method: "POST",
-      body: JSON.stringify({
-        token: googleData.tokenId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await res.json();
-    setLoginData(data);
-    localStorage.setItem("loginData", JSON.stringify(data));
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");
@@ -31,26 +30,17 @@ const Home = () => {
 
   return (
     <header className="App-header">
-      <h1>edAIO Login</h1>
       <div>
         {loginData ? (
-          <div>
-            <h3>You logged in as {loginData.name}</h3>
-            <div>
-              <img src={loginData.picture} />
-            </div>
-            <div>
+          <>
+            <div>Hello EDA-IO</div>
+            {console.log(data)}
+            <div className="logout-button">
               <button onClick={handleLogout}>Logout</button>
             </div>
-          </div>
+          </>
         ) : (
-          <GoogleLogin
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-            buttonText={"Log in with Google"}
-            onSuccess={handleLogin}
-            onFailure={null}
-            cookiePolicy={"single_host_origin"}
-          ></GoogleLogin>
+          <LoginPage setLoginData={setLoginData} loginData={loginData} />
         )}
       </div>
     </header>
