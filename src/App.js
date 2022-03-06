@@ -7,16 +7,15 @@ import Navigation from "./components/Navigation";
 import LectureSchedule from "./pages/LectureSchedule";
 import Derslerim from "./pages/Derslerim";
 import DonemSonuSinavi from "./pages/DonemSonuSinavi";
-import { IkinciYabanciDilBilgileri } from "./pages";
+import IkinciYabanciDilBilgileri from "./pages/IkinciYabanciDilBilgileri";
 import AddressPage from "./pages/AddressPage";
 import InfoPage from "./pages/InfoPage";
 import MidtermsPage from "./pages/MidtermsPage";
 import MakeUpsPage from "./pages/MakeUpsPage";
 import BlogPage from "./pages/BlogPage";
-import LoginPage from "./pages/LoginPage";
+import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
 import {
   Appointment,
-  HomePage,
   PaymentInfo,
   InternshipInfo,
   Grades,
@@ -29,7 +28,7 @@ class App extends Component {
           <Navigation />
           <div className="application-menu-container">
             <Routes>
-              <Route path="/" element={<LoginPage />} />
+              <Route path="/" element={<GirisCikisSayfasi />} />
               <Route path="/homePage" element={<HomePage />} />
               <Route path="/appointment" element={<Appointment />} />
               <Route path="/paymentInfo" element={<PaymentInfo />} />

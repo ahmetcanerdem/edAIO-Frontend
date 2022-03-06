@@ -8,10 +8,8 @@ function Navigation() {
         <div className="container-navigation">
           <div>
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/">
-                  Ana Sayfa
-                  <span className="sr-only">(current)</span>
+     
+              <li>
                 <NavLink className="nav-link" to="/homePage">
                   HomePage
                   <span className="sr-only"></span>
@@ -19,66 +17,91 @@ function Navigation() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/grades">
-                  Grades
+                  Not Bilgilerim
+                  <span className="sr-only"></span>
+                </NavLink>
+              </li>
+              <li>
                 <NavLink className="nav-link" to="/profilPage">
                   Bilgilerim
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/internshipInfo">
-                  Internship Info
+                  Ortak Eğitim Bilgilerim
+                  <span className="sr-only"></span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
                 <NavLink className="nav-link" to="/lectureSchedule">
                   Ders Programı
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/paymentInfo">
-                  Payment Info
-              </li>
+                  Ödeme Bilgilerim
+                  <span className="sr-only"></span>
                 </NavLink>
+              </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/appointment">
-                  Appointment
+                  Randevüler
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/derslerim">
                   Derslerim
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/donemSonuSinavlari">
                   Dönem Sonu Sinavlari
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/ikinciYabanciDilBilgileri">
                   İkinci Yabanci Dil Bilgileri
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/addresses">
                   Adres ve İletişim Bilgileri
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/midterms">
                   Ara Sınavlar
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/info">
                   Bilgilerim
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/blog">
                   Blog Sayfasi
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/makeups">
                   Bütünleme Sınavları
+                  <span className="sr-only"></span>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/">
+                  Giriş / Çıkış
                 </NavLink>
               </li>
             </ul>

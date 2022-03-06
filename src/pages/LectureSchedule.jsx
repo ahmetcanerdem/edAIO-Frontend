@@ -101,7 +101,6 @@ const LectureSchedule = () => {
     return(
         <>
           <h1>Program Sayfasi Güncelleniyor...</h1>
-          {program ? (<div>Program Backendden Doğru Bir Şekilde Alındı.</div>) : (<div>Burada küçük bir hata oldu.</div>)}
         </>
     );
 }

@@ -23,7 +23,7 @@ const Grades = () => {
   return (
     <>
     <div>
-        <div>Grades</div>
+        <h1>Not Bilgilerim</h1>
         {!!data && data.gradesList.map((grades) => { 
             const row = [];
     

@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import LoginPage from "./LoginPage";
 const HomePage = () => {
   const [data, setData] = useState(null);
 
@@ -17,21 +16,10 @@ const HomePage = () => {
       });
   }, []);
 
-  const [loginData, setLoginData] = useState(
-    localStorage.getItem("loginData")
-      ? JSON.parse(localStorage.getItem("loginData"))
-      : null
-  );
-
-  const handleLogout = () => {
-    localStorage.removeItem("loginData");
-    setLoginData(null);
-  };
-
   return (
     <>
     <div>
-        <div>Home</div>
+        <h1>Ana Sayfa</h1>
         {!!data && data.home.map((home) => { 
             const row = [];
     
@@ -74,41 +62,6 @@ const HomePage = () => {
       )}
     </div>
     </>
-
-  //   <header className="App-header">
-  //     <div>
-  //       {loginData ? (
-  //         <>
-  //         <div>
-  //           <div>Home Page</div>
-  //           {!!data && data.home.map((home) => { 
-
-  //             const row = [];
-    
-  //             row.push(<li key={home}>
-  //             <ul>
-  //               <li>Gpa: {home.gpa.map((gpa) =>{
-  //                 const row2 = [];
-  //                 row2.push(<li key={gpa}>
-  //                   <ul>
-  //                     <li>Year: {gpa.year}</li>
-  //                     <li>Term: {gpa.term}</li>
-  //                     <li>Value: {gpa.value}</li>
-  //                     </ul>)
-  //               })}</li>
-                  
-  //          </div>
-
-  //           <div className="logout-button">
-  //             <button onClick={handleLogout}>Logout</button>
-  //           </div>
-  //         </>
-  //       ) : (
-  //         <LoginPage setLoginData={setLoginData} loginData={loginData} />
-  //       )}
-        
-  //     </div>
-  //   </header>
   );
 };
 

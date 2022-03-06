@@ -25,7 +25,7 @@ const PaymentInfo = () => {
   return (
     <>
     <div>
-        <div>Payments</div>
+        <h1>Ödeme Bilgilerim</h1>
         {!!data && data.paymentInfo.map((payment) => { 
             const row = [];
     

@@ -17,7 +17,6 @@ const DonemSonuSinavi = () => {
     return(
         <>
           <h1>Dönem Sonu Sınavları Sayfası Güncelleniyor...</h1>
-          {donemSonuSinavlari ? (<div>Dönem Sonu Sınavları Backendden Doğru Bir Şekilde Alındı.</div>) : (<div>Burada küçük bir hata oldu.</div>)}
         </>
     );
 }

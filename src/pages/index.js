@@ -1,4 +1,3 @@
-export { default as MainHeader} from "./MainHeader";
 export { default as ProfilPage} from "./ProfilPage";
 export { default as LoadingPage} from "./LoadingPage";
 export { default as HomePage} from "./HomePage";
@@ -11,8 +10,8 @@ export { default as MidtermsPage} from "./MidtermsPage";
 export { default as BlogPage} from "./BlogPage";
 export { default as InfoPage} from "./InfoPage";
 export { default as MakeUpsPage} from "./MakeUpsPage";
-export { default as HomePage } from "./HomePage";
 export { default as Appointment } from "./Appointment";
 export { default as PaymentInfo } from "./PaymentInfo";
 export { default as InternshipInfo } from "./InternshipInfo";
 export { default as Grades } from "./Grades";
+export { default as GirisCikisSayfasi } from "./GirisCikisSayfasi";

@@ -16,7 +16,6 @@ function ProfilPage() {
 
   return (<>
     <h1>Bilgilerim Sayfası Güncelleniyor...</h1>
-    {profilBilgilerim ? (<div>Bilgilerim Backendden Doğru Bir Şekilde Alındı.</div>) : (<div>Burada küçük bir hata oldu.</div>)}
     </>
   );
 }

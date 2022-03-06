@@ -25,7 +25,7 @@ const Appointment = () => {
   return (
     <>
     <div>
-        <div>Appointments</div>
+        <h1>Randevuler</h1>
         {!!data && data.appointment.map((appointment) => { 
             const row = [];
     

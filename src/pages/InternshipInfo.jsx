@@ -26,7 +26,7 @@ const InternshipInfo = () => {
   return (
     <>
     <div>
-        <div>Internships</div>
+        <h1>Ortak Eğitim Bilgilerim</h1>
         {!!data && data.internships.map((internship) => { 
             const row = [];
     
