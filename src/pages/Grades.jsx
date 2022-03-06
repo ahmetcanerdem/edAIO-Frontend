@@ -24,7 +24,7 @@ const Grades = () => {
     <>
     <div>
         <div>Grades</div>
-        {!!data && data.gradeList.map((grades) => { 
+        {!!data && data.gradesList.map((grades) => { 
             const row = [];
     
         row.push(<li key={grades}>
