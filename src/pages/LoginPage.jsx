@@ -20,8 +20,6 @@ const Login = (props) => {
     localStorage.setItem("loginData", JSON.stringify(data));
   };
 
-
-
   return (
     <>
       <h1>edAIO Login</h1>

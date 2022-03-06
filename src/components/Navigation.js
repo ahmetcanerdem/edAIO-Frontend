@@ -10,18 +10,33 @@ function Navigation() {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <NavLink className="nav-link" to="/">
-                  Home
+                  Ana Sayfa
                   <span className="sr-only">(current)</span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/profilPage">
-                  ProfilPage
+                  Bilgileri
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/loadingPage">
-                  LoadingPage
+                <NavLink className="nav-link" to="/lectureSchedule">
+                  Ders Programı
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/derslerim">
+                  Derslerim
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/donemSonuSinavlari">
+                  Dönem Sonu Sinavlari
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/ikinciYabanciDilBilgileri">
+                  İkinci Yabanci Dil Bilgileri
                 </NavLink>
               </li>
             </ul>
