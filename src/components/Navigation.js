@@ -9,19 +9,29 @@ function Navigation() {
           <div>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/">
-                  Home
-                  <span className="sr-only">(current)</span>
+                <NavLink className="nav-link" to="/homePage">
+                  HomePage
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/profilPage">
-                  ProfilPage
+                <NavLink className="nav-link" to="/grades">
+                  Grades
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/loadingPage">
-                  LoadingPage
+                <NavLink className="nav-link" to="/internshipInfo">
+                  Internship Info
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/paymentInfo">
+                  Payment Info
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/appointment">
+                  Appointment
                 </NavLink>
               </li>
             </ul>
