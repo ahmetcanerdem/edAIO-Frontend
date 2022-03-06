@@ -16,7 +16,7 @@ function Navigation() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/profilPage">
-                  Bilgileri
+                  Bilgilerim
                 </NavLink>
               </li>
               <li className="nav-item">
@@ -41,27 +41,27 @@ function Navigation() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/addresses">
-                  Addresses
+                  Adres ve İletişim Bilgileri
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/midterms">
-                  Midterms
+                  Ara Sınavlar
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/info">
-                  Info
+                  Bilgilerim
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/blog">
-                  Blog
+                  Blog Sayfasi
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/makeups">
-                  Make-Ups
+                  Bütünleme Sınavları
                 </NavLink>
               </li>
             </ul>

@@ -26,11 +26,10 @@ const AddressPage = () => {
   return (
     <>
     <div>
-        <div>Addresses and Contacts</div>
+        <h1>Adres ve İletişim Bilgilerim</h1>
         {!!data && data.contactInfo.addresses.map((address) => { 
           const row = [];
           row.push(<li key={address}>
-            
             <ul>
               <li>{address.type}</li>
               <li>{address.address}</li>

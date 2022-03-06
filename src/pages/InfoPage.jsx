@@ -24,7 +24,7 @@ const InfoPage = () => {
   return (
     <>
     <div>
-        <div>Info</div>
+        <h1>Bilgilerim</h1>
         
         {!!data && data.info.map((info) => { 
             const row = [];

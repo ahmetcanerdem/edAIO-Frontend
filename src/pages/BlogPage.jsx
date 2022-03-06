@@ -26,7 +26,7 @@ const BlogPage = () => {
   return (
     <>
     <div>
-        <div>Blogs</div>
+        <h1>Blog Sayfası</h1>
         {!!data && data.lessonBlogPage.map((lesson) => { 
             const row = [];
     

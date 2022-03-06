@@ -26,7 +26,7 @@ const MidtermsPage = () => {
   return (
     <>
     <div>
-        <div>Midterms</div>
+        <h1>Sınavlar</h1>
         {!!data && data.midterms.map((midterm) => { 
             const row = [];
     
