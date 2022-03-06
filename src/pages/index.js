@@ -6,3 +6,8 @@ export { default as LectureSchedule} from "./LectureSchedule";
 export { default as Derslerim} from "./Derslerim";
 export { default as DonemSonuSinavi} from "./DonemSonuSinavi";
 export { default as IkinciYabanciDilBilgileri} from "./IkinciYabanciDilBilgileri";
+export { default as AddressPage} from "./AddressPage";
+export { default as MidtermsPage} from "./MidtermsPage";
+export { default as BlogPage} from "./BlogPage";
+export { default as InfoPage} from "./InfoPage";
+export { default as MakeUpsPage} from "./MakeUpsPage";

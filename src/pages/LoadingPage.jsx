@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/PageStyle.css";
+
 const LoadingPage = () => {
   const [isButtonShow, setButtonShow] = useState(true);
 
