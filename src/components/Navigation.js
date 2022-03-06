@@ -12,16 +12,33 @@ function Navigation() {
                 <NavLink className="nav-link" to="/">
                   Ana Sayfa
                   <span className="sr-only">(current)</span>
+                <NavLink className="nav-link" to="/homePage">
+                  HomePage
+                  <span className="sr-only"></span>
                 </NavLink>
               </li>
               <li className="nav-item">
+                <NavLink className="nav-link" to="/grades">
+                  Grades
                 <NavLink className="nav-link" to="/profilPage">
                   Bilgilerim
                 </NavLink>
               </li>
               <li className="nav-item">
+                <NavLink className="nav-link" to="/internshipInfo">
+                  Internship Info
                 <NavLink className="nav-link" to="/lectureSchedule">
                   Ders Programı
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/paymentInfo">
+                  Payment Info
+              </li>
+                </NavLink>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/appointment">
+                  Appointment
                 </NavLink>
               </li>
               <li className="nav-item">
