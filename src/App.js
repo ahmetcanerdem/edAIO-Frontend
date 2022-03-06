@@ -5,6 +5,11 @@ import HomePage from "./pages/HomePage";
 import ProfilPage from "./pages/ProfilPage";
 import LoadingPage from "./pages/LoadingPage";
 import Navigation from "./components/Navigation";
+import AddressPage from "./pages/AddressPage";
+import MidtermsPage from "./pages/MidtermsPage";
+import InfoPage from "./pages/InfoPage";
+import BlogPage from "./pages/BlogPage";
+import MakeUpsPage from "./pages/MakeUpsPage";
 class App extends Component {
   render() {
     return (
@@ -16,6 +21,11 @@ class App extends Component {
               <Route path="/" element={<HomePage />} />
               <Route path="/profilPage" element={<ProfilPage />} />
               <Route path="/loadingPage" element={<LoadingPage />} />
+              <Route path="/addresses" element={<AddressPage />} />
+              <Route path="/midterms" element={<MidtermsPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/info" element={<InfoPage />} />
+              <Route path="/makeups" element={<MakeUpsPage />} />
             </Routes>
           </div>
         </div>
