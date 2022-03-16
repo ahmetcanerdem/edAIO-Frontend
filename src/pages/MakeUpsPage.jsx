@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "../styles/HomePage.css";
 
-
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MakeUpsPage = () => {
 
@@ -25,25 +25,31 @@ const MakeUpsPage = () => {
 
   return (
     <>
-    <div>
+      <div>
         <h1>Bütünleme Sınavları</h1>
+       
+  <Button variant="primary" lassName="btn-primary">Primary</Button>{' '}
+  <Button variant="secondary">Secondary</Button>{' '}
+  <Button variant="success">Success</Button>{' '}
+  <Button variant="warning">Warning</Button>{' '}
+
+
         {!!data && data.midterms.map((midterm) => { 
-            const row = [];
-    
-        row.push(<li key={midterm}>
+          const row = [];
+          row.push(<li key={midterm}>
             <ul>
-                <li>{midterm.shortCode}</li>
-                <li>{midterm.location}</li>
-                <li>{midterm.zoomId}</li>
-                <li>{midterm.day}</li>
-                <li>{midterm.hours}</li>
+              <li>{midterm.shortCode}</li>
+              <li>{midterm.location}</li>
+              <li>{midterm.zoomId}</li>
+              <li>{midterm.day}</li>
+              <li>{midterm.hours}</li>
             </ul>
-        </li>);
-      return row;
-    }
+          </li>);
+          return row;
+          }
+        )}
+      </div>
       
-      )}
-    </div>
     </>
   );
 };

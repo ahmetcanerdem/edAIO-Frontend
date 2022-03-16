@@ -1,74 +1,77 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Navigation.css";
+import { Nav, NavDropdown, Button, Navbar } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function Navigation() {
   return (
     <div className="navigation">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="container-navigation">
           <div>
-            <ul className="navbar-nav ml-auto">
+            <Navbar bg="dark" variant="light">
+              <Nav
+                variant="pills" className="flex-column"
+              >
+                <Nav.Item>
+                  <Nav.Link href="/home">Home</Nav.Link>
+                </Nav.Item>
+                <NavDropdown title="Dropdown" id="nav-dropdown">
+                  <NavDropdown.Item eventKey="4.1">Action</NavDropdown.Item>
+                  <NavDropdown.Item eventKey="4.2">Another action</NavDropdown.Item>
+                  <NavDropdown.Item eventKey="4.3">Something else here</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
+                </NavDropdown>
+                <Nav.Item>
+                  <Nav.Link href="/profile">Profile</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/grades">Grades</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/internships">Internship</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/curriculum">Curriculum</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/courses">Courses</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/sfl">Second Foreign Language</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/payment">Payment</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/appointment">Appointment</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/addresses">Addresses</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/info">Info</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/blog">Blog</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/midterms">Midterms</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/finals">Finals</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/makeups">Make-Ups</Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Navbar>
+            {/* <ul className="navbar-nav ml-auto">
      
-              <li>
-                <NavLink className="nav-link" to="/homePage">
-                  HomePage
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/grades">
-                  Not Bilgilerim
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink className="nav-link" to="/profilPage">
-                  Bilgilerim
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/internshipInfo">
-                  Ortak Eğitim Bilgilerim
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/lectureSchedule">
-                  Ders Programı
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/paymentInfo">
-                  Ödeme Bilgilerim
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/appointment">
-                  Randevüler
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/derslerim">
-                  Derslerim
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/donemSonuSinavlari">
-                  Dönem Sonu Sinavlari
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/ikinciYabanciDilBilgileri">
-                  İkinci Yabanci Dil Bilgileri
-                  <span className="sr-only"></span>
-                </NavLink>
-              </li>
+      
+  
               <li className="nav-item">
                 <NavLink className="nav-link" to="/addresses">
                   Adres ve İletişim Bilgileri
@@ -104,7 +107,7 @@ function Navigation() {
                   Giriş / Çıkış
                 </NavLink>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
       </nav>

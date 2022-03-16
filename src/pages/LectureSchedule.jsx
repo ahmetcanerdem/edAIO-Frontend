@@ -89,7 +89,7 @@ const LectureSchedule = () => {
     // }
 
     useEffect(() => {
-      axios.get("https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/termInfo/program")
+      axios.get("https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/termInfo/curriculum")
       .then(response => {
         setProgram(response.data);
       })

@@ -10,7 +10,7 @@ const Derslerim = () => {
   const [butonDersler, butonDerslerEklensin]=useState([]);
   useEffect(async () => {
     let dersleriGetir = await axios.get(
-      "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/termInfo/lessons"
+      "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/termInfo/courses"
     );
     if (!!dersleriGetir.data) {
       derslerimiAyarla(dersleriGetir.data);

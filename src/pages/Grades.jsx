@@ -25,9 +25,8 @@ const Grades = () => {
     <div>
         <h1>Not Bilgilerim</h1>
         {!!data && data.gradesList.map((grades) => { 
-            const row = [];
-    
-        row.push(<li key={grades}>
+          const row = [];
+          row.push(<li key={grades}>
             <ul>
                 <li>Terms: {grades.terms.map((term)=>  {
                     const row2 = [];
@@ -52,9 +51,9 @@ const Grades = () => {
                             })}</li>
                         </ul>
                     </li>);
-                    return row2;
-                    })}
-                    </li>
+                return row2;
+                })}
+              </li>
             </ul>
         </li>);
       return row;
