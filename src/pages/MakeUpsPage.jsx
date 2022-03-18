@@ -10,7 +10,7 @@ const MakeUpsPage = () => {
   useEffect(() => {
       axios
         .get(
-          "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students/makeups"
+          "http://localhost:1337/makeups"
         )
         .then((response) => {
           setData(response.data);
@@ -27,22 +27,16 @@ const MakeUpsPage = () => {
     <>
       <div>
         <h1>Bütünleme Sınavları</h1>
-       
-  <Button variant="primary" lassName="btn-primary">Primary</Button>{' '}
-  <Button variant="secondary">Secondary</Button>{' '}
-  <Button variant="success">Success</Button>{' '}
-  <Button variant="warning">Warning</Button>{' '}
-
-
-        {!!data && data.midterms.map((midterm) => { 
+        
+        {!!data && data.makeups.map((makeup) => { 
           const row = [];
-          row.push(<li key={midterm}>
+          row.push(<li key={makeup}>
             <ul>
-              <li>{midterm.shortCode}</li>
-              <li>{midterm.location}</li>
-              <li>{midterm.zoomId}</li>
-              <li>{midterm.day}</li>
-              <li>{midterm.hours}</li>
+              <li>{makeup.code}</li>
+              <li>{makeup.location}</li>
+              <li>{makeup.zoomId}</li>
+              <li>{makeup.day}</li>
+              <li>{makeup.hours}</li>
             </ul>
           </li>);
           return row;

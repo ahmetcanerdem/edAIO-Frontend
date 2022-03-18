@@ -37,7 +37,7 @@ const Grades = () => {
                                 const row3 = [];
                                 row3.push(<li key= {course}>
                                     <ul>
-                                        <li>Short Code: {course.shortCode}</li>
+                                        <li>Short Code: {course.code}</li>
                                         <li>Name: {course.name}</li>
                                         <li>Type: {course.type}</li>
                                         <li>Degree Type: {course.degreeType}</li>
