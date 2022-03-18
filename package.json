@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "proxy": "http://localhost:1337",
+  "proxy": "http://localhost:5000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,6 +22,7 @@
     "react-bootstrap": "^2.2.1",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
+    "react-native-mask-image": "^0.1.1",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "scheduler-calendar": "^4.0.0",
