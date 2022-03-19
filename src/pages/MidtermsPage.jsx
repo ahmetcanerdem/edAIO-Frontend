@@ -1,51 +1,68 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "../styles/HomePage.css";
+import { AgGridReact } from "ag-grid-react";
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
 
+const MakeUpsPage = () => {
+  const [isLoading, setLoading] = useState(true);
 
-const MidtermsPage = () => {
+  const [columns] = useState(
+    [
+      { headerName: "Ders Kodu", field: "code" },
+      { headerName: "Ders Adi", field: "name" },
+      { headerName: "Sinav Tarihi", field: "date" },
+      { headerName: "Derslik", field: "class" },
+      { headerName: "Baslangic", field: "start" },
+      { headerName: "Bitis", field: "finish" },
+      { headerName: "Gozetmen", field: "observer" }
+    ]
+  );
+  const [rows, setRows] = useState();
 
   const [data, setData] = useState(null);
-  useEffect(() => {
-      axios
-        .get(
-          "http://localhost:1337/midterms"
-        )
-        .then((response) => {
-          setData(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }, []
+  useEffect( () => {
+    axios
+      .get(
+        "http://localhost:1337/midterms"
+      )
+      .then((response) => {
+        setData(response.data);
+        console.log(response.data);
+        setRows(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []
   );
 
+ 
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
 
+else{
   return (
+
     <>
-    <div>
-        <h1>Ara Sınavlar</h1>
-        {!!data && data.midterms.map((midterm) => { 
-            const row = [];
-    
-        row.push(<li key={midterm}>
-            <ul>
-                <li>{midterm.code}</li>
-                <li>{midterm.location}</li>
-                <li>{midterm.zoomId}</li>
-                <li>{midterm.day}</li>
-                <li>{midterm.hours}</li>
-            </ul>
-        </li>);
-      return row;
-    }
-      
-      )}
-    </div>
+      <div className="ag-theme-balham"
+        style={{
+          width: 1500,
+          height: 600
+        }}>
+        <AgGridReact
+          columnDefs={columns}
+          rowData={rows}
+        />
+      </div>
     </>
   );
+}
 };
 
-export default MidtermsPage;
+export default MakeUpsPage;
