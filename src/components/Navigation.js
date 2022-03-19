@@ -1,7 +1,6 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import "../styles/Navigation.css";
-import { Nav, NavDropdown, Button, Navbar } from 'react-bootstrap';
+import { Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Navigation() {
@@ -65,6 +64,9 @@ function Navigation() {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link href="/makeups">Make-Ups</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/">Sign In - Sign Out</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Navbar>

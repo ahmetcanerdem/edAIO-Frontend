@@ -13,8 +13,10 @@ import InfoPage from "./pages/InfoPage";
 import MidtermsPage from "./pages/MidtermsPage";
 import MakeUpsPage from "./pages/MakeUpsPage";
 import BlogPage from "./pages/BlogPage";
-import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
-
+import { GirisCikisSayfasi } from "./pages";
+import { connect } from 'react-redux';
+import {alertActions} from "./actions/alertActions";
+import { history } from "./history";
 
 import {
   Appointment,
@@ -26,16 +28,22 @@ import {
 
 class App extends Component {
 
+  constructor(props){
+    super(props);
+    history.listen((location, action) => {
+      this.props.clearAlerts();
+    });
+  }
 
 
   render() {
     return (
-      <Router>
+      <Router history= {history}>
         <div className="application-etuao">
           <Navigation />
           <div className="application-menu-container">
             <Routes>
-              <Route path="/" element={<GirisCikisSayfasi />} />
+              <Route path="/" Component={GirisCikisSayfasi} />
               <Route path="/home" element={<HomePage />} />
               <Route path="/appointment" element={<Appointment />} />
               <Route path="/payment" element={<PaymentInfo />} />
@@ -60,4 +68,14 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapState(state) {
+  const {alert} = state;
+  return {alert};
+}
+
+const actionCreators = {
+  clearAlerts: alertActions.clear
+};
+
+const connectedApp = connect(mapState, actionCreators)(App);
+export { connectedApp as App };
