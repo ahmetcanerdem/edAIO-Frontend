@@ -10,7 +10,7 @@ const InternshipInfo = () => {
   useEffect(() => {
     axios
       .get(
-        "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students/internships"
+        "http://127.0.0.1:1337/internships"
       )
       .then((response) => {
         setData(response.data);

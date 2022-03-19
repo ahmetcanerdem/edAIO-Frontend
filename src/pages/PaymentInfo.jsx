@@ -9,7 +9,7 @@ const PaymentInfo = () => {
   useEffect(() => {
       axios
         .get(
-          "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students/payment"
+          "http://127.0.0.1:1337/payment"
         )
         .then((response) => {
           setData(response.data);
@@ -26,7 +26,7 @@ const PaymentInfo = () => {
     <>
     <div>
         <h1>Ödeme Bilgilerim</h1>
-        {!!data && data.paymentInfo.map((payment) => { 
+        {!!data && data.payments.map((payment) => { 
             const row = [];
     
         row.push(<li key={payment}>

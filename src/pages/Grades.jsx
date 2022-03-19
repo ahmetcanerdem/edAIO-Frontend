@@ -7,7 +7,7 @@ const Grades = () => {
   useEffect(() => {
       axios
         .get(
-          "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students/grades"
+          "http://127.0.0.1:1337/grades"
         )
         .then((response) => {
           setData(response.data);
@@ -24,18 +24,14 @@ const Grades = () => {
     <>
     <div>
         <h1>Not Bilgilerim</h1>
-        {!!data && data.gradesList.map((grades) => { 
+        {!!data && data.terms.map((term) => { 
           const row = [];
-          row.push(<li key={grades}>
+          row.push(<li key={term}>
             <ul>
-                <li>Terms: {grades.terms.map((term)=>  {
-                    const row2 = [];
-                    row2.push(<li key={term}>
-                        <ul>
                             <li>Name: {term.name}</li>
                             <li>Courses: {term.courses.map((course)=> {
-                                const row3 = [];
-                                row3.push(<li key= {course}>
+                                const row2 = [];
+                                row2.push(<li key= {course}>
                                     <ul>
                                         <li>Short Code: {course.code}</li>
                                         <li>Name: {course.name}</li>
@@ -47,14 +43,9 @@ const Grades = () => {
                                         <li>Grade: {course.grade}</li>
                                     </ul>
                                 </li>);
-                            return row3;
+                            return row2;
                             })}</li>
-                        </ul>
-                    </li>);
-                return row2;
-                })}
-              </li>
-            </ul>
+                </ul>
         </li>);
       return row;
     }
