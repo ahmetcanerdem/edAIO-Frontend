@@ -20,7 +20,7 @@ function LoginPage() {
 
   useEffect(() => {
     dispatch(userActions.logout());
-  },[]);
+  }, []);
 
   function handleLogin(googleData){
     setSubmitted(true);

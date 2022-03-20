@@ -1,5 +1,4 @@
 import React from "react";
-import LoginPage from "./LoginPage";
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../actions';
 
@@ -21,9 +20,8 @@ function GirisCikisSayfasi() {
               <button onClick={handleLogout}>Logout</button>
             </div>
           </>
-        ) : (
-          <LoginPage/>
-        )}
+        ) : 
+        null}
       </div>
     </header>
   );
