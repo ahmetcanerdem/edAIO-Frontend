@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "proxy": "http://localhost:5000",
+  "proxy": "http://127.0.0.1:5000/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -40,6 +40,7 @@
     "react-google-login": "^5.2.2",
     "react-native-mask-image": "^0.1.1",
     "react-redux": "^7.2.6",
+    "react-router": "^5.2.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "redux": "^4.1.2",

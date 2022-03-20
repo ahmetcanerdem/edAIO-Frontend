@@ -66,6 +66,9 @@ function Navigation() {
                 <Nav.Item>
                   <Nav.Link href="/makeups">Make-Ups</Nav.Link>
                 </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link href="/login">I/O</Nav.Link>
+                </Nav.Item>
               </Nav>
             </Navbar>
             {/* <ul className="navbar-nav ml-auto">

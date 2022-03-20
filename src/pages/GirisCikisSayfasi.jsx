@@ -1,9 +1,6 @@
 
 import React, { useState } from "react";
 import LoginPage from "./LoginPage";
-import { useSelector, useDispatch } from "react-redux";
-import {login} from '../actions';
-
 const GirisCikisSayfasi = () => {
 
   const [loginData, setLoginData] = useState(
@@ -12,35 +9,34 @@ const GirisCikisSayfasi = () => {
       : null
   );
 
-  const isLogged = useSelector(state => state.isLogged);
-  const dispatch = useDispatch();
-
-  const handleLogin = () => {
-    dispatch(login);
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("loginData");
     setLoginData(null);
   };
+
+  var url = window.location.pathname;
 
   return (
     <header className="App-header">
       <div>
         {loginData ? (
           <>
-            <div>Hello EDA-IO</div>
-            <div className="logout-button">
-              <button onClick={handleLogout}>Logout</button>
-            </div>
+            {console.log(url)}
+            {url === '/login' ? (
+              <>
+                <div>Hello EDA-IO</div>
+                <div className="logout-button">
+                  <button onClick={handleLogout}>Logout</button>
+                </div>
+              </>
+            ) :
+              <div>
+                {window.location.reload()}
+              </div>
+            }
           </>
         ) : (
-          <>
-          <div>
-              <button onClick={handleLogin}>Login</button>
-            </div>
-            <LoginPage setLoginData={setLoginData} loginData={loginData} />
-            </>
+          <LoginPage setLoginData={setLoginData} loginData={loginData} />
         )}
       </div>
     </header>

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { useSelector } from "react-redux";
@@ -28,14 +28,18 @@ import {
 function App() {
 
 
+  const [loginData, setLoginData] = useState(
+    localStorage.getItem("loginData")
+      ? JSON.parse(localStorage.getItem("loginData"))
+      : null
+  );
 
-  const isLogged = useSelector(state => state.isLogged);
   return (
     <Router>
       <div className="application-etuao">
         <Navigation />
         <div className="application-menu-container">
-          {isLogged ?
+          {!!loginData ?
             <div>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -54,27 +58,12 @@ function App() {
                 <Route path="/courses" element={<Derslerim />} />
                 <Route path="/finals" element={<DonemSonuSinavi />} />
                 <Route path="/sfl" element={<IkinciYabanciDilBilgileri />} />
+                <Route path="/login" element={<GirisCikisSayfasi />} />
               </Routes>
             </div>
-
             : <div>
               <Routes>
-                <Route path="/" element={<GirisCikisSayfasi />} />
-                <Route path="/home" element={<GirisCikisSayfasi />} />
-                <Route path="/appointment" element={<GirisCikisSayfasi />} />
-                <Route path="/payment" element={<GirisCikisSayfasi />} />
-                <Route path="/internships" element={<GirisCikisSayfasi />} />
-                <Route path="/grades" element={<GirisCikisSayfasi />} />
-                <Route path="/profile" element={<GirisCikisSayfasi />} />
-                <Route path="/addresses" element={<GirisCikisSayfasi />} />
-                <Route path="/midterms" element={<GirisCikisSayfasi />} />
-                <Route path="/blog" element={<GirisCikisSayfasi />} />
-                <Route path="/info" element={<GirisCikisSayfasi />} />
-                <Route path="/makeups" element={<GirisCikisSayfasi />} />
-                <Route path="/curriculum" element={<GirisCikisSayfasi />} />
-                <Route path="/courses" element={<GirisCikisSayfasi />} />
-                <Route path="/finals" element={<GirisCikisSayfasi />} />
-                <Route path="/sfl" element={<GirisCikisSayfasi />} />
+                <Route path="/*" element={<GirisCikisSayfasi />} />
               </Routes>
             </div>
           }
