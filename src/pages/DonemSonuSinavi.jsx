@@ -19,7 +19,7 @@ const MakeUpsPage = () => {
       { headerName: "Gozetmen", field: "observer" }
     ]
   );
-  const [rows, setRows] = useState();
+  const [rows, setRows] = useState(null);
 
   const [data, setData] = useState(null);
   useEffect( () => {
@@ -45,7 +45,10 @@ const MakeUpsPage = () => {
     return <div>Loading...</div>;
   }
 
-
+else if(rows === null)
+{ 
+  return <div>henuz final donemi degil</div>;
+}
 else{
   return (
 

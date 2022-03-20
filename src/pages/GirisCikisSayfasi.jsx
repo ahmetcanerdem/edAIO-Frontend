@@ -1,6 +1,9 @@
 
 import React, { useState } from "react";
 import LoginPage from "./LoginPage";
+import { useSelector, useDispatch } from "react-redux";
+import {login} from '../actions';
+
 const GirisCikisSayfasi = () => {
 
   const [loginData, setLoginData] = useState(
@@ -8,6 +11,13 @@ const GirisCikisSayfasi = () => {
       ? JSON.parse(localStorage.getItem("loginData"))
       : null
   );
+
+  const isLogged = useSelector(state => state.isLogged);
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    dispatch(login);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");
@@ -25,7 +35,12 @@ const GirisCikisSayfasi = () => {
             </div>
           </>
         ) : (
-          <LoginPage setLoginData={setLoginData} loginData={loginData} />
+          <>
+          <div>
+              <button onClick={handleLogin}>Login</button>
+            </div>
+            <LoginPage setLoginData={setLoginData} loginData={loginData} />
+            </>
         )}
       </div>
     </header>
