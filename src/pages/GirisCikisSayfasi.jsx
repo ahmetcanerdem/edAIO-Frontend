@@ -1,23 +1,20 @@
-
-import React, { useState } from "react";
+import React from "react";
 import LoginPage from "./LoginPage";
-const GirisCikisSayfasi = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../actions';
 
-  const [loginData, setLoginData] = useState(
-    localStorage.getItem("loginData")
-      ? JSON.parse(localStorage.getItem("loginData"))
-      : null
-  );
+function GirisCikisSayfasi() {
+  const user = useSelector((state) => state.authentication.loginData);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("loginData");
-    setLoginData(null);
+    dispatch(userActions.logout());
   };
 
   return (
     <header className="App-header">
       <div>
-        {loginData ? (
+        {user ? (
           <>
             <div>Hello EDA-IO</div>
             <div className="logout-button">
@@ -25,11 +22,11 @@ const GirisCikisSayfasi = () => {
             </div>
           </>
         ) : (
-          <LoginPage setLoginData={setLoginData} loginData={loginData} />
+          <LoginPage/>
         )}
       </div>
     </header>
   );
-};
+}
 
 export default GirisCikisSayfasi;

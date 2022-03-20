@@ -15,3 +15,4 @@ export { default as PaymentInfo } from "./PaymentInfo";
 export { default as InternshipInfo } from "./InternshipInfo";
 export { default as Grades } from "./Grades";
 export { default as GirisCikisSayfasi } from "./GirisCikisSayfasi";
+export * from './LoginPage';

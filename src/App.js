@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -14,7 +15,9 @@ import MidtermsPage from "./pages/MidtermsPage";
 import MakeUpsPage from "./pages/MakeUpsPage";
 import BlogPage from "./pages/BlogPage";
 import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
-
+import history from "./history";
+import LoginPage from "./pages/LoginPage";
+import { alertActions } from "./actions/alertActions";
 
 import {
   Appointment,
@@ -22,26 +25,36 @@ import {
   InternshipInfo,
   Grades,
 } from "./pages";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 
-class App extends Component {
+function App() {
+  const alert = useSelector(state => state.alert);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    history.listen((location, action) => {
+      dispatch(alertActions.clear());
+    });
+  }, []);
 
-
-  render() {
-    return (
-      <Router>
+  return (
+    <div>
+      {alert.message && (
+        <div className={`alert ${alert.type}`}>{alert.message}</div>
+      )}
+      <Router history={history}>
         <div className="application-etuao">
           <Navigation />
           <div className="application-menu-container">
             <Routes>
-              <Route path="/" element={<GirisCikisSayfasi />} />
+              <PrivateRoute exact path="/" component = {GirisCikisSayfasi} />
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/home" element={<HomePage />} />
               <Route path="/appointment" element={<Appointment />} />
               <Route path="/payment" element={<PaymentInfo />} />
               <Route path="/internships" element={<InternshipInfo />} />
               <Route path="/grades" element={<Grades />} />
-              <Route path="/" element={<HomePage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/addresses" element={<AddressPage />} />
               <Route path="/midterms" element={<MidtermsPage />} />
@@ -56,8 +69,8 @@ class App extends Component {
           </div>
         </div>
       </Router>
-    );
-  }
+    </div>
+  );
 }
 
-export default App;
+export { App };
