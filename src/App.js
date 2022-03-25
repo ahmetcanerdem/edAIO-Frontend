@@ -15,6 +15,7 @@ import MidtermsPage from "./pages/MidtermsPage";
 import MakeUpsPage from "./pages/MakeUpsPage";
 import BlogPage from "./pages/BlogPage";
 import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
+import AdminPage from "./pages/AdminPage";
 
 
 import {
@@ -59,6 +60,8 @@ function App() {
                 <Route path="/finals" element={<DonemSonuSinavi />} />
                 <Route path="/sfl" element={<IkinciYabanciDilBilgileri />} />
                 <Route path="/login" element={<GirisCikisSayfasi />} />
+                <Route path="/admin" element={<AdminPage />} />
+
               </Routes>
             </div>
             : <div>

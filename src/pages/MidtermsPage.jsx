@@ -20,12 +20,14 @@ const MakeUpsPage = () => {
     ]
   );
   const [rows, setRows] = useState();
+  
+  let studentNumber = 121101016;
 
   const [data, setData] = useState(null);
   useEffect( () => {
     axios
       .get(
-        "http://localhost:1337/midterms"
+        "http://localhost:1337/" + studentNumber + "/midterms"
       )
       .then((response) => {
         setData(response.data);

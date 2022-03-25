@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import LoginPage from "./LoginPage";
+
 const GirisCikisSayfasi = () => {
 
   const [loginData, setLoginData] = useState(
