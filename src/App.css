@@ -42,14 +42,16 @@
   height: 100% !important;
   position: absolute !important;
   display: inline-block !important;
+  overflow-x: hidden !important;
 }
 
 .application-menu-container{
   position: absolute !important;
-  left: 225px !important;
+  left: 270px !important;
   top: 0 !important;
-  width: calc(100% - 225px);
+  width: calc(100% - 270px);
   height: 100%;
+  overflow: auto !important;
 }
 body {
   margin: 0;
@@ -66,3 +68,21 @@ code {
 }
 
 
+.sidebarLevel{
+  font-size: smaller;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}

@@ -1,0 +1,95 @@
+[
+  {
+    "name": "Profil",
+    "path": "/profile",
+    "icon": "fa-thin fa-id-badge",
+    "subitem": [
+      {
+        "name": "Bilgilerim",
+        "path": "/profile/info",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Not Görüntüleme",
+        "path": "/profile/grades",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Ortak Eğitim Bilgilerim",
+        "path": "/profile/internships",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "İkinci Yabancı Dil Bilgilerim",
+        "path": "/profile/sfl",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Ödeme Bilgilerim",
+        "path": "/profile/payment",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Adres / İletişim Bilgilerim",
+        "path": "/profile/addresses",
+        "icon": "fa-solid fa-circle"
+      }
+    ]
+  },
+  {
+    "name": "Dönem Bilgilerim",
+    "path": "/semester",
+    "icon": "fa-light fa-person-chalkboard",
+    "subitem": [
+      {
+        "name": "Derslerim",
+        "path": "/semester/courses",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Ders Programım",
+        "path": "/semester/curriculum",
+        "icon": "fa-solid fa-circle"
+      }
+    ]
+  },
+  {
+    "name": "Sınav Takvimi",
+    "path": "/exams",
+    "icon": "fa-solid fa-file-pen",
+    "subitem": [
+      {
+        "name": "Ara Sınav",
+        "path": "/exams/midterms",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Dönem Sonu Sınavı",
+        "path": "/exams/finals",
+        "icon": "fa-solid fa-circle"
+      },
+      {
+        "name": "Bütünleme Sınavı",
+        "path": "/exams/makeups",
+        "icon": "fa-solid fa-circle"
+      }
+    ]
+  },
+  {
+    "name": "Size Özel",
+    "path": "/otherpages",
+    "icon": "fa-regular fa-screen-users",
+    "subitem": [
+        {
+            "name": "Blog Sayfası",
+            "path": "/otherpages/blog",
+            "icon": "fa-solid fa-circle"
+        },
+        {
+            "name": "Başvurularım",
+            "path": "/otherpages/appointment",
+            "icon": "fa-solid fa-circle"
+        }
+    ]
+  }
+]

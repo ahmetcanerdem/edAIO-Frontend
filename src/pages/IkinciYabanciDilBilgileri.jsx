@@ -243,6 +243,7 @@ const IkinciYabanciDilBilgileri = () => {
                       marginTop: "75px",
                       marginLeft: "50px",
                       marginBottom: "10px",
+                      textAlign: "center"
                     }}
                   >
                     İkinci Yabancı Dil Müfredatı
@@ -258,6 +259,7 @@ const IkinciYabanciDilBilgileri = () => {
                     width: "70%",
                     marginLeft: "75px",
                     marginBottom: "15px",
+                    textAlign: "center"
                   }}
                 >
                   <AgGridReact columnDefs={curriculumTable} rowData={sfl} />
@@ -274,13 +276,14 @@ const IkinciYabanciDilBilgileri = () => {
                       padding: "15px",
                       width: "75%",
                       marginLeft: "50px",
+                      textAlign: "center"
                     }}
                   >
                     <h4
                       style={{
                         color: "darkblue",
                         marginTop: "5px",
-                        marginBottom: "10px",
+                        marginBottom: "10px"
                       }}
                     >
                       İkinci Yabancı Dil Tercih Dağılımı
@@ -323,7 +326,8 @@ const IkinciYabanciDilBilgileri = () => {
                     padding: "15px",
                     width: "75%",
                     marginLeft: "50px",
-                    marginTop:"10px"
+                    marginTop:"10px",
+                    textAlign: "center"
                   }}
                 >
                   <h4
@@ -334,7 +338,7 @@ const IkinciYabanciDilBilgileri = () => {
                     {distributeFunc} İkinci Yabancı Dil Tercih Dağılımı
                   </h4>
                   <div>
-                    <PieChart width={500} height={250}>
+                    <PieChart width={500} height={300}>
                       <Pie
                         activeIndex={activeIndex}
                         activeShape={renderActiveShape}
@@ -343,7 +347,7 @@ const IkinciYabanciDilBilgileri = () => {
                         cy="50%"
                         innerRadius={60}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="#596868"
                         dataKey="value"
                         onMouseEnter={onPieEnter}
                       />
