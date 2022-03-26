@@ -10,11 +10,9 @@ const Derslerim = () => {
   const [reload, setReload] = useState(1);
   let courseInformation = [];
   let buttons = [];
-  const [butonDersler, butonDerslerEklensin]=useState([]);
+  const [butonDersler, butonDerslerEklensin] = useState([]);
   useEffect(async () => {
-    let findAllLessons = await axios.get(
-      "http://localhost:1337/courses"
-    );
+    let findAllLessons = await axios.get("http://localhost:1337/courses");
     if (!!findAllLessons.data) {
       derslerimiAyarla(findAllLessons.data);
     } else {
@@ -37,27 +35,28 @@ const Derslerim = () => {
         numberStudents: course.numberOfStudents,
         averageGrade: course.averageGrage,
         gpaDistributionOnPreviousTerms: course.gpaDistributionOnPreviousTerms,
-        lessonHours: course.lessonHours
+        lessonHours: course.lessonHours,
       });
     });
     ekranaBasilacakButonlar();
   };
 
   const ekranaBasilacakButonlar = () => {
-      let ind = 0;
-      for (let course of courseInformation) {
-        const button_i_lesson = <div key= {course.courseCode} >
-            <button onClick={(e) => SecilenDersEkrani(e.target.innerText)}>
-                {course.courseCode}
-            </button>
-            <h3>{course.courseName}</h3>
-        </div>;
-        ind = ind + 1;
-        buttons.push(button_i_lesson);
-        if(ind == courseInformation.length)
-            butonDerslerEklensin(buttons);
-      }
-      setReload(prevState => prevState+1);
+    let ind = 0;
+    for (let course of courseInformation) {
+      const button_i_lesson = (
+        <div key={course.courseCode}>
+          <button onClick={(e) => SecilenDersEkrani(e.target.innerText)}>
+            {course.courseCode}
+          </button>
+          <h3>{course.courseName}</h3>
+        </div>
+      );
+      ind = ind + 1;
+      buttons.push(button_i_lesson);
+      if (ind == courseInformation.length) butonDerslerEklensin(buttons);
+    }
+    setReload((prevState) => prevState + 1);
   };
 
   function SecilenDersEkrani(text) {
@@ -72,36 +71,180 @@ const Derslerim = () => {
   const EkranaBas = () => {
     return !!ekranaBasilacakDers ? (
       <div>
-        <div className="lessonInfo">Ders:
-          <div>{ekranaBasilacakDers.courseCode}</div>
-          <div>{ekranaBasilacakDers.courseName}</div>
+        <div style={{marginTop: "20px"}}>
+          <h3 style={{ color: "red"}}>Ders Bilgileri</h3>
+          <div>
+            <div
+              className="lessonInfo"
+              style={{
+                justifyContent: "space-between",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                className="sub-header"
+                style={{ fontWeight: "700", textDecoration: "underline" }}
+              >
+                Ders:
+              </div>
+              <div
+                style={{
+                  justifyContent: "space-between",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                {ekranaBasilacakDers.courseCode}
+              </div>
+              <div>{ekranaBasilacakDers.courseName}</div>
+            </div>
+          </div>
+          <div>
+            <div
+              className="sectionInfo"
+              style={{
+                justifyContent: "space-between",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                className="sub-header"
+                style={{ fontWeight: "700", textDecoration: "underline" }}
+              >
+                Şube:
+              </div>
+              <div
+                style={{
+                  justifyContent: "space-between",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                {ekranaBasilacakDers.sectionID}.
+              </div>
+              <div>Şube</div>
+            </div>
+          </div>
+          <div>
+            <div
+              className="sectionInfo"
+              style={{
+                justifyContent: "space-between",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                className="sub-header"
+                style={{ fontWeight: "700", textDecoration: "underline" }}
+              >
+                Kredi:
+              </div>
+              <div
+                style={{
+                  justifyContent: "space-between",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                {ekranaBasilacakDers.credit}
+              </div>
+              <div>Kredi</div>
+            </div>
+          </div>
         </div>
-        <div>
-          <div>{ekranaBasilacakDers.sectionID}.</div>
-          <div>Şube</div>
+        <div style={{marginTop: "20px"}}>
+          <h3 style={{ color: "red"}}>Ders Öğretim Üyesi Bilgileri</h3>
+          <div>
+            <div
+              className="sectionInfo"
+              style={{
+                justifyContent: "space-between",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                className="sub-header"
+                style={{ fontWeight: "700", textDecoration: "underline" }}
+              >
+                Öğretim Üyesi:
+              </div>
+              <div
+                style={{
+                  justifyContent: "space-between",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                {ekranaBasilacakDers.lessonInstructor.title}
+              </div>
+              <div style={{
+                color: "blue", 
+                textDecoration: "underline" 
+                }}>{ekranaBasilacakDers.lessonInstructor.mail}</div>
+            </div>
+          </div>
         </div>
-        <div>
-          <div>Kredi</div>
-          <div>{ekranaBasilacakDers.credit}</div>
+
+        <div style={{marginTop: "20px"}}>
+          <h3 style={{ color: "red"}}>Dersi Alan Öğrenciler Hakkında</h3>
+          <div>
+            <div
+              className="sectionInfo"
+              style={{
+                justifyContent: "space-between",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                className="sub-header"
+                style={{ fontWeight: "700", textDecoration: "underline" }}
+              >
+                Öğrenci Sayısı:
+              </div>
+              <div
+                style={{
+                  justifyContent: "space-between",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                {ekranaBasilacakDers.numberStudents}
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              className="sectionInfo"
+              style={{
+                justifyContent: "space-between",
+                display: "inline-flex",
+              }}
+            >
+              <div
+                className="sub-header"
+                style={{ fontWeight: "700", textDecoration: "underline" }}
+              >
+                Dersi Alan Öğrencilerin GNO Ortalaması:
+              </div>
+              <div
+                style={{
+                  justifyContent: "space-between",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                {ekranaBasilacakDers.averageGrade}
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3>Ders Öğretim Üyesi Bilgileri</h3>
-          <div>{ekranaBasilacakDers.lessonInstructor.title}.</div>
-          <div>{ekranaBasilacakDers.lessonInstructor.mail}</div>
+        
+        <div style={{marginTop: "20px"}}>
+          <h3 style={{ color: "red"}}>Ders Programı</h3>
+          <LessonPrograms ekranaBasilacakDers={ekranaBasilacakDers} />
         </div>
-        <div>
-          <h3>Öğrenci Sayısı</h3>
-          <div>{ekranaBasilacakDers.numberStudents}</div>
-        </div>
-        <div>
-          <h3>Dersi Alan Öğrencilerin GNO Ortalaması</h3>
-          <div>{ekranaBasilacakDers.averageGrade}</div>
-        </div>
-        <div>
-          <h3>Ders Programı</h3>
-        </div>
-        <LessonPrograms ekranaBasilacakDers={ekranaBasilacakDers}/>
       </div>
+      
     ) : null;
   };
 
@@ -109,9 +252,7 @@ const Derslerim = () => {
     reload && (
       <>
         <h1>Derslerim:</h1>
-        {butonDersler.length > 0 ? 
-            (<div> {butonDersler} </div>)  : 
-            null}
+        {butonDersler.length > 0 ? <div> {butonDersler} </div> : null}
         {dersiGoster && !!ekranaBasilacakDers ? EkranaBas() : null}
       </>
     )
@@ -121,36 +262,34 @@ const Derslerim = () => {
 const initLesson = (props) => {
   const programData = [];
   programData.push(
-    {hours: "08.30-09.20"},
-    {hours: "09.30-10.20"},
-    {hours: "10.30-11.20"},
-    {hours: "11.30-12.20"},
-    {hours: "12.30-13.20"},
-    {hours: "13.30-14.20"},
-    {hours: "14.30-15.20"},
-    {hours: "15.30-16.20"},
-    {hours: "16.30-17.20"},
-    {hours: "17.30-18.20"},
-    {hours: "18.30-19.20"},
-    {hours: "19.30-20.20"},
-    {hours: "20.30-21.20"}
+    { hours: "08.30-09.20" },
+    { hours: "09.30-10.20" },
+    { hours: "10.30-11.20" },
+    { hours: "11.30-12.20" },
+    { hours: "12.30-13.20" },
+    { hours: "13.30-14.20" },
+    { hours: "14.30-15.20" },
+    { hours: "15.30-16.20" },
+    { hours: "16.30-17.20" },
+    { hours: "17.30-18.20" },
+    { hours: "18.30-19.20" },
+    { hours: "19.30-20.20" },
+    { hours: "20.30-21.20" }
   );
   const scheduleHours = [];
-  props.ekranaBasilacakDers.lessonHours.forEach(lessonHour => {
-    scheduleHours.push({hours: lessonHour.hours})
+  props.ekranaBasilacakDers.lessonHours.forEach((lessonHour) => {
+    scheduleHours.push({ hours: lessonHour.hours });
   });
   const uniqueScheduleHours = [];
-  programData.forEach(hour => {
+  programData.forEach((hour) => {
     let notContains = true;
-    for (let i = 0; i < scheduleHours.length; i++){
-      if(hour.hours === scheduleHours[i].hours)
-        notContains = false;
+    for (let i = 0; i < scheduleHours.length; i++) {
+      if (hour.hours === scheduleHours[i].hours) notContains = false;
     }
-    if(notContains)
-      uniqueScheduleHours.push(hour);
+    if (notContains) uniqueScheduleHours.push(hour);
   });
   return uniqueScheduleHours;
-}
+};
 
 const LessonPrograms = (props) => {
   const scheduleLesson = [
@@ -170,43 +309,43 @@ const LessonPrograms = (props) => {
       case "Pazartesi":
         programData.push({
           hours: lessonHour.hours,
-          pazartesi: props.ekranaBasilacakDers.courseName
+          pazartesi: props.ekranaBasilacakDers.courseName,
         });
         break;
       case "Salı":
         programData.push({
           hours: lessonHour.hours,
-          salı: props.ekranaBasilacakDers.courseName
+          salı: props.ekranaBasilacakDers.courseName,
         });
         break;
       case "Çarşamba":
         programData.push({
           hours: lessonHour.hours,
-          çarşamba: props.ekranaBasilacakDers.courseName
+          çarşamba: props.ekranaBasilacakDers.courseName,
         });
         break;
       case "Perşembe":
         programData.push({
           hours: lessonHour.hours,
-          perşembe: props.ekranaBasilacakDers.courseName
+          perşembe: props.ekranaBasilacakDers.courseName,
         });
         break;
       case "Cuma":
         programData.push({
           hours: lessonHour.hours,
-          cuma: props.ekranaBasilacakDers.courseName
+          cuma: props.ekranaBasilacakDers.courseName,
         });
         break;
       case "Cumartesi":
         programData.push({
           hours: lessonHour.hours,
-          cumartesi: props.ekranaBasilacakDers.courseName
+          cumartesi: props.ekranaBasilacakDers.courseName,
         });
         break;
     }
   });
   programData.sort((a, b) => a.hours.localeCompare(b.hours));
-  
+
   return (
     <>
       <div
