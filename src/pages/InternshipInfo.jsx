@@ -1,48 +1,57 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../styles/HomePage.css";
-
-
+import { Container, Row, Col } from "react-bootstrap";
 
 const InternshipInfo = () => {
-
   const [data, setData] = useState(null);
   useEffect(() => {
     axios
-      .get(
-        "https://e8b0110b-ad1a-49c9-a7e4-7e295e79036f.mock.pstmn.io/students/internships"
-      )
+      .get("http://127.0.0.1:1337/internships")
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []
-  );
-
-
+  }, []);
 
   return (
     <>
-      <div>
+      <div class="row">
         <h1>Ortak Eğitim Bilgilerim</h1>
-        {!!data && data.internships.map((internship) => {
-          const row = [];
-          row.push(<li key={internship}>
-            <ul>
-              <li>Type: {internship.type}</li>
-              <li>Year: {internship.year}</li>
-              <li>Term: {internship.term}</li>
-              <li>Company Name: {internship.companyName}</li>
-              <li>Start Date: {internship.startDate}</li>
-              <li>End Date: {internship.endDate}</li>
-              <li>Grade: {internship.grade}</li>
-            </ul>
-          </li>);
-          return row;
-        }
-        )}
+        <Container style={{paddingRight: 40, paddingTop: 30}}>
+        <Container style={{borderRadius: 10, border: "2px solid gray", backgroundColor: `#dcdcdc`, paddingBottom: 20, paddingTop: 20}}>
+          <Row>
+            <Col>Ortak Eğitim Türü</Col>
+            <Col>Yıl</Col>
+            <Col>Dönem</Col>
+            <Col>Firma Adı</Col>
+            <Col>Başlangıç</Col>
+            <Col>Bitiş</Col>
+            <Col>Grade</Col>
+          </Row>
+          {!!data &&
+            data.internships.map((internship) => {
+              const row = [];
+              row.push(
+                <div key={internship}>
+                  <hr />
+                  <Row>
+                    <Col>{internship.type}</Col>
+                    <Col>{internship.year}</Col>
+                    <Col>{internship.term}</Col>
+                    <Col>{internship.companyName}</Col>
+                    <Col>{internship.startDate}</Col>
+                    <Col>{internship.endDate}</Col>
+                    <Col>{internship.grade}</Col>
+                  </Row>
+                </div>
+              );
+              return row;
+            })}
+        </Container>
+        </Container>
       </div>
     </>
   );

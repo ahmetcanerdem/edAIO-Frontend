@@ -11,7 +11,6 @@ function ProfilPage() {
     axios.get("http://localhost:1337/profile")
       .then(response => {
         setData(response.data);
-        console.log(data);
       })
       .catch(error => {
         console.log(error);
