@@ -8,7 +8,7 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import "../styles/BlogPage.css";
 
 import {
-	NavDropdown, Nav
+	NavDropdown, Nav, Row
 } from 'react-bootstrap';
 
 
@@ -120,8 +120,8 @@ const BlogPage = () => {
 			<div>
 				<h1>Blog Sayfası</h1>
 				<div className="row" ><label style={{textAlign: 'right'}}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
-				<div className="row">
-					<Nav className="button-container">
+				<div className="row post-pad">
+					<Nav className="button-container" id="blogpage">
 						<NavDropdown className="button button-1" title={course.code} >
 							{!!data && data.lectures.map((lecture, index) =>
 								<div>
@@ -137,16 +137,16 @@ const BlogPage = () => {
 				</div>
 				{isQA ?
 					<>
-						<div className="row">
+						<Row className='post-pad'>
 							<label>Posts:</label>
 
-							<div className="col-md-2">
+							<div className="col-md-2 post-div">
 								<Nav className="flex-column">
 									{course.posts.map((post, index) => {
 										const postHeaders = [];
 										postHeaders.push(
 											<>
-												<div className="row">
+												<Row>
 													<Nav.Link className="button button-5" key={index} onClick={handlePost} value={index}>
 														<div className="col-md-6">
 															{post.header}
@@ -155,7 +155,7 @@ const BlogPage = () => {
 															<label id="post-writer">{post.writer}</label>
 														</div>
 													</Nav.Link>
-												</div>
+												</Row>
 											</>
 										)
 										return postHeaders
@@ -164,9 +164,9 @@ const BlogPage = () => {
 							</div>
 							{postClicked ?
 								<div className="col-md-10">
-									<div className="row">
+									<Row>
 										<label>{course.posts[postData].header}</label>
-									</div>
+									</Row>
 									<div className="row">{course.posts[postData].body}</div>
 									{course.posts[postData].responses.map((response) => {
 										const postResponses = [];
@@ -180,7 +180,7 @@ const BlogPage = () => {
 									})}
 								</div>
 								: null}
-						</div>
+						</Row>
 					</>
 					:
 					<div></div>
