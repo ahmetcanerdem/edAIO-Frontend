@@ -5,8 +5,6 @@
     clip-path: circle(50px at center);
 }
 .name {
-    background-color: white;
-    color: black;
     border-radius: 10px;
     border: 2px solid black;
     text-align: left;

@@ -6,9 +6,10 @@ import "../styles/ProfilePage.css";
 
 function ProfilPage() {
   const [data, setData] = useState(null);
+  let studentNumber = 121101016;
 
   useEffect(() => {
-    axios.get("http://localhost:1337/profile")
+    axios.get("http://localhost:1337/" + studentNumber + "/profile")
       .then(response => {
         setData(response.data);
       })
@@ -31,13 +32,10 @@ function ProfilPage() {
         <div className="bg">
 
           <Stack direction="horizontal" gap={1}>
-            <img src={data.image} className="masked" />
+            <img src={JSON.parse(localStorage.getItem("loginData")).picture} className="masked" />
             <Stack>
-              <Stack className="name" direction="horizontal" gap={3}>
-                <div>Name: </div>
-                <div className="ms-auto">{data.name}</div>
-              </Stack>
-              <Button className="btn-product" size="sm" href="#">{data.email}</Button>
+                <div>{JSON.parse(localStorage.getItem("loginData")).name}</div>
+              <Button className="btn-product" size="sm" href="#">{JSON.parse(localStorage.getItem("loginData")).email}</Button>
               <Stack className="department" direction="horizontal" gap={3}>
                 <div>Department: </div>
                 <div className="ms-auto">{data.department}</div>
