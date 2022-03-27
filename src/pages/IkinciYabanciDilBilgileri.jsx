@@ -11,6 +11,7 @@ import { AgGridReact } from "ag-grid-react";
 import { PieChart, Pie, Sector } from "recharts";
 
 const IkinciYabanciDilBilgileri = () => {
+  let studentNumber = 121101016;
   const [sflInformation, setSflInformation] = useState(null);
   const [reload, setReload] = useState(1);
   const [sfl, setSfl] = useState(null);
@@ -50,7 +51,7 @@ const IkinciYabanciDilBilgileri = () => {
   ];
 
   useEffect(async () => {
-    let response = await axios.get("http://localhost:1337/sfl");
+    let response = await axios.get("http://localhost:1337/" + studentNumber + "/sfl");
     if (!!response.data) {
       setSflInformation(response.data);
     } else {

@@ -21,11 +21,13 @@ const MakeUpsPage = () => {
   );
   const [rows, setRows] = useState();
 
+  let studentNumber = 121101016;
+
   const [data, setData] = useState(null);
   useEffect( () => {
     axios
       .get(
-        "http://localhost:1337/makeups"
+        "http://localhost:1337/" + studentNumber + "/makeups"
       )
       .then((response) => {
         setData(response.data);
@@ -50,6 +52,7 @@ else{
   return (
 
     <>
+    <div className="row" ><label style={{textAlign: 'right'}}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
       <div className="ag-theme-balham"
         style={{
           width: 1500,

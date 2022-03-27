@@ -53,7 +53,7 @@ function App() {
                 <Route path="/addresses" element={<AddressPage />} />
                 <Route path="/midterms" element={<MidtermsPage />} />
                 <Route path="/blog" element={<BlogPage />} />
-                <Route path="/info" element={<InfoPage />} />
+                <Route path="/info" element={<ProfilePage />} />
                 <Route path="/makeups" element={<MakeUpsPage />} />
                 <Route path="/curriculum" element={<LectureSchedule />} />
                 <Route path="/courses" element={<Derslerim />} />
