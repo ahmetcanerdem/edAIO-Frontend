@@ -86,7 +86,7 @@ const menutItems = [
           icon: "circle",
         },
         {
-          title: "Başvurularım",
+          title: "Randevülerim",
           path: "/otherpages/appointment",
           icon: "circle",
         }
