@@ -29,7 +29,7 @@ import {
 function App() {
 
 
-  const [loginData, setLoginData] = useState(
+  const [loginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
       : null

@@ -12,6 +12,7 @@ const GirisCikisSayfasi = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("loginData");
+    window.location.reload()
     setLoginData(null);
   };
 
@@ -22,7 +23,6 @@ const GirisCikisSayfasi = () => {
       <div>
         {loginData ? (
           <>
-            {console.log(url)}
             {url === '/login' ? (
               <>
                 <div>Hello EDA-IO</div>
@@ -38,6 +38,7 @@ const GirisCikisSayfasi = () => {
           </>
         ) : (
           <LoginPage setLoginData={setLoginData} loginData={loginData} />
+          
         )}
       </div>
     </header>
