@@ -1,75 +1,168 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+import fontawesome from '@fortawesome/fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark, faCircleCheck} from '@fortawesome/free-solid-svg-icons';
+
+fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     axios
-      .get("http://localhost:1337/home")
+      .get("http://127.0.0.1:1337/home")
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
+  const [datas, setDatas] = useState(null);
+  useEffect(() => {
+    if (!!data) {
+      const gpasData = [];
+      data.home[0].gpa.forEach((gpax) => {
+        gpasData.push({
+          name: gpax.year + " " + gpax.term,
+          value: gpax.value,
+        });
+      });
+      setDatas(gpasData);
+    }
+  }, [data]);
+
   return (
     <>
-      {/* <div>
+      <div>
         <h1>Ana Sayfa</h1>
-        {!!data &&
-          data.home.map((home) => {
-            const row = [];
+        <Container>
+          {!!data &&
+            data.home.map((home) => {
+              const row = [];
 
-            row.push(
-              <li key={home}>
-                <ul>
-                  <li>
-                    Gpa:{" "}
-                    {home.gpa.map((gpa) => {
-                      const row2 = [];
-                      row2.push(
-                        <li key={gpa}>
-                          <ul>
-                            <li>Year: {gpa.year}</li>
-                            <li>Term: {gpa.term}</li>
-                            <li>Value: {gpa.value}</li>
-                          </ul>
-                        </li>
-                      );
-                      return row2;
-                    })}
-                  </li>
-                  <li>
-                    Incoming Courses:{" "}
-                    {home.incomingCourses.map((incomingCourses) => {
-                      const row3 = [];
-                      row3.push(
-                        <li key={incomingCourses}>
-                          <ul>
-                            <li>Date: {incomingCourses.date}</li>
-                            <li>Short Code: {incomingCourses.shortCode}</li>
-                            <li>Section: {incomingCourses.section}</li>
-                            <li>Description: {incomingCourses.description}</li>
-                            <li>Time: {incomingCourses.time}</li>
-                          </ul>
-                        </li>
-                      );
-                      return row3;
-                    })}
-                  </li>
-                  <li>Student Confirmed: {home.isStudentConfirmed}</li>
-                  <li>Advisor Confirmed: {home.isAdvisorConfirmed}</li>
-                  <li>Date: {home.date}</li>
-                  <li>Role: {home.role}</li>
-                </ul>
-              </li>
-            );
-            return row;
-          })}
-      </div> */}
+              row.push(
+                <Row key={home}>
+                  <Row>
+                    <Col style={{paddingRight: 50}}>
+                      <Container style={{paddingTop: 100}}>
+                        <LineChart
+                          width={500}
+                          height={200}
+                          data={datas}
+                          margin={{
+                            top: 10,
+                            right: 30,
+                            left: 30,
+                            bottom: 0,
+                          }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="name" />
+                          <Tooltip />
+                          <Line
+                            dataKey="value"
+                            stroke="#aaaaaa"
+                            fill="#ffffff"
+                            backgroundColor="#ffffff"
+                          />
+                        </LineChart>
+                      </Container>
+                    </Col>
+                    <Col>
+                      <Container>
+                        <h2>Incoming Courses: </h2>
+                        {home.incomingCourses.map((incomingCourses) => {
+                          const row3 = [];
+                          row3.push(
+                            <Row
+                              key={incomingCourses}
+                              style={{ paddingTop: 10 }}
+                            >
+                              <Container
+                                style={{
+                                  backgroundColor: `#dcdcdc`,
+                                  borderRadius: 10,
+                                  border: "2px solid gray",
+                                  paddingRight: 10,
+                                  paddingTop: 10,
+                                  paddingLeft: 10,
+                                }}
+                              >
+                                <Row style={{ paddingLeft: 10 }}>
+                                  Tarih: {incomingCourses.date}
+                                </Row>
+                                <Row style={{ paddingLeft: 10 }}>
+                                  Ders Kodu: {incomingCourses.shortCode}
+                                </Row>
+                                <Row style={{ paddingLeft: 10 }}>
+                                  Şube: {incomingCourses.section}
+                                </Row>
+                                <Row style={{ paddingLeft: 10 }}>
+                                  Ders: {incomingCourses.description}
+                                </Row>
+                                <Row style={{ paddingLeft: 10 }}>
+                                  Saat: {incomingCourses.time}
+                                </Row>
+                              </Container>
+                            </Row>
+                          );
+                          return row3;
+                        })}
+                      </Container>
+                    </Col>
+                    <Col>
+                      <Container style={{ paddingTop: 60 }}>
+                        <Row>
+                          <Container
+                            style={{
+                              backgroundColor: `#dcdcdc`,
+                              borderRadius: 10,
+                              border: "2px solid gray",
+                              paddingRight: 10,
+                              paddingTop: 10,
+                              paddingLeft: 10,
+                            }}
+                          >
+                            Öğrenci Onayı: {home.isStudentConfirmed ? <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon> : <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>}
+                          </Container>
+                        </Row>
+                        <Row style={{ paddingTop: 20 }}>
+                          <Container
+                            style={{
+                              backgroundColor: `#dcdcdc`,
+                              borderRadius: 10,
+                              border: "2px solid gray",
+                              paddingRight: 10,
+                              paddingTop: 10,
+                              paddingLeft: 10,
+                            }}
+                          >
+                            Danışman Onayı: {home.isAdvisorConfirmed ? <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon> : <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>}
+                          </Container>
+                        </Row>
+                      </Container>
+                    </Col>
+                  </Row>
+                </Row>
+              );
+              return row;
+            })}
+        </Container>
+      </div>
     </>
   );
 };
