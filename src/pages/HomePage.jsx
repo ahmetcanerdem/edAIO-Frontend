@@ -72,12 +72,11 @@ const HomePage = () => {
                         >
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="name" />
-                          <Tooltip />
+                          <Tooltip wrapperStyle={{ backgroundColor: '#ffffff' }}/>
                           <Line
                             dataKey="value"
-                            stroke="#aaaaaa"
-                            fill="#ffffff"
-                            backgroundColor="#ffffff"
+                            stroke="#ff0000"
+                            fill="#ff0000"
                           />
                         </LineChart>
                       </Container>
@@ -92,7 +91,7 @@ const HomePage = () => {
                               key={incomingCourses}
                               style={{ paddingTop: 10 }}
                             >
-                              <Container
+                              <a href="https://us02web.zoom.us/j/86086854065"><Container 
                                 style={{
                                   backgroundColor: `#dcdcdc`,
                                   borderRadius: 10,
@@ -118,6 +117,7 @@ const HomePage = () => {
                                   Saat: {incomingCourses.time}
                                 </Row>
                               </Container>
+                              </a>
                             </Row>
                           );
                           return row3;

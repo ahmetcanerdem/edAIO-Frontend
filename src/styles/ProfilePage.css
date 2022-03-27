@@ -1,216 +1,217 @@
 .masked {
-    margin-bottom: 300px;
-    width: 100px;
-    height: 100px;
-    clip-path: circle(50px at center);
+  margin-bottom: 300px;
+  width: 100px;
+  height: 100px;
+  clip-path: circle(50px at center);
 }
 .name {
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 60px;
-    width: 400px;
-    height: 50px;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 60px;
+  width: 400px;
+  height: 50px;
 }
 .department {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 400px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 400px;
+  height: 50px;
 }
 .id {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 400px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 400px;
+  height: 50px;
 }
-.btn-product{
-    background-color: white;
-    color: black;
-    border-radius: 25px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 200px;
-    height: 35px;
+.btn-product {
+  background-color: white;
+  color: black;
+  border-radius: 25px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 200px;
+  height: 35px;
 }
-.role{
-    background-color: white;
-    color: black;
-    border-radius: 25px;
-    border: 2px solid black;
-    text-align: center;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-right: 0px;
-    width: 110px;
-    height: 30px;
+.role {
+  background-color: white;
+  color: black;
+  border-radius: 25px;
+  border: 2px solid black;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 0px;
+  width: 110px;
+  height: 30px;
 }
 .sch {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
 }
 .term {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
 }
 .curr {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
 }
 .enr {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
-}.gpa {
-    background-color: white;
-    color: black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
+}
+.gpa {
+  background-color: white;
+  color: black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
 }
 .stat {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
 }
 .head {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: center;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    margin-top: 4px;
-    width: 500px;
-    height: 50px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+  width: 500px;
+  height: 50px;
 }
-.o-t{
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: left;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    width: 75px;
-    height: 75px;
+.o-t {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: left;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75px;
+  height: 75px;
 }
-.o-o{
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    width: 75px;
-    height: 75px;
+.o-o {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75px;
+  height: 75px;
 }
-.w-w{
-    background-color: white;
-    color: black;
-    border-radius: 10px;
-    border: 2px solid black;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    width: 200px;
-    height: 100px;
+.w-w {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  border: 2px solid black;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 200px;
+  height: 100px;
 }
-.ls{
-    margin-top: 50px;
-    width: 450px;
-    height: 450px;
+.ls {
+  margin-top: 50px;
+  width: 450px;
+  height: 450px;
 }
-.bg{
-    width: 100% !important;
-    height: 100% !important;
-    background-color: #937597 !important;
+.bg {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #dcdcdc !important;
 }
