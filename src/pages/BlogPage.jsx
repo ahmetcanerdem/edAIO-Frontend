@@ -191,10 +191,9 @@ const BlogPage = () => {
 						<h3>Homeworks</h3>
 						<div className="ag-theme-balham"
 							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: 620,
-								height: 100
+								width: "40%",
+								height: 100,
+								margin: 'auto'
 							}}>
 							<AgGridReact
 								columnDefs={hwColumns}
@@ -204,10 +203,9 @@ const BlogPage = () => {
 						<h3>Notes</h3>
 						<div className="ag-theme-balham"
 							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: 620,
-								height: 100
+								width: "40%",
+								height: 100,
+								margin: 'auto'
 							}}>
 							<AgGridReact
 								columnDefs={noteColumns}
@@ -217,10 +215,9 @@ const BlogPage = () => {
 						<h3>Videos</h3>
 						<div className="ag-theme-balham"
 							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: 620,
-								height: 100
+								width: "40%",
+								height: 100,
+								margin: 'auto'
 							}}>
 							<AgGridReact
 								columnDefs={videoColumns}
@@ -230,10 +227,9 @@ const BlogPage = () => {
 						<h3>Exams</h3>
 						<div className="ag-theme-balham"
 							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: 620,
-								height: 100
+								width: "40%",
+								height: 100,
+								margin: 'auto'
 							}}>
 							<AgGridReact
 								columnDefs={examColumns}
@@ -243,10 +239,9 @@ const BlogPage = () => {
 						<h3>General Resources</h3>
 						<div className="ag-theme-balham"
 							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								width: 620,
-								height: 100
+								width: "40%",
+								height: 100,
+								margin: 'auto'
 							}}>
 							<AgGridReact
 								columnDefs={recColumns}
