@@ -12,6 +12,7 @@ import { PieChart, Pie, Sector } from "recharts";
 import "../styles/Sfl.css";
 
 const IkinciYabanciDilBilgileri = () => {
+  let studentNumber = 121101016;
   const [sflInformation, setSflInformation] = useState(null);
   const [reload, setReload] = useState(1);
   const [sfl, setSfl] = useState(null);

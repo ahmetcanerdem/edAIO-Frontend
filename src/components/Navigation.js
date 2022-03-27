@@ -13,8 +13,8 @@ function Navigation() {
           <div>
             <Sidebar sidebarData={menuItems}></Sidebar>
           </div>
-        </div>
-      </nav>
+        </nav>
+      }
     </div>
   );
 }

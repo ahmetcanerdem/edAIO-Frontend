@@ -5,9 +5,10 @@ const HomePage = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:1337/home")
+      .get("http://localhost:1337/home")
       .then((response) => {
         setData(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -16,7 +17,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div>
+      {/* <div>
         <h1>Ana Sayfa</h1>
         {!!data &&
           data.home.map((home) => {
@@ -68,7 +69,7 @@ const HomePage = () => {
             );
             return row;
           })}
-      </div>
+      </div> */}
     </>
   );
 };

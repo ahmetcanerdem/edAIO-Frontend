@@ -1,12 +1,74 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import "../styles/HomePage.css";
+import { AgGridReact } from "ag-grid-react";
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+
+
+import "../styles/BlogPage.css";
+
+import {
+	NavDropdown, Nav
+} from 'react-bootstrap';
 
 
 
 const BlogPage = () => {
+	let studentNumber = 121101016;
 
+	const [hwColumns] = useState(
+		[
+			{ headerName: "Odev", field: "file" },
+			{ headerName: "Yuklenme Tarihi", field: "uploadDate" },
+			{ headerName: "Teslim Tarihi", field: "dueDate" }
+		]
+	);
+	const [hwRows, setHWRows] = useState();
+
+	const [noteColumns] = useState(
+		[
+			{ headerName: "Notlar", field: "file" },
+			{ headerName: "Yuklenme Tarihi", field: "uploadDate" }
+		]
+	);
+	const [noteRows, setNoteRows] = useState();
+
+	const [videoColumns] = useState(
+		[
+			{ headerName: "Video", field: "link" },
+			{ headerName: "Yuklenme Tarihi", field: "uploadDate" }
+		]
+	);
+	const [videoRows, setVideoRows] = useState();
+
+	const [examColumns] = useState(
+		[
+			{ headerName: "Sinav", field: "file" },
+			{ headerName: "Yuklenme Tarihi", field: "uploadDate" },
+			{ headerName: "Teslim Tarihi", field: "dueDate" }
+		]
+	);
+	const [examRows, setExamRows] = useState();
+
+	const [recColumns] = useState(
+		[
+			{ headerName: "Kaynak", field: "file" },
+			{ headerName: "Yuklenme Tarihi", field: "uploadDate" }
+		]
+	);
+	const [recRows, setRecRows] = useState();
+
+
+
+
+	const [postData, setPostData] = useState(null);
+	const [postClicked, setPostClicked] = useState(false);
+	const [isQA, setQA] = useState(true);
+	const [isResource, setResource] = useState(false);
+	const [course, setCourse] = useState(null);
+	const [isLoading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
+
 	useEffect(() => {
 		axios
 			.get(
@@ -14,6 +76,8 @@ const BlogPage = () => {
 			)
 			.then((response) => {
 				setData(response.data);
+				setCourse(response.data.lectures[0]);
+				setLoading(false);
 			})
 			.catch((error) => {
 				console.log("errordayim");
@@ -22,106 +86,177 @@ const BlogPage = () => {
 	}, []
 	);
 
+	const handleNav = ((e) => {
+		if (e.target.text === "Q & A") {
+			setQA(true);
+			setResource(false);
+		}
+		else {
+			setResource(true);
+			setQA(false);
+		}
+		console.log(e.target.text);
+	});
+
+
+	const handleCourse = ((e) => {
+		setCourse(data.lectures[e.target.attributes.value.value]);
+		console.log(data.lectures[e.target.attributes.value.value]);
+	});
+	const handlePost = ((e) => {
+		setPostClicked(true);
+		setPostData(e.target.attributes.value.value);
+	});
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+
 
 
 	return (
 		<>
 			<div>
 				<h1>Blog Sayfası</h1>
-				{!!data && data.lectures.map((lecture) => {
-					const row = [];
-					row.push(<li key={lecture}>
-						<ul>
-							<li>Lecture Code: {lecture.code}</li>
-							<li>Posts: {lecture.posts.map((post) => {
-								const row2 = [];
-								row2.push(<li key={post}>
-									<ul>
-										<li>Post #: {post.id}</li>
-										<li>Header: {post.header}</li>
-										<li>Writer: {post.writer}</li>
-										<li>Date: {post.date}</li>
-										<li>Body: {post.body}</li>
-										<li>Responses: {post.responses.map((response) => {
-											const row3 = [];
-											row3.push(<li key={response}>
-												<ul>
-													<li>Writer: {response.writer}</li>
-													<li>Body: {response.body}</li>
-												</ul>
-											</li>);
-											return row3;
-										})}</li>
-									</ul>
-								</li>);
-								return row2;
-							})}
-							</li>
-							<li>Resources:
-								<ul>
-									<li>Assignments: {lecture.resources.assignments.map((assignment) => {
-										const row4 = [];
-										row4.push(<li key={assignment}>
-											<ul>
-												<li>Id: {assignment.id}</li>
-												<li>File: {assignment.file}</li>
-												<li>Due Date: {assignment.dueDate}</li>
-												<li>Upload Date: {assignment.uploadDate}</li>
-											</ul>
-										</li>);
-										return row4;
-									})}</li>
-									<li>Lecture Notes: {lecture.resources.lectureNotes.map((notes) => {
-										const row5 = [];
-										row5.push(<li key={notes}>
-											<ul>
-												<li>File: {notes.file}</li>
-												<li>Upload Date: {notes.uploadDate}</li>
-											</ul>
-										</li>);
-										return row5;
-									})}</li>
-									<li>Videos: {lecture.resources.lectureVideos.map((videos) => {
-										const row6 = [];
-										row6.push(<li key={videos}>
-											<ul>
-												<li>Link: {videos.link}</li>
-												<li>Upload Date: {videos.uploadDate}</li>
-											</ul>
-										</li>);
-										return row6;
-									})}</li>
-									<li>Exams: {lecture.resources.exams.map((exam) => {
-										const row7 = [];
-										row7.push(<li key={exam}>
-											<ul>
-												<li>File: {exam.file}</li>
-												<li>Due Date: {exam.dueDate}</li>
-												<li>Upload Date: {exam.uploadDate}</li>
-											</ul>
-										</li>);
-										return row7;
-									})}</li>
-									<li>Other Resources: {lecture.resources.otherResources.map((other) => {
-										const row8 = [];
-										row8.push(<li key={other}>
-											<ul>
-												<li>File: {other.file}</li>
-												<li>Upload Date: {other.uploadDate}</li>
-											</ul>
-										</li>);
-										return row8;
+				<div className="row" ><label style={{textAlign: 'right'}}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
+				<div className="row">
+					<Nav className="button-container">
+						<NavDropdown className="button button-1" title={course.code} >
+							{!!data && data.lectures.map((lecture, index) =>
+								<div>
+									<NavDropdown.Item className="button button-1" onClick={handleCourse} key={index} value={index}>
+										{lecture.code}
+									</NavDropdown.Item>
+								</div>
+							)}
+						</NavDropdown>
+						<Nav.Link className="button button-1" onClick={handleNav}>Q & A</Nav.Link>
+						<Nav.Link className="button button-1" onClick={handleNav}>Resources</Nav.Link>
+					</Nav>
+				</div>
+				{isQA ?
+					<>
+						<div className="row">
+							<label>Posts:</label>
+
+							<div className="col-md-2">
+								<Nav className="flex-column">
+									{course.posts.map((post, index) => {
+										const postHeaders = [];
+										postHeaders.push(
+											<>
+												<div className="row">
+													<Nav.Link className="button button-5" key={index} onClick={handlePost} value={index}>
+														<div className="col-md-6">
+															{post.header}
+														</div>
+														<div className="col-md-6"  >
+															<label id="post-writer">{post.writer}</label>
+														</div>
+													</Nav.Link>
+												</div>
+											</>
+										)
+										return postHeaders
 									})}
-
-									</li>
-								</ul>
-							</li>
-
-						</ul>
-					</li>);
-					return row;
+								</Nav>
+							</div>
+							{postClicked ?
+								<div className="col-md-10">
+									<div className="row">
+										<label>{course.posts[postData].header}</label>
+									</div>
+									<div className="row">{course.posts[postData].body}</div>
+									{course.posts[postData].responses.map((response) => {
+										const postResponses = [];
+										postResponses.push(<>
+											<div className="row">
+												<label>{response.writer}</label>
+												<div>{response.body}</div>
+											</div>
+										</>)
+										return postResponses
+									})}
+								</div>
+								: null}
+						</div>
+					</>
+					:
+					<div></div>
 				}
-				)}
+				{isResource ?
+					<div className="res">
+						<h1>{course.code}</h1>
+						<h3>Homeworks</h3>
+						<div className="ag-theme-balham"
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								width: 620,
+								height: 100
+							}}>
+							<AgGridReact
+								columnDefs={hwColumns}
+								rowData={course.resources.assignments}
+							/>
+						</div>
+						<h3>Notes</h3>
+						<div className="ag-theme-balham"
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								width: 620,
+								height: 100
+							}}>
+							<AgGridReact
+								columnDefs={noteColumns}
+								rowData={course.resources.lectureNotes}
+							/>
+						</div>
+						<h3>Videos</h3>
+						<div className="ag-theme-balham"
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								width: 620,
+								height: 100
+							}}>
+							<AgGridReact
+								columnDefs={videoColumns}
+								rowData={course.resources.lectureVideos}
+							/>
+						</div>
+						<h3>Exams</h3>
+						<div className="ag-theme-balham"
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								width: 620,
+								height: 100
+							}}>
+							<AgGridReact
+								columnDefs={examColumns}
+								rowData={course.resources.exams}
+							/>
+						</div>
+						<h3>General Resources</h3>
+						<div className="ag-theme-balham"
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								width: 620,
+								height: 100
+							}}>
+							<AgGridReact
+								columnDefs={recColumns}
+								rowData={course.resources.otherResources}
+							/>
+						</div>
+					</div> :
+					<div></div>
+				}
+
 			</div>
 		</>
 	);

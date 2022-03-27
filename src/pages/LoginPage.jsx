@@ -18,6 +18,7 @@ const Login = (props) => {
     const data = await res.json();
     props.setLoginData(data);
     localStorage.setItem("loginData", JSON.stringify(data));
+    window.location.reload()
   };
 
   return (

@@ -26,7 +26,7 @@ const MakeUpsPage = () => {
   useEffect( () => {
     axios
       .get(
-        "http://localhost:1337/" + studentNumber + "/midterms"
+        "http://localhost:1337/midterms"
       )
       .then((response) => {
         setData(response.data);
@@ -51,6 +51,7 @@ else{
   return (
 
     <>
+    <div className="row" ><label style={{textAlign: 'right'}}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
       <div className="ag-theme-balham"
         style={{
           width: 1500,
