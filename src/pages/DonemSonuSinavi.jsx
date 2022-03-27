@@ -19,7 +19,6 @@ const MakeUpsPage = () => {
       { headerName: "Gozetmen", field: "observer" }
     ]
   );
-  const [rows, setRows] = useState(null);
 
   const [data, setData] = useState(null);
   useEffect( () => {
@@ -29,8 +28,6 @@ const MakeUpsPage = () => {
       )
       .then((response) => {
         setData(response.data);
-        console.log(response.data);
-        setRows(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -45,22 +42,26 @@ const MakeUpsPage = () => {
     return <div>Loading...</div>;
   }
 
-else if(rows === null)
+else if(data === null)
 { 
   return <div>henuz final donemi degil</div>;
 }
+
 else{
   return (
 
     <>
+    <h2 style={{ marginTop: "30px", marginBottom: "30px" }}>
+        Dönem Sonu Sınav Takvimi
+      </h2>
       <div className="ag-theme-balham"
         style={{
-          width: 1500,
-          height: 600
+          width: "95%",
+          height: 200
         }}>
         <AgGridReact
           columnDefs={columns}
-          rowData={rows}
+          rowData={data}
         />
       </div>
     </>
