@@ -27,7 +27,7 @@ function App() {
     <Router>
       <div className="application-etuao">
         <Navigation />
-        <div className="application-menu-container">
+        <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}>
           {!!loginData ? (
             <div>
               <Routes>
