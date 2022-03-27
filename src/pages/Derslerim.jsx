@@ -70,7 +70,7 @@ const Derslerim = () => {
 
   const EkranaBas = () => {
     return !!ekranaBasilacakDers ? (
-      <div>
+      <div style={{maxHeight:"40rem", overflow: "auto"}}>
         <div style={{marginTop: "20px"}}>
           <h3 style={{ color: "red"}}>Ders Bilgileri</h3>
           <div>
