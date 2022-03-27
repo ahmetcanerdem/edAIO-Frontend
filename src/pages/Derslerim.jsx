@@ -252,7 +252,7 @@ const Derslerim = () => {
     reload && (
       <>
         <h1>Derslerim:</h1>
-        {butonDersler.length > 0 ? <div> {butonDersler} </div> : null}
+        {butonDersler.length > 0 ? <div style={{textAlign: "center"}}> {butonDersler} </div> : null}
         {dersiGoster && !!ekranaBasilacakDers ? EkranaBas() : null}
       </>
     )
