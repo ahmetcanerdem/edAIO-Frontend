@@ -9,6 +9,7 @@ import {
 } from "react-accessible-accordion";
 import { AgGridReact } from "ag-grid-react";
 import { PieChart, Pie, Sector } from "recharts";
+import "../styles/Sfl.css";
 
 const IkinciYabanciDilBilgileri = () => {
   const [sflInformation, setSflInformation] = useState(null);
@@ -233,19 +234,7 @@ const IkinciYabanciDilBilgileri = () => {
                 }}
               >
                 <AccordionItemButton>
-                  <h4
-                    style={{
-                      top: "10px",
-                      border: "darkblue solid 1px",
-                      padding: "15px",
-                      width: "75%",
-                      color: "darkblue",
-                      marginTop: "75px",
-                      marginLeft: "50px",
-                      marginBottom: "10px",
-                      textAlign: "center"
-                    }}
-                  >
+                  <h4 className="accordion-item-button-header">
                     İkinci Yabancı Dil Müfredatı
                   </h4>
                 </AccordionItemButton>
@@ -269,23 +258,8 @@ const IkinciYabanciDilBilgileri = () => {
             <AccordionItem>
               <AccordionItemHeading>
                 <AccordionItemButton>
-                  <div
-                    style={{
-                      top: "10px",
-                      border: "darkblue solid 1px",
-                      padding: "15px",
-                      width: "75%",
-                      marginLeft: "50px",
-                      textAlign: "center"
-                    }}
-                  >
-                    <h4
-                      style={{
-                        color: "darkblue",
-                        marginTop: "5px",
-                        marginBottom: "10px"
-                      }}
-                    >
+                  <div className="accordion-item-button-header-div">
+                    <h4 className="header-button">
                       İkinci Yabancı Dil Tercih Dağılımı
                     </h4>
                     <button
@@ -319,17 +293,7 @@ const IkinciYabanciDilBilgileri = () => {
                 </AccordionItemButton>
               </AccordionItemHeading>
               <AccordionItemPanel>
-                <div
-                  style={{
-                    top: "10px",
-                    border: "darkblue solid 1px",
-                    padding: "15px",
-                    width: "75%",
-                    marginLeft: "50px",
-                    marginTop:"10px",
-                    textAlign: "center"
-                  }}
-                >
+                <div className="accordion-item-panel-div">
                   <h4
                     style={{
                       color: "darkblue"
