@@ -72,7 +72,7 @@ const BlogPage = () => {
 	useEffect(() => {
 		axios
 			.get(
-				"http://localhost:1337/" + studentNumber + "/blog"
+				"http://localhost:1337/blog"
 			)
 			.then((response) => {
 				setData(response.data);

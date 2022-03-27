@@ -27,7 +27,7 @@ const MakeUpsPage = () => {
   useEffect( () => {
     axios
       .get(
-        "http://localhost:1337/" + studentNumber + "/makeups"
+        "http://localhost:1337/makeups"
       )
       .then((response) => {
         setData(response.data);

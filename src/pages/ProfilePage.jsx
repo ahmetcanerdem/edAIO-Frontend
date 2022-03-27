@@ -9,7 +9,7 @@ function ProfilPage() {
   let studentNumber = 121101016;
 
   useEffect(() => {
-    axios.get("http://localhost:1337/" + studentNumber + "/profile")
+    axios.get("http://localhost:1337/profile")
       .then(response => {
         setData(response.data);
       })

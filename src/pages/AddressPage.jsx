@@ -43,7 +43,7 @@ const AddressPage = () => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/" + studentNumber + "/addresses"
+        "http://localhost:1337/addresses"
       )
       .then((response) => {
         setAddrRows(response.data.addresses);
@@ -60,7 +60,7 @@ const AddressPage = () => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/" + studentNumber + "/info"
+        "http://localhost:1337/info"
       )
       .then((response) => {
         setInfo(response.data);
