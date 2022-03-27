@@ -21,7 +21,7 @@ function ProfilPage() {
   return (
     <>
       <Stack direction="horizontal" gap={3}>
-        <h1>Bilgilerim Sayfası Güncelleniyor...</h1>
+        <h1>Bilgilerim</h1>
         {!!data ? (
           <div className="role">Role: {data.role}</div>
         ) : (

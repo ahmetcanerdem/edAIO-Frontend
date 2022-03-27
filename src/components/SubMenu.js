@@ -22,16 +22,13 @@ fontawesome.library.add(
 
 const SubMenu = ({ item }) => {
   const [subnav, setSubnav] = useState(false);
-  const [lastPath, setLastPath] = useState("");
   const showSubnav = () => setSubnav(!subnav);
-  const handleChange = () => {
-    setLastPath(item.path);
-  };
+
   return (
     <>
       <Link
         className="sidebarLink"
-        to={lastPath}
+        to={item.path}
         onClick={item.subNav && showSubnav}
       >
         <div>
@@ -46,9 +43,7 @@ const SubMenu = ({ item }) => {
               className="dropdownLink"
               to={item.path}
               key={index}
-              onSelect={handleChange}
             >
-              {console.log(lastPath)}
               <FontAwesomeIcon icon={item.icon} style={{ width: "10px" }} />
               <span className="sidebarLevel">{item.title}</span>
             </Link>
