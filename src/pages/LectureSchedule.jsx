@@ -1,15 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
+import CustomTooltip from "../components/CustomTooltip";
 
 const scheduleLesson = [
   { headerName: "Saatler", field: "hours" , filter: true},
-  { headerName: "Pazartesi", field: "pazartesi" , filter: true},
-  { headerName: "Salı", field: "salı" , filter: true},
-  { headerName: "Çarşamba", field: "çarşamba" , filter: true},
-  { headerName: "Perşembe", field: "perşembe" , filter: true},
-  { headerName: "Cuma", field: "cuma" , filter: true},
-  { headerName: "Cumartesi", field: "cumartesi" , filter: true},
+  { headerName: "Pazartesi", field: "pazartesi" , filter: true, tooltipField: "pazartesi"},
+  { headerName: "Salı", field: "salı" , filter: true, tooltipField: "salı"},
+  { headerName: "Çarşamba", field: "çarşamba" , filter: true, tooltipField: "çarşamba"},
+  { headerName: "Perşembe", field: "perşembe" , filter: true, tooltipField: "perşembe"},
+  { headerName: "Cuma", field: "cuma" , filter: true, tooltipField: "cuma" },
+  { headerName: "Cumartesi", field: "cumartesi" , filter: true, tooltipField: "cumartesi"},
 ];
 
 const initLesson = (data) => {
@@ -182,6 +183,12 @@ const LectureSchedule = () => {
   const [data, setData] = useState(null);
   const [schedulePlan, setSchedulePlan] = useState(null);
 
+  const defaultSchedule = useMemo(()=>{
+    return{
+      tooltipComponent: CustomTooltip
+    };
+  },[]);
+
   useEffect(() => {
     axios
       .get("http://localhost:1337/curriculum")
@@ -211,7 +218,13 @@ const LectureSchedule = () => {
         }}
       >
         {scheduleLesson && (
-          <AgGridReact columnDefs={scheduleLesson} rowData={schedulePlan} />
+          <AgGridReact 
+          columnDefs={scheduleLesson} 
+          rowData={schedulePlan} 
+          defaultColDef={defaultSchedule}
+          tooltipShowDelay={0}
+          tooltipHideDelay={2000}
+          />
         )}
       </div>
     </>
