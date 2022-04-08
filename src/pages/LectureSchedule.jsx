@@ -107,7 +107,7 @@ function program(data, setSchedulePlan) {
   programData.forEach((data) => {
     let added = false;
     for (let i = 0; i < programArray.length; i++) {
-      if (programArray[i].hours == data.hours) {
+      if (programArray[i].hours === data.hours) {
         //önceki saatlerden biri oldu!.
         if (!!data.pazartesi) {
           if (!!programArray[i].pazartesi) {

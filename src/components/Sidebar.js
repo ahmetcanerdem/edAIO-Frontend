@@ -22,6 +22,7 @@ const Sidebar = (props) => {
           <div className="sidebarWrap">
             <div style = {{ height: "calc(100% - 50px)" , overflow: "auto" }}>
               {props.sidebarData.map((item, index) => {
+                console.log(props.sidebarData)
                 return <SubMenu item={item} key={index} />;
               })}
             </div>

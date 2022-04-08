@@ -1,12 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../styles/AddressPage.css";
-import { AgGridReact } from "ag-grid-react";
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import Button from 'react-bootstrap/Button';
-import Stack from 'react-bootstrap/Stack'
 
+import {
+  NavDropdown, Nav, Row, Container, Col
+} from 'react-bootstrap';
 
 
 const AddressPage = () => {
@@ -15,25 +13,8 @@ const AddressPage = () => {
 
   const [isInfoLoading, setInfoLoading] = useState(true);
 
-  const [addrColumns] = useState(
-    [
-      { headerName: "Adres Turu", field: "type" },
-      { headerName: "Adres", field: "addr" },
-      { headerName: "Sehir", field: "city" },
-      { headerName: "Ilce", field: "dist" },
-      { headerName: "Posta kodu", field: "code" }
-    ]
-  );
-  const [addrRows, setAddrRows] = useState();
+  const [data, setData] = useState(true);
 
-
-  const [contColumns] = useState(
-    [
-      { headerName: "Iletisim Turu", field: "type" },
-      { headerName: "Iletisim Bilgisi", field: "value" }
-    ]
-  );
-  const [contRows, setContRows] = useState();
 
   const [info, setInfo] = useState(null);
 
@@ -46,8 +27,7 @@ const AddressPage = () => {
         "http://localhost:1337/addresses"
       )
       .then((response) => {
-        setAddrRows(response.data.addresses);
-        setContRows(response.data.contacts);
+        setData(response.data)
         setAddrLoading(false);
       })
       .catch((error) => {
@@ -60,7 +40,7 @@ const AddressPage = () => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/info"
+        "http://localhost:1337/profile"
       )
       .then((response) => {
         setInfo(response.data);
@@ -72,25 +52,6 @@ const AddressPage = () => {
   }, []
   );
 
-  const gridOptions = {
-    defaultColDef: {
-      resizable: true,
-    },
-    columnDefs: addrColumns,
-    rowData: null,
-    onColumnResized: (params) => {
-      console.log(params);
-    },
-  };
-
-  function autoSizeAll() {
-    const allColumnIds = [];
-    gridOptions.columnApi.getAllColumns().forEach((column) => {
-      allColumnIds.push(column.getId());
-    });
-
-    gridOptions.columnApi.autoSizeColumns(allColumnIds);
-  }
 
   if (isAddrLoading) {
     return <div>Loading...</div>;
@@ -104,9 +65,9 @@ const AddressPage = () => {
     <>
       <div className="role row">Role: {info.role}</div>
       <div className="row">
-        <div className="row" ><label style={{textAlign: 'right'}}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
+        <div className="row" ><label style={{ textAlign: 'right' }}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
         <div className='col-md-1' />
-        <div className="col-md-3">
+        <div className="col-md-3" style={{ padding: 10 }}>
           <div className='row'>
             <div className='col-md-4'>
               <img className="pic" src={JSON.parse(localStorage.getItem("loginData")).picture}></img>
@@ -116,36 +77,79 @@ const AddressPage = () => {
               <div>{info.department}</div>
             </div>
           </div>
-          <div>{info.no}</div>
+          <div>{info.id}</div>
           <div>{JSON.parse(localStorage.getItem("loginData")).email}</div>
           <div>{info.advisor}</div>
           <div>{info.advisorMail}</div>
+          <Nav className="button-container" >
+            <Row style={{ padding: 10 }}>
+              <Row><Nav.Link className="button button-1">Bilgilerim</Nav.Link></Row>
+              <Row><Nav.Link className="button button-1">Not Goruntuleme</Nav.Link></Row>
+              <Row><Nav.Link className="button button-1">Ortak Egitim</Nav.Link></Row>
+              <Row><Nav.Link className="button button-1">Ikinci Yabanci Dil</Nav.Link></Row>
+              <Row><Nav.Link className="button button-1">Odeme Bilgilerim</Nav.Link></Row>
+              <Row><Nav.Link className="button button-1">Adres/Iletisim Bilgilerim</Nav.Link></Row>
+            </Row>
+          </Nav>
         </div>
         <div className="col-md-8">
-          <h4 className="head">Adres Bilgilerim</h4>
-          <div className="ag-theme-balham"
-            style={{
-              width: 1010,
-              height: 200
-            }}>
-            <AgGridReact
-              columnDefs={addrColumns}
-              rowData={addrRows}
-            />
-          </div>
+          <h4 className='res'>Adres Bilgilerim</h4>
+          <Container style={{ paddingRight: 40, paddingTop: 30 }}>
+            <Container style={{ backgroundColor: `#dcdcdc`, borderRadius: 10, border: "2px solid gray", paddingRight: 10, paddingTop: 10 }} >
+              <Row style={{ textAlign: "left" }}>
+                <Col>Adres Turu</Col>
+                <Col>Adres</Col>
+                <Col>Sehir</Col>
+                <Col>Ilce</Col>
+                <Col>Posta Kodu</Col>
+              </Row>
+              {data.addresses.map((addr) => {
+                const row = [];
+                row.push(
+                  <Row key={addr} style={{ padding: 10 }}>
 
-          <h4 className="head">İletişim Bilgilerim</h4>
-          <div className="ag-theme-balham"
-            style={{
-              width: 600,
-              height: 200
-            }}>
-            <AgGridReact
-              columnDefs={contColumns}
-              rowData={contRows}
-            />
-          </div>
+                    <Row style={{ textAlign: "left" }}>
+                      <Col>{addr.type}</Col>
+                      <Col>{addr.address}</Col>
+                      <Col>{addr.city}</Col>
+                      <Col>{addr.district}</Col>
+                      <Col>{addr.postalCode}</Col>
+                    </Row>
+                    <hr />
 
+                  </Row>
+                );
+                return row;
+              })}
+
+            </Container>
+          </Container>
+          <br />
+          <h4 className='res'>İletişim Bilgilerim</h4>
+          <Container style={{ paddingRight: 40, paddingTop: 30, paddingBottom: 20 }}>
+            <Container style={{ backgroundColor: `#dcdcdc`, borderRadius: 10, border: "2px solid gray", paddingRight: 10, paddingTop: 10 }} >
+              <Row style={{ textAlign: "left" }}>
+                <Col>Iletisim Turu</Col>
+                <Col>Iletisim Bilgisi</Col>
+              </Row>
+              {data.contacts.map((addr) => {
+                const row = [];
+                row.push(
+                  <Row key={addr} style={{ padding: 10 }}>
+
+                    <Row style={{ textAlign: "left" }}>
+                      <Col>{addr.type}</Col>
+                      <Col>{addr.value}</Col>
+                    </Row>
+                    <hr />
+
+                  </Row>
+                );
+                return row;
+              })}
+
+            </Container>
+          </Container>
         </div>
       </div>
     </>
