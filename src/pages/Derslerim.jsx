@@ -12,7 +12,7 @@ const Derslerim = () => {
   let buttons = [];
   const [butonDersler, butonDerslerEklensin] = useState([]);
   useEffect(async () => {
-    let findAllLessons = await axios.get("http://localhost:1337/courses");
+    let findAllLessons = await axios.get("http://localhost:5000/course");
     if (!!findAllLessons.data) {
       derslerimiAyarla(findAllLessons.data);
     } else {
@@ -25,17 +25,17 @@ const Derslerim = () => {
   }, [dersler]);
 
   const dersleriKaydet = () => {
-    dersler?.courses?.forEach((course) => {
+    dersler?.course?.forEach((course) => {
       courseInformation.push({
+        courseId: course._id,
         courseCode: course.code,
         courseName: course.name,
-        sectionID: course.sectionId,
         credit: course.credit,
-        lessonInstructor: course.instructor,
-        numberStudents: course.numberOfStudents,
-        averageGrade: course.averageGrage,
-        gpaDistributionOnPreviousTerms: course.gpaDistributionOnPreviousTerms,
-        lessonHours: course.lessonHours,
+        department: course.department,
+        lessonHours: course.schedule,
+        studentList: course.students,
+        lessonInstructor: course.lecturers,
+        courseAssignment: course.assignments
       });
     });
     ekranaBasilacakButonlar();
@@ -59,11 +59,32 @@ const Derslerim = () => {
     setReload((prevState) => prevState + 1);
   };
 
-  function SecilenDersEkrani(text) {
-    courseInformation?.forEach((oneOfTheCourse) => {
+  async function SecilenDersEkrani(text) {
+    courseInformation?.forEach(async (oneOfTheCourse) => {
       if (oneOfTheCourse.courseCode == text) {
-        ekranaBasilacakDersiAyarla(oneOfTheCourse);
-        dersiGostermeAyariniDegistir(true);
+        
+        let findLecturer = await axios.get( "http://localhost:5000/course/getCourseInfo/id=" + oneOfTheCourse.courseId);
+        if (!!findLecturer.data) {
+          const selectedCourse = {
+            numberStudents: findLecturer.data.students,
+            averageGrade: findLecturer.data.avgGpa,
+            courseId: oneOfTheCourse.courseId,
+            courseCode: oneOfTheCourse.courseCode,
+            courseName: oneOfTheCourse.courseName,
+            credit: oneOfTheCourse.credit,
+            department: oneOfTheCourse.department,
+            lessonHours: oneOfTheCourse.lessonHours,
+            studentList: oneOfTheCourse.studentList,
+            lessonInstructor: oneOfTheCourse.lessonInstructor,
+            courseAssignment: oneOfTheCourse.courseAssignment
+          } ;
+          ekranaBasilacakDersiAyarla(selectedCourse);
+          dersiGostermeAyariniDegistir(true);
+        } else {
+          console.log(findLecturer.error);
+        }        
+
+        
       }
     });
   }
@@ -99,6 +120,7 @@ const Derslerim = () => {
               <div>{ekranaBasilacakDers.courseName}</div>
             </div>
           </div>
+          {/* Section Id Eklenirse:
           <div>
             <div
               className="sectionInfo"
@@ -124,8 +146,8 @@ const Derslerim = () => {
               </div>
               <div>Şube</div>
             </div>
-          </div>
-          <div>
+          </div> */}
+          {/* <div>
             <div
               className="sectionInfo"
               style={{
@@ -150,9 +172,9 @@ const Derslerim = () => {
               </div>
               <div>Kredi</div>
             </div>
-          </div>
+          </div> */}
         </div>
-        <div style={{marginTop: "20px"}}>
+        {/* <div style={{marginTop: "20px"}}>
           <h3 style={{ color: "red"}}>Ders Öğretim Üyesi Bilgileri</h3>
           <div>
             <div
@@ -183,7 +205,7 @@ const Derslerim = () => {
                 }}>{ekranaBasilacakDers.lessonInstructor.mail}</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div style={{marginTop: "20px"}}>
           <h3 style={{ color: "red"}}>Dersi Alan Öğrenciler Hakkında</h3>
@@ -277,8 +299,8 @@ const initLesson = (props) => {
     { hours: "20.30-21.20" }
   );
   const scheduleHours = [];
-  props.ekranaBasilacakDers.lessonHours.forEach((lessonHour) => {
-    scheduleHours.push({ hours: lessonHour.hours });
+  props.ekranaBasilacakDers.lessonHours?.forEach((lessonHour) => {
+    scheduleHours.push({ hours: lessonHour.time });
   });
   const uniqueScheduleHours = [];
   programData.forEach((hour) => {
@@ -304,41 +326,41 @@ const LessonPrograms = (props) => {
 
   const programData = initLesson(props);
 
-  props.ekranaBasilacakDers.lessonHours.forEach((lessonHour) => {
+  props.ekranaBasilacakDers.lessonHours?.forEach((lessonHour) => {
     switch (lessonHour.day) {
-      case "Pazartesi":
+      case 1:
         programData.push({
-          hours: lessonHour.hours,
+          hours: lessonHour.time,
           pazartesi: props.ekranaBasilacakDers.courseName,
         });
         break;
-      case "Salı":
+      case 2:
         programData.push({
-          hours: lessonHour.hours,
+          hours: lessonHour.time,
           salı: props.ekranaBasilacakDers.courseName,
         });
         break;
-      case "Çarşamba":
+      case 3:
         programData.push({
-          hours: lessonHour.hours,
+          hours: lessonHour.time,
           çarşamba: props.ekranaBasilacakDers.courseName,
         });
         break;
-      case "Perşembe":
+      case 4:
         programData.push({
-          hours: lessonHour.hours,
+          hours: lessonHour.time,
           perşembe: props.ekranaBasilacakDers.courseName,
         });
         break;
-      case "Cuma":
+      case 5:
         programData.push({
-          hours: lessonHour.hours,
+          hours: lessonHour.time,
           cuma: props.ekranaBasilacakDers.courseName,
         });
         break;
-      case "Cumartesi":
+      case 6:
         programData.push({
-          hours: lessonHour.hours,
+          hours: lessonHour.time,
           cumartesi: props.ekranaBasilacakDers.courseName,
         });
         break;

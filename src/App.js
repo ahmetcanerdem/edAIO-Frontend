@@ -28,8 +28,12 @@ function App() {
     <Router>
       <div className="application-etuao">
         <Navigation />
-        <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}>
-          {!!loginData ? (
+        <div className="application-menu-container">
+          {/* Şimdilik Böyle <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}> */}
+          {/* 
+          Şimdilik Böyle
+            {!!loginData ? ( 
+            */}
             <div>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -64,13 +68,13 @@ function App() {
                 <Route path="/admin" element={<AdminPage />} />
               </Routes>
             </div>
-          ) : (
+          {/* ) : (
             <div>
               <Routes>
                 <Route path="/*" element={<GirisCikisSayfasi />} />
               </Routes>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </Router>

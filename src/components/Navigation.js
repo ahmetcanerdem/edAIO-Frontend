@@ -15,7 +15,11 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      {!!loginData && (
+      {/* 
+      Şimdilik Böyle
+      {!!loginData && ( 
+        
+        */}
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <div className="container-navigation">
             <div>
@@ -23,7 +27,7 @@ function Navigation() {
             </div>
           </div>
         </nav>
-      )}
+      {/* )} */}
     </div>
   );
 }
