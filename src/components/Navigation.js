@@ -15,11 +15,7 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      {/* 
-      Şimdilik Böyle
-      {!!loginData && ( 
-        
-        */}
+      {!!loginData && !!loginData.user && (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <div className="container-navigation">
             <div>
@@ -27,7 +23,7 @@ function Navigation() {
             </div>
           </div>
         </nav>
-      {/* )} */}
+      )}
     </div>
   );
 }

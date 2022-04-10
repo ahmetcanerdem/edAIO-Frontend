@@ -14,7 +14,6 @@ import MakeUpsPage from "./pages/MakeUpsPage";
 import BlogPage from "./pages/BlogPage";
 import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
 import AdminPage from "./pages/AdminPage";
-import FileUploadPage from "./pages/FileUploadPage";
 import { Appointment, PaymentInfo, InternshipInfo, Grades } from "./pages";
 
 function App() {
@@ -28,12 +27,8 @@ function App() {
     <Router>
       <div className="application-etuao">
         <Navigation />
-        <div className="application-menu-container">
-          {/* Şimdilik Böyle <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}> */}
-          {/* 
-          Şimdilik Böyle
-            {!!loginData ? ( 
-            */}
+        <div className={!!loginData?.user ? "application-menu-container": "application-menu-container-first"}>
+          {loginData && !!loginData.user ? (
             <div style = {{width: "100%", height: "100%"}}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
@@ -51,7 +46,6 @@ function App() {
                 <Route path="/profile/addresses" element={<AddressPage />} />
                 <Route path="/exams/midterms" element={<MidtermsPage />} />
                 <Route path="/otherpages/blog" element={<BlogPage />} />
-                <Route path='/otherpages/blog/uploadfile' element={<FileUploadPage />} />
                 <Route path="/profile/info" element={<ProfilePage />} />
                 <Route path="/exams/makeups" element={<MakeUpsPage />} />
                 <Route
@@ -68,13 +62,13 @@ function App() {
                 <Route path="/admin" element={<AdminPage />} />
               </Routes>
             </div>
-          {/* ) : (
+          ) : (
             <div>
               <Routes>
                 <Route path="/*" element={<GirisCikisSayfasi />} />
               </Routes>
             </div>
-          )} */}
+          )}
         </div>
       </div>
     </Router>

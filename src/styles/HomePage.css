@@ -3,3 +3,8 @@
     position: absolute !important;
     right: 20px !important;
 }
+
+.sign-in-button{
+    width: 300px !important;
+    border-color: darkblue !important
+}

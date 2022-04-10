@@ -1,17 +1,39 @@
 import React, { useEffect, useState } from "react";
 import LoginPage from "./LoginPage";
+import axios from "axios";
 
 const GirisCikisSayfasi = () => {
+  
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
       : null
   );
 
+  useEffect(() => {
+    console.log("girisCikisSayfasi");
+    axios
+      .get("http://localhost:5000/getuser", { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        if (!!res.data.user) {
+          localStorage.setItem("loginData", JSON.stringify(res.data));
+          setLoginData(res.data);
+        }
+      });
+      console.log(localStorage.getItem("loginData"));
+  }, []);
+
   const handleLogout = () => {
-    localStorage.removeItem("loginData");
-    window.location.reload()
-    setLoginData(null);
+    axios.get("http://localhost:5000/logout", {
+            withCredentials: true
+        }).then((res) => {
+            if (res.data === "done") {
+                localStorage.removeItem("loginData");
+                window.location.reload();
+                setLoginData(null);
+            }
+        })
   };
 
   var url = window.location.pathname;
@@ -19,15 +41,15 @@ const GirisCikisSayfasi = () => {
   return (
     <header className="App-header">
       <div>
-        {loginData ? (
+        {loginData && !!loginData.user ? (
           <>
-            {url === '/login' ? (
+            {url === "/login" ? (
               <>
                 <div>
                   <h2 style={{ color: "red", textAlign: "center" }}>
-                    {loginData.name}
+                    {loginData.user.name}
                   </h2>
-                  <div style={{ color: "darkblue" }}>{loginData.email}</div>
+                  <div style={{ color: "darkblue" }}>{loginData.user.email}</div>
                 </div>
                 <div className="logout-button">
                   <button onClick={handleLogout}>Logout</button>
@@ -38,8 +60,7 @@ const GirisCikisSayfasi = () => {
             )}
           </>
         ) : (
-          <LoginPage setLoginData={setLoginData} loginData={loginData} />
-          
+          <LoginPage/>
         )}
       </div>
     </header>
