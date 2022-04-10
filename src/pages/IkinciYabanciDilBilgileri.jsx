@@ -12,47 +12,61 @@ import { PieChart, Pie, Sector } from "recharts";
 import "../styles/Sfl.css";
 
 const IkinciYabanciDilBilgileri = () => {
-  let studentNumber = 121101016;
+  /*
+  Sisteme giris yapan ID yi alacağı
+  Bu giriş sayfasında cekilip : 
+  JSON.parse(localStorage.getItem("loginData")).id ile 
+  doğruda id alıcam :
+  (("http://localhost:5000/student/getSFLanguage/id="+JSON.parse(localStorage.getItem("loginData")).id))
+  şeklinde atacağım.
+
+  let user = await axios.get("http://localhost:5000/getUser");
+    if (!!user.data) {
+      localStorage.setItem("loginData", JSON.stringify(user.data));
+    } else {
+      console.log(user.error);
+      yazacağım.
+    }
+  */
   const [sflInformation, setSflInformation] = useState(null);
   const [reload, setReload] = useState(1);
   const [sfl, setSfl] = useState(null);
   const [allDstr, setAllDstr] = useState(null);
-  const [facultyDstr, setFacultyDstr] = useState(null);
+  // const [facultyDstr, setFacultyDstr] = useState(null);
   const [departmentDstr, setDepartmentDstr] = useState(null);
   const [data, setData] = useState(null);
   const [isExpanded, setExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [distributeFunc, setDistributeFunc] = useState("");
 
+  const userIDTemp = "623e3bbb92a74c8f919058c7";
   const ALL = "Genel";
-  const FACULTY = "Fakülte Bazında";
   const DEPARTMENT = "Bölüm Bazında";
 
   const takenSfl = [];
   const allDistribution = [];
-  const facultyDistribution = [];
   const departmentDistribution = [];
   const mustListSfl = [
     {
-      lectureType: "IYD 1",
+      lectureType: "iyd1",
       lectureStatus: "Almadı",
     },
     {
-      lectureType: "IYD 2",
+      lectureType: "iyd2",
       lectureStatus: "Almadı",
     },
     {
-      lectureType: "IYD 3",
+      lectureType: "iyd3",
       lectureStatus: "Almadı",
     },
     {
-      lectureType: "IYD 4",
+      lectureType: "iyd4",
       lectureStatus: "Almadı",
     },
   ];
 
   useEffect(async () => {
-    let response = await axios.get("http://localhost:1337/sfl");
+    let response = await axios.get("http://localhost:5000/student/getSFLanguage/id="+userIDTemp);
     if (!!response.data) {
       setSflInformation(response.data);
     } else {
@@ -67,8 +81,8 @@ const IkinciYabanciDilBilgileri = () => {
   useEffect(() => {
     if (distributeFunc == ALL) {
       setData(allDstr);
-    } else if (distributeFunc == FACULTY) {
-      setData(facultyDstr);
+    // } else if (distributeFunc == FACULTY) {
+    //   setData(facultyDstr);
     } else if (distributeFunc == DEPARTMENT) {
       setData(departmentDstr);
     }
@@ -78,7 +92,7 @@ const IkinciYabanciDilBilgileri = () => {
   useEffect(() => {
     setCourses();
     setAllDistribution();
-    setFacultyDistribution();
+    // setFacultyDistribution();
     setDepartmentDistribution();
   }, sflInformation);
 
@@ -87,8 +101,8 @@ const IkinciYabanciDilBilgileri = () => {
       sflInformation?.courses?.forEach((sflCourse) => {
         takenSfl.push({
           takenYear: sflCourse.year,
-          takenSemester: sflCourse.semester,
-          lectureType: sflCourse.type,
+          takenSemester: sflCourse.term,
+          lectureType: sflCourse.courseType,
           lectureShortCode: sflCourse.shortCode,
           lectureGrade: sflCourse.grade,
           lectureStatus: sflCourse.status,
@@ -107,23 +121,13 @@ const IkinciYabanciDilBilgileri = () => {
   };
 
   const setAllDistribution = () => {
-    sflInformation?.distribution?.[0]?.all?.forEach((allSfl) => {
+    sflInformation?.all?.forEach((allSfl) => {
       allDistribution.push({
         name: allSfl.name,
         value: allSfl.value,
       });
     });
     setAllDstr(allDistribution);
-  };
-
-  const setFacultyDistribution = () => {
-    sflInformation?.distribution?.[0]?.faculty?.forEach((facultySfl) => {
-      facultyDistribution.push({
-        name: facultySfl.name,
-        value: facultySfl.value,
-      });
-    });
-    setFacultyDstr(facultyDistribution);
   };
 
   const setDepartmentDistribution = () => {
@@ -271,15 +275,6 @@ const IkinciYabanciDilBilgileri = () => {
                       }}
                     >
                       Genel
-                    </button>
-                    <button
-                      style={{ backgroundColor: "#fac1f0" }}
-                      onClick={() => {
-                        setDistributeFunc(FACULTY);
-                        setReload((prevState) => prevState + 1);
-                      }}
-                    >
-                      Fakülte Bazında
                     </button>
                     <button
                       style={{ backgroundColor: "#b5f8f7" }}

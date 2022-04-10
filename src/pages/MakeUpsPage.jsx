@@ -1,22 +1,37 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-  Row, Container, Col
-} from 'react-bootstrap';
-
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-balham.css";
+import convertToShortDate from "../helpers/functions";
+import columns from   "../helpers/table";
 
 const MakeUpsPage = () => {
+  /*
+  Sisteme giris yapan ID yi alacağı
+  Bu giriş sayfasında cekilip : 
+  JSON.parse(localStorage.getItem("loginData")).id ile 
+  doğruda id alıcam :
+  (("http://localhost:5000/student/getSFLanguage/id="+JSON.parse(localStorage.getItem("loginData")).id))
+  şeklinde atacağım.
+
+  let user = await axios.get("http://localhost:5000/getUser");
+    if (!!user.data) {
+      localStorage.setItem("loginData", JSON.stringify(user.data));
+    } else {
+      console.log(user.error);
+      yazacağım.
+    }
+  */
   const [isLoading, setLoading] = useState(true);
-
-
-  let studentNumber = 121101016;
+  const [isAnnouncement, setAnnouncement] = useState(false);
+  const userIDTemp = "623e3bbb92a74c8f919058c7";
 
   const [data, setData] = useState(null);
-  useEffect( () => {
+  const [makeUpExam, setMakeUpExam] = useState(null);
+  useEffect(() => {
     axios
-      .get(
-        "http://localhost:1337/makeups"
-      )
+      .get("http://localhost:5000/student/getExamInfo/id=" + userIDTemp)
       .then((response) => {
         setData(response.data);
         setLoading(false);
@@ -24,61 +39,54 @@ const MakeUpsPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []
-  );
+  }, []);
 
- 
-  
+  useEffect(() => {
+    console.log(data);
+    const makeUp = [];
+    let announcement = false;
+    data?.makeUpExam.forEach((exam) => {
+      if(exam.makeUpExam.location != null){
+        announcement = true;
+      }
+      makeUp.push({
+        code: exam.code,
+        name: exam.name,
+        date: convertToShortDate(exam.makeUpExam.date),
+        class: exam.makeUpExam.location,
+        start: exam.makeUpExam.startTime,
+        finish: exam.makeUpExam.endTime,
+        observer: exam.makeUpExam.observer,
+      });
+    });
+    if(announcement){
+      setAnnouncement(announcement);
+    }
+    setMakeUpExam(makeUp);
+  }, [data]);
+
   if (isLoading) {
     return <div>Loading...</div>;
+  } else if (!isAnnouncement) {
+    return <h2>Bütünleme Sınavları Döneminde Bulunmamaktayız.</h2>
+  } else {
+    return (
+      <div style={{ width: "100%", height: "80%" }}>
+        <h2 style={{ marginTop: "30px", marginBottom: "30px" }}>
+          Bütünleme Sınav Takvimi
+        </h2>
+        <div
+          className="ag-theme-balham"
+          style={{
+            width: "95%",
+            height: "100%",
+          }}
+        >
+          <AgGridReact columnDefs={columns} rowData={makeUpExam} />
+        </div>
+      </div>
+    );
   }
-
-
-else{
-  return (
-
-    <>
-      <div className="row" ><label style={{ textAlign: 'right' }}>Bugun {new Date().getDate() + "/" + (new Date().getMonth() + 1)}</label></div>
-      <h2 style={{ marginTop: "30px", marginBottom: "30px" }}>
-        Butunleme Sınav Takvimi
-      </h2>
-      <Container style={{ paddingRight: 40, paddingTop: 30 }}>
-        <Container style={{ backgroundColor: `#dcdcdc`, borderRadius: 10, border: "2px solid gray", padding: 10 }} >
-          <Row  style={{ textAlign: "center"}}>
-            <Col>Ders Kodu</Col>
-            <Col>Ders Adi</Col>
-            <Col>Sinav Tarihi</Col>
-            <Col>Derslik</Col>
-            <Col>Sinav Baslangic</Col>
-            <Col>Sinav Bitis</Col>
-            <Col>Gozetmen</Col>
-          </Row>
-          {data.map((makeup) => {
-            const row = [];
-            row.push(
-              <Row key={makeup} style={{ paddingTop: 10, paddingBottom: 10 }}>
-
-                <Row  style={{ textAlign: "center"}}>
-                  <Col>{makeup.code}</Col>
-                  <Col>{makeup.name}</Col>
-                  <Col>{makeup.date}</Col>
-                  <Col>{makeup.class}</Col>
-                  <Col>{makeup.start}</Col>
-                  <Col>{makeup.finish}</Col>
-                  <Col>{makeup.observer}</Col>
-                </Row>
-                <hr />
-
-              </Row>
-            );
-            return row;
-          })}
-
-        </Container>
-      </Container>
-    </>
-  );
-}
 };
 
 export default MakeUpsPage;

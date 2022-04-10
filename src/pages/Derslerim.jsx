@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-// import scheduleLesson from "../helpers/Schedule";
 
 const Derslerim = () => {
   const [dersler, derslerimiAyarla] = React.useState();
@@ -34,7 +33,7 @@ const Derslerim = () => {
         department: course.department,
         lessonHours: course.schedule,
         studentList: course.students,
-        lessonInstructor: course.lecturers,
+        lessonInstructor: course.lecturer,
         courseAssignment: course.assignments
       });
     });
@@ -65,26 +64,42 @@ const Derslerim = () => {
         
         let findLecturer = await axios.get( "http://localhost:5000/course/getCourseInfo/id=" + oneOfTheCourse.courseId);
         if (!!findLecturer.data) {
-          const selectedCourse = {
+          const infoCourse = {
             numberStudents: findLecturer.data.students,
-            averageGrade: findLecturer.data.avgGpa,
-            courseId: oneOfTheCourse.courseId,
-            courseCode: oneOfTheCourse.courseCode,
-            courseName: oneOfTheCourse.courseName,
-            credit: oneOfTheCourse.credit,
-            department: oneOfTheCourse.department,
-            lessonHours: oneOfTheCourse.lessonHours,
-            studentList: oneOfTheCourse.studentList,
-            lessonInstructor: oneOfTheCourse.lessonInstructor,
-            courseAssignment: oneOfTheCourse.courseAssignment
+            averageGrade: findLecturer.data.avgGpa
           } ;
-          ekranaBasilacakDersiAyarla(selectedCourse);
-          dersiGostermeAyariniDegistir(true);
+        
+          let infoInstructor = await axios.get("http://localhost:5000/lecturer/id=" + oneOfTheCourse.lessonInstructor);
+          if(!!infoInstructor.data){
+            const infoLecture = {
+              mail: infoInstructor.data.lecturer.schoolMail,
+              title: infoInstructor.data.lecturer.title
+            };
+            const selectedCourse = {
+              courseId: oneOfTheCourse.courseId,
+              courseCode: oneOfTheCourse.courseCode,
+              courseName: oneOfTheCourse.courseName,
+              credit: oneOfTheCourse.credit,
+              department: oneOfTheCourse.department,
+              lessonHours: oneOfTheCourse.lessonHours,
+              studentList: oneOfTheCourse.studentList,
+              lessonInstructor: oneOfTheCourse.lessonInstructor,
+              courseAssignment: oneOfTheCourse.courseAssignment,
+              numberStudents: infoCourse.numberStudents,
+              averageGrade: infoCourse.averageGrade,
+              mail: infoLecture.mail,
+              title: infoLecture.title
+            }
+  
+            ekranaBasilacakDersiAyarla(selectedCourse);
+            dersiGostermeAyariniDegistir(true);
+          }
+          else{
+            console.log(infoInstructor.error);
+          }
         } else {
           console.log(findLecturer.error);
         }        
-
-        
       }
     });
   }
@@ -120,34 +135,7 @@ const Derslerim = () => {
               <div>{ekranaBasilacakDers.courseName}</div>
             </div>
           </div>
-          {/* Section Id Eklenirse:
           <div>
-            <div
-              className="sectionInfo"
-              style={{
-                justifyContent: "space-between",
-                display: "inline-flex",
-              }}
-            >
-              <div
-                className="sub-header"
-                style={{ fontWeight: "700", textDecoration: "underline" }}
-              >
-                Şube:
-              </div>
-              <div
-                style={{
-                  justifyContent: "space-between",
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                }}
-              >
-                {ekranaBasilacakDers.sectionID}.
-              </div>
-              <div>Şube</div>
-            </div>
-          </div> */}
-          {/* <div>
             <div
               className="sectionInfo"
               style={{
@@ -172,9 +160,9 @@ const Derslerim = () => {
               </div>
               <div>Kredi</div>
             </div>
-          </div> */}
+          </div>
         </div>
-        {/* <div style={{marginTop: "20px"}}>
+        <div style={{marginTop: "20px"}}>
           <h3 style={{ color: "red"}}>Ders Öğretim Üyesi Bilgileri</h3>
           <div>
             <div
@@ -197,15 +185,15 @@ const Derslerim = () => {
                   marginRight: "10px",
                 }}
               >
-                {ekranaBasilacakDers.lessonInstructor.title}
+                {ekranaBasilacakDers.title}
               </div>
               <div style={{
                 color: "blue", 
                 textDecoration: "underline" 
-                }}>{ekranaBasilacakDers.lessonInstructor.mail}</div>
+                }}>{ekranaBasilacakDers.mail}</div>
             </div>
           </div>
-        </div> */}
+        </div>
 
         <div style={{marginTop: "20px"}}>
           <h3 style={{ color: "red"}}>Dersi Alan Öğrenciler Hakkında</h3>
