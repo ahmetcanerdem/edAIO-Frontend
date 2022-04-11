@@ -20,7 +20,7 @@ function ProfilPage() {
   }, []);
 
   const handleUser = ((id) => {
-    axios.get("http://localhost:5000/student/getProfile/id=" + id)
+    axios.get("http://localhost:5000/student/getProfile/id=" + id)  //JSON.parse(localStorage.getItem("loginData")).user._id
       .then(response => {
         console.log(response.data);
         setData(response.data);
@@ -32,23 +32,26 @@ function ProfilPage() {
 
   return (
     <>
-      <Row>
-        {!!data ? (
-          <>
-            <Col xs={8}></Col>
-            <Col>Rol: {data.role}</Col>
-            <Col>Merhaba {data.name}</Col>
-          </>) : (<></>)
-        }
-      </Row>
-      <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
-        <Col xs={10}>
-          <h2>
-            Bilgilerim
-          </h2>
-        </Col>
-        <Col>Bugun: {getCurrentDate('/')}</Col>
-      </Row>
+     <Row>
+          <Col xs={8}></Col>
+          <Col>
+            Rol:{" "}
+            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+              <>Admin</>
+            ) : (
+              <>Ogrenci</>
+            )}
+          </Col>
+          <Col>
+            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
+          <Col xs={10}>
+            <h2>Bilgilerim</h2>
+          </Col>
+          <Col>Bugun: {getCurrentDate("/")}</Col>
+        </Row>
       <Container style={{ backgroundColor: 'gray', borderRadius: 10, border: "2px solid gray", paddingRight: 10, paddingTop: 10 }}>
         <Row>
           <Col xs={4}>

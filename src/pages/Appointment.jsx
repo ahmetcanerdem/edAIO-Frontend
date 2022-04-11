@@ -1,24 +1,56 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { getCurrentDate } from "../helpers/functions";
 
 const Appointment = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
     axios
-      .get("http://localhost:1337/appointments")
+      .get("http://localhost:5000/student")
       .then((response) => {
-        setData(response.data);
+        handleUser(response.data.student[0]._id);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+  const handleUser = ((id) =>{ 
+    axios
+      .get("http://localhost:5000/appointment/id=" + id)
+      .then((response) => {
+
+        console.log(response);
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <>
       <div>
-        <h1>Randevular</h1>
+      <Row>
+          <Col xs={8}></Col>
+          <Col>
+            Rol:{" "}
+            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+              <>Admin</>
+            ) : (
+              <>Ogrenci</>
+            )}
+          </Col>
+          <Col>
+            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
+          <Col xs={10}>
+            <h2>Randevular</h2>
+          </Col>
+          <Col>Bugun: {getCurrentDate("/")}</Col>
+        </Row>
         <Container>
           <Row>
             <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
