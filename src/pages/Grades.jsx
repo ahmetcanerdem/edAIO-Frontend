@@ -4,8 +4,6 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Grades = () => {
   const [data, setData] = useState(null);
-  const [depId, setDepId] = useState(null);
-  const [gotDepId, setGotDepId] = useState(false);
   useEffect(() => {
     axios
       .get("http://localhost:5000/student")

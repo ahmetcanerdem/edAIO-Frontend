@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { getCurrentDate } from "../helpers/functions";
 import {
   LineChart,
   Line,
@@ -12,24 +13,37 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import fontawesome from '@fortawesome/fontawesome'
+import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark, faCircleCheck} from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleXmark,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
-
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:1337/home")
+      .get("http://localhost:5000/student")
+      .then((response) => {
+        handleHome(response.data.student[0]._id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const handleHome = (id) => {
+    axios
+      .get("http://localhost:5000/student/homePage/id=" + id)
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  };
 
   const [datas, setDatas] = useState(null);
   useEffect(() => {
@@ -48,7 +62,26 @@ const HomePage = () => {
   return (
     <>
       <div>
-        <h1>Ana Sayfa</h1>
+        <Row>
+          <Col xs={8}></Col>
+          <Col>
+            Rol:{" "}
+            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+              <>Admin</>
+            ) : (
+              <>Ogrenci</>
+            )}
+          </Col>
+          <Col>
+            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
+          <Col xs={10}>
+            <h2>Ana Sayfa</h2>
+          </Col>
+          <Col>Bugun: {getCurrentDate("/")}</Col>
+        </Row>
         <Container>
           {!!data &&
             data.home.map((home) => {
@@ -57,8 +90,8 @@ const HomePage = () => {
               row.push(
                 <Row key={home}>
                   <Row>
-                    <Col style={{paddingRight: 50}}>
-                      <Container style={{paddingTop: 100}}>
+                    <Col style={{ paddingRight: 50 }}>
+                      <Container style={{ paddingTop: 100 }}>
                         <LineChart
                           width={500}
                           height={200}
@@ -72,7 +105,9 @@ const HomePage = () => {
                         >
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="name" />
-                          <Tooltip wrapperStyle={{ backgroundColor: '#ffffff' }}/>
+                          <Tooltip
+                            wrapperStyle={{ backgroundColor: "#ffffff" }}
+                          />
                           <Line
                             dataKey="value"
                             stroke="#ff0000"
@@ -91,32 +126,33 @@ const HomePage = () => {
                               key={incomingCourses}
                               style={{ paddingTop: 10 }}
                             >
-                              <a href="https://us02web.zoom.us/j/86086854065"><Container 
-                                style={{
-                                  backgroundColor: `#dcdcdc`,
-                                  borderRadius: 10,
-                                  border: "2px solid gray",
-                                  paddingRight: 10,
-                                  paddingTop: 10,
-                                  paddingLeft: 10,
-                                }}
-                              >
-                                <Row style={{ paddingLeft: 10 }}>
-                                  Tarih: {incomingCourses.date}
-                                </Row>
-                                <Row style={{ paddingLeft: 10 }}>
-                                  Ders Kodu: {incomingCourses.shortCode}
-                                </Row>
-                                <Row style={{ paddingLeft: 10 }}>
-                                  Şube: {incomingCourses.section}
-                                </Row>
-                                <Row style={{ paddingLeft: 10 }}>
-                                  Ders: {incomingCourses.description}
-                                </Row>
-                                <Row style={{ paddingLeft: 10 }}>
-                                  Saat: {incomingCourses.time}
-                                </Row>
-                              </Container>
+                              <a href="https://us02web.zoom.us/j/86086854065">
+                                <Container
+                                  style={{
+                                    backgroundColor: `#dcdcdc`,
+                                    borderRadius: 10,
+                                    border: "2px solid gray",
+                                    paddingRight: 10,
+                                    paddingTop: 10,
+                                    paddingLeft: 10,
+                                  }}
+                                >
+                                  <Row style={{ paddingLeft: 10 }}>
+                                    Tarih: {incomingCourses.date}
+                                  </Row>
+                                  <Row style={{ paddingLeft: 10 }}>
+                                    Ders Kodu: {incomingCourses.shortCode}
+                                  </Row>
+                                  <Row style={{ paddingLeft: 10 }}>
+                                    Şube: {incomingCourses.section}
+                                  </Row>
+                                  <Row style={{ paddingLeft: 10 }}>
+                                    Ders: {incomingCourses.description}
+                                  </Row>
+                                  <Row style={{ paddingLeft: 10 }}>
+                                    Saat: {incomingCourses.time}
+                                  </Row>
+                                </Container>
                               </a>
                             </Row>
                           );
@@ -137,7 +173,12 @@ const HomePage = () => {
                               paddingLeft: 10,
                             }}
                           >
-                            Öğrenci Onayı: {home.isStudentConfirmed ? <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon> : <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>}
+                            Öğrenci Onayı:{" "}
+                            {home.isStudentConfirmed ? (
+                              <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon>
+                            ) : (
+                              <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>
+                            )}
                           </Container>
                         </Row>
                         <Row style={{ paddingTop: 20 }}>
@@ -151,7 +192,12 @@ const HomePage = () => {
                               paddingLeft: 10,
                             }}
                           >
-                            Danışman Onayı: {home.isAdvisorConfirmed ? <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon> : <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>}
+                            Danışman Onayı:{" "}
+                            {home.isAdvisorConfirmed ? (
+                              <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon>
+                            ) : (
+                              <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>
+                            )}
                           </Container>
                         </Row>
                       </Container>
