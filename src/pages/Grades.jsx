@@ -10,25 +10,22 @@ const Grades = () => {
     axios
       .get("http://localhost:5000/student")
       .then((response) => {
-        console.log(response.data.student[0]);
-        setDepId(response.data.student[0].department);
-        setGotDepId(true);
+        handleUser(response.data.student[0]._id);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  if (gotDepId) {
+  const handleUser = ((id) =>{ 
     axios
-      .get("http://localhost:5000/department/" + depId)
+      .get("http://localhost:5000/student/getTranscript/id=" + id)
       .then((response) => {
-        console.log(response.data.student[0]);
-        setData(response.data.student[0]);
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  });
 
   return (
     <>
