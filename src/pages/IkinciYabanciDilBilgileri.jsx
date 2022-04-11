@@ -131,7 +131,7 @@ const IkinciYabanciDilBilgileri = () => {
   };
 
   const setDepartmentDistribution = () => {
-    sflInformation?.distribution?.[0]?.department?.forEach((departmentSfl) => {
+    sflInformation?.dept?.forEach((departmentSfl) => {
       departmentDistribution.push({
         name: departmentSfl.name,
         value: departmentSfl.value,

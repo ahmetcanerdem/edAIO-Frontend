@@ -34,8 +34,10 @@ const initLesson = (data) => {
     { hours: "20.30-21.20" }
   );
 
-  data?.forEach((lesson) => {
-    scheduleHours.push({ hours: lesson.time }); // Current Lesson Program
+  data?.schedule?.forEach((lesson) => {
+    lesson?.schedule?.forEach((aHour) => {
+      scheduleHours.push({hours: aHour.time}); // Current Lesson Program
+    })
   });
 
   programData?.forEach((hour) => {
@@ -52,55 +54,58 @@ const initLesson = (data) => {
 
 function program(data, setSchedulePlan) {
   const programData = initLesson(data);
+  
+  data.schedule.forEach((lesson) => {
+    lesson?.schedule.forEach((aLesson)=>{
+      let value = 
+        lesson.name +
+        " Derslik: " +
+        aLesson.location + 
+        (!!aLesson.zoomId
+          ? " Zoom Id: " + aLesson.zoomId
+          : " ID Bekleniyor");
 
-  data?.forEach((lessonHour) => {
-    let value =
-      lessonHour.lectureName +
-      " Derslik: " +
-      lessonHour.location +
-      (!!lessonHour.zoomId
-        ? " Zoom Id: " + lessonHour.zoomId
-        : " ID Bekleniyor");
-
-    switch (lessonHour.day) {
-      case "Pazartesi":
-        programData.push({
-          hours: lessonHour.time,
-          pazartesi: value,
-        });
-        break;
-      case "Salı":
-        programData.push({
-          hours: lessonHour.time,
-          salı: value,
-        });
-        break;
-      case "Çarşamba":
-        programData.push({
-          hours: lessonHour.time,
-          çarşamba: value,
-        });
-        break;
-      case "Perşembe":
-        programData.push({
-          hours: lessonHour.time,
-          perşembe: value,
-        });
-        break;
-      case "Cuma":
-        programData.push({
-          hours: lessonHour.time,
-          cuma: value,
-        });
-        break;
-      case "Cumartesi":
-        programData.push({
-          hours: lessonHour.time,
-          cumartesi: value,
-        });
-        break;
-    }
+        switch(aLesson.day){
+          case 1:
+            programData.push({
+              hours: aLesson.time,
+              pazartesi: value,
+            });
+            break;
+          case 2:
+            programData.push({
+              hours: aLesson.time,
+              salı: value,
+            });
+            break;
+          case 3:
+            programData.push({
+              hours: aLesson.time,
+              çarşamba: value,
+            });
+            break;
+          case 4:
+            programData.push({
+              hours: aLesson.time,
+              perşembe: value,
+            });
+            break;
+          case 5:
+            programData.push({
+              hours: aLesson.time,
+              cuma: value,
+            });
+            break;
+          case 6:
+            programData.push({
+              hours: aLesson.time,
+              cumartesi: value,
+            });
+            break;
+        }
+    })
   });
+
   programData.sort((a, b) => a.hours.localeCompare(b.hours));
 
   const programArray = [];
@@ -111,7 +116,10 @@ function program(data, setSchedulePlan) {
         //önceki saatlerden biri oldu!.
         if (!!data.pazartesi) {
           if (!!programArray[i].pazartesi) {
-            programArray[i].pazartesi = [ programArray[i].pazartesi, data.pazartesi ];
+            if(!Array.isArray(programArray[i].pazartesi))
+              programArray[i].pazartesi = [programArray[i].pazartesi, data.pazartesi];
+            else
+              programArray[i].pazartesi = [ ...programArray[i].pazartesi, data.pazartesi ];
             added = true;
           }
           else{
@@ -121,7 +129,10 @@ function program(data, setSchedulePlan) {
         }
         if (!!data.salı) {
           if (!!programArray[i].salı) {
-            programArray[i].salı = [ programArray[i].salı, data.salı ];
+            if(!Array.isArray(programArray[i].salı))
+              programArray[i].salı = [programArray[i].salı, data.salı];
+            else
+              programArray[i].salı = [ ...programArray[i].salı, data.salı ];
             added = true;
           }
           else{
@@ -131,7 +142,10 @@ function program(data, setSchedulePlan) {
         }
         if (!!data.çarşamba) {
           if(!!programArray[i].çarşamba){
-            programArray[i].çarşamba = [ programArray[i].çarşamba, data.çarşamba ];
+            if(!Array.isArray(programArray[i].çarşamba))
+              programArray[i].çarşamba = [programArray[i].çarşamba, data.çarşamba];
+            else
+              programArray[i].çarşamba = [ ...programArray[i].çarşamba, data.çarşamba ];
             added = true;
           }
           else{
@@ -141,7 +155,10 @@ function program(data, setSchedulePlan) {
         }
         if (!!data.perşembe) {
           if(!!programArray[i].perşembe){
-            programArray[i].perşembe = [ programArray[i].perşembe, data.perşembe ];
+            if(!Array.isArray(programArray[i].perşembe))
+              programArray[i].perşembe = [programArray[i].perşembe, data.perşembe];
+            else
+              programArray[i].perşembe = [ ...programArray[i].perşembe, data.perşembe ];
             added = true;
           }
           else{
@@ -151,7 +168,10 @@ function program(data, setSchedulePlan) {
         }
         if (!!data.cuma) {
           if(!!programArray[i].cuma){
-            programArray[i].cuma = [ programArray[i].cuma, data.cuma ];
+            if(!Array.isArray(programArray[i].cuma))
+              programArray[i].cuma = [programArray[i].cuma, data.cuma];
+            else
+              programArray[i].cuma = [ ...programArray[i].cuma, data.cuma ];
             added = true;
           }
           else{
@@ -161,7 +181,10 @@ function program(data, setSchedulePlan) {
         }
         if (!!data.cumartesi) {
           if(!!programArray[i].cumartesi){
-            programArray[i].cumartesi = [ programArray[i].cumartesi, data.cumartesi ];
+            if(!Array.isArray(programArray[i].cumartesi))
+              programArray[i].cumartesi = [programArray[i].cumartesi, data.cumartesi];
+            else
+              programArray[i].cumartesi = [ ...programArray[i].cumartesi, data.cumartesi ];
             added = true;
           }
           else{
@@ -182,7 +205,8 @@ function program(data, setSchedulePlan) {
 const LectureSchedule = () => {
   const [data, setData] = useState(null);
   const [schedulePlan, setSchedulePlan] = useState(null);
-
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  const studentId = userInfo.studentId;
   const defaultSchedule = useMemo(()=>{
     return{
       tooltipComponent: CustomTooltip
@@ -191,7 +215,7 @@ const LectureSchedule = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:1337/curriculum")
+      .get("http://localhost:5000/student/getSchedule/id="+studentId)
       .then((response) => {
         setData(response.data);
       })
