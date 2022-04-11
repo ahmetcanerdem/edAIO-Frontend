@@ -34,8 +34,8 @@ const BlogPage = () => {
 				setLoading(false);
 			})
 			.catch((error) => {
-				console.log("errordayim");
 				console.log(error);
+				// localStorage.removeItem("loginData");
 			});
 	}, []
 	);
@@ -49,7 +49,7 @@ const BlogPage = () => {
 				console.log(response.data);
 			})
 			.catch((error) => {
-				console.log("errordayim");
+				// localStorage.removeItem("loginData");
 				console.log(error);
 			});
 	}, []

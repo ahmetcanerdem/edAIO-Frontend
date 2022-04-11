@@ -45,8 +45,8 @@ function AdminPage(props) {
 					setDepLoading(false);
 				})
 				.catch((error) => {
-
 					console.log(error);
+					// localStorage.removeItem("loginData");
 				});
 		}, []
 		);
@@ -70,9 +70,8 @@ function AdminPage(props) {
 					 setLecData(response.data[0])
 				})
 				.catch((error) => {
-
 					console.log(error);
-
+					// localStorage.removeItem("loginData");
 				});
 		});
 
@@ -113,9 +112,8 @@ function AdminPage(props) {
 					console.log(response.data)
 				})
 				.catch((error) => {
-					console.log("22222222222")
 					console.log(error);
-
+					// localStorage.removeItem("loginData");
 				});
 		});
 
@@ -195,47 +193,3 @@ function AdminPage(props) {
 }
 
 export default AdminPage;
-
-
-
-// import {useState, useEffect} from 'react';
-// import axios from 'axios';
-// function AdminPage (){
-    
-//     const [info, setInfo] = useState(null);
-
-    
-    
-  
-    
-//     const [data, setData] = useState(null);
-// 	useEffect(() => {
-// 		axios
-// 			.post(
-// 				"http://localhost:1337/appointments", {data}
-// 			)
-// 			.then((response) => {
-//                 console.log(response);
-// 			})
-// 			.catch((error) => {
-// 				console.log(error);
-// 			});
-// 	}, []
-// 	);
-
-//     const handleSubmit = () => {
-//         setInfo(info)
-//       };
-    
-//       return (
-//         <form >
-//           <label>
-//             Name:
-//             <input type="text" value={info} />
-//           </label>
-//           <button onClick={handleSubmit()}>Submit</button>
-//         </form>
-//       );
-    
-// };
-//   export default AdminPage;

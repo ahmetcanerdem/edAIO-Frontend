@@ -17,8 +17,8 @@ const GirisCikisSayfasi = () => {
       .then((res) => {
         console.log(res);
         if (!!res.data.user) {
-          localStorage.setItem("loginData", JSON.stringify(res.data));
-          setLoginData(res.data);
+          localStorage.setItem("loginData", JSON.stringify(res.data.user));
+          setLoginData(JSON.parse(localStorage.getItem("loginData")));
         }
       });
       console.log(localStorage.getItem("loginData"));
@@ -41,15 +41,15 @@ const GirisCikisSayfasi = () => {
   return (
     <header className="App-header">
       <div>
-        {loginData && !!loginData.user ? (
+        {!!loginData ? (
           <>
             {url === "/login" ? (
               <>
                 <div>
                   <h2 style={{ color: "red", textAlign: "center" }}>
-                    {loginData.user.name}
+                    {loginData.name}
                   </h2>
-                  <div style={{ color: "darkblue" }}>{loginData.user.email}</div>
+                  <div style={{ color: "darkblue" }}>{loginData.email}</div>
                 </div>
                 <div className="logout-button">
                   <button onClick={handleLogout}>Logout</button>

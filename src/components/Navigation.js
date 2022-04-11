@@ -15,7 +15,7 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      {!!loginData && !!loginData.user && (
+      {!!loginData && (
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <div className="container-navigation">
             <div>

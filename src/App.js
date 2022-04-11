@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -17,6 +17,7 @@ import AdminPage from "./pages/AdminPage";
 import { Appointment, PaymentInfo, InternshipInfo, Grades } from "./pages";
 
 function App() {
+
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
@@ -27,8 +28,8 @@ function App() {
     <Router>
       <div className="application-etuao">
         <Navigation />
-        <div className={!!loginData?.user ? "application-menu-container": "application-menu-container-first"}>
-          {loginData && !!loginData.user ? (
+        <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}>
+          {!!loginData ? (
             <div style = {{width: "100%", height: "100%"}}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
