@@ -7,9 +7,9 @@ const InternshipInfo = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:1337/internships")
+      .get("http://localhost:5000/student")
       .then((response) => {
-        setData(response.data);
+        setData(response.data.student[0]);
       })
       .catch((error) => {
         console.log(error);
@@ -38,7 +38,7 @@ const InternshipInfo = () => {
                 <div key={internship}>
                   <hr />
                   <Row>
-                    <Col>{internship.type}</Col>
+                    <Col>{internship.code}</Col>
                     <Col>{internship.year}</Col>
                     <Col>{internship.term}</Col>
                     <Col>{internship.companyName}</Col>

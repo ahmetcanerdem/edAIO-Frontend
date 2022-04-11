@@ -9,10 +9,10 @@ const InfoPage = () => {
   useEffect(() => {
     axios
       .get(
-        "http://localhost:1337/info"
+        "http://localhost:5000/student"
       )
       .then((response) => {
-        setData(response.data);
+        setData(response.data.student[0]);
       })
       .catch((error) => {
         console.log(error);

@@ -28,6 +28,7 @@ const BlogPage = () => {
 				"http://localhost:1337/blog"
 			)
 			.then((response) => {
+				console.log(response.data);
 				setData(response.data);
 				setCourse(response.data.lectures[0]);
 				setLoading(false);
