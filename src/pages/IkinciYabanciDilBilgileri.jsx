@@ -12,34 +12,19 @@ import { PieChart, Pie, Sector } from "recharts";
 import "../styles/Sfl.css";
 
 const IkinciYabanciDilBilgileri = () => {
-  /*
-  Sisteme giris yapan ID yi alacağı
-  Bu giriş sayfasında cekilip : 
-  JSON.parse(localStorage.getItem("loginData")).id ile 
-  doğruda id alıcam :
-  (("http://localhost:5000/student/getSFLanguage/id="+JSON.parse(localStorage.getItem("loginData")).id))
-  şeklinde atacağım.
-
-  let user = await axios.get("http://localhost:5000/getUser");
-    if (!!user.data) {
-      localStorage.setItem("loginData", JSON.stringify(user.data));
-    } else {
-      console.log(user.error);
-      yazacağım.
-    }
-  */
   const [sflInformation, setSflInformation] = useState(null);
   const [reload, setReload] = useState(1);
   const [sfl, setSfl] = useState(null);
   const [allDstr, setAllDstr] = useState(null);
   // const [facultyDstr, setFacultyDstr] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  const studentId = userInfo.studentId;
   const [departmentDstr, setDepartmentDstr] = useState(null);
   const [data, setData] = useState(null);
   const [isExpanded, setExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [distributeFunc, setDistributeFunc] = useState("");
 
-  const userIDTemp = "623e3bbb92a74c8f919058c7";
   const ALL = "Genel";
   const DEPARTMENT = "Bölüm Bazında";
 
@@ -66,7 +51,7 @@ const IkinciYabanciDilBilgileri = () => {
   ];
 
   useEffect(async () => {
-    let response = await axios.get("http://localhost:5000/student/getSFLanguage/id="+userIDTemp);
+    let response = await axios.get("http://localhost:5000/student/getSFLanguage/id="+studentId);
     if (!!response.data) {
       setSflInformation(response.data);
     } else {

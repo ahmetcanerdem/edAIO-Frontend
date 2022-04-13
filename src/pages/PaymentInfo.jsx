@@ -4,9 +4,12 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const PaymentInfo = () => {
   const [data, setData] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  const studentId = userInfo.studentId;
+
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:1337/payment")
+      .get("http://localhost:5000/student/getFeeInfo/id="+ studentId)
       .then((response) => {
         setData(response.data);
       })

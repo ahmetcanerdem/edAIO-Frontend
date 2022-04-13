@@ -6,11 +6,8 @@ import {
   LineChart,
   Line,
   XAxis,
-  YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
+  Tooltip
 } from "recharts";
 
 import fontawesome from "@fortawesome/fontawesome";
@@ -23,6 +20,7 @@ import {
 fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
   useEffect(() => {
     axios
       .get("http://localhost:5000/student")
@@ -64,16 +62,16 @@ const HomePage = () => {
       <div>
         <Row>
           <Col xs={8}></Col>
-          <Col>
+          {/* <Col>
             Rol:{" "}
             {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
               <>Admin</>
             ) : (
               <>Ogrenci</>
             )}
-          </Col>
+          </Col> */}
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {userInfo.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>

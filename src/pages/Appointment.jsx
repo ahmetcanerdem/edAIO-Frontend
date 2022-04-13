@@ -5,6 +5,7 @@ import { getCurrentDate } from "../helpers/functions";
 
 const Appointment = () => {
   const [data, setData] = useState(null);
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
   useEffect(() => {
     axios
       .get("http://localhost:5000/student")
@@ -33,16 +34,16 @@ const Appointment = () => {
       <div>
       <Row>
           <Col xs={8}></Col>
-          <Col>
+          {/* <Col>
             Rol:{" "}
-            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+            {userInfo?.isAdmin ? (
               <>Admin</>
             ) : (
               <>Ogrenci</>
             )}
-          </Col>
+          </Col> */}
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {userInfo.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
@@ -56,7 +57,7 @@ const Appointment = () => {
             <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
               <h2>Öğretim Görevlisi Randevuları:</h2>
               {!!data &&
-                data.lectureAppointments.map((lecture) => {
+                data?.lectureAppointments?.map((lecture) => {
                   const row = [];
 
                   row.push(
@@ -143,7 +144,7 @@ const Appointment = () => {
             <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
               <h2>Öğrenci İşleri Randevuları:</h2>
               {!!data &&
-                data.studentAffairsAppointments.map((studentAffairs) => {
+                data?.studentAffairsAppointments?.map((studentAffairs) => {
                   const row = [];
 
                   row.push(
@@ -224,7 +225,7 @@ const Appointment = () => {
             <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
               <h2>Danışman Öğretmen Randevuları:</h2>
               {!!data &&
-                data.advisorAppointments.map((advisor) => {
+                data?.advisorAppointments?.map((advisor) => {
                   const row = [];
                   row.push(
                     <Row key={advisor}>
@@ -303,7 +304,7 @@ const Appointment = () => {
               <h2>Bilişim Teknolojileri Randevuları:</h2>
               {!!data && (
                 <div>
-                  {data.ITAppointments.map((it) => {
+                  {data?.ITAppointments?.map((it) => {
                     const row = [];
                     row.push(
                       <Row key={it}>

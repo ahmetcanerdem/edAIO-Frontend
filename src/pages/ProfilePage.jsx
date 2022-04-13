@@ -7,7 +7,7 @@ import { getCurrentDate } from "../helpers/functions";
 
 function ProfilPage() {
   const [data, setData] = useState(null);
-  let studentNumber = "623e3bbb92a74c8f919058c7";
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
 
   useEffect(() => {
     axios.get("http://localhost:5000/student")
@@ -34,16 +34,16 @@ function ProfilPage() {
     <>
      <Row>
           <Col xs={8}></Col>
-          <Col>
+          {/* <Col>
             Rol:{" "}
             {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
               <>Admin</>
             ) : (
               <>Ogrenci</>
             )}
-          </Col>
+          </Col> */}
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {userInfo.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
@@ -141,73 +141,6 @@ function ProfilPage() {
           </Col>
         </Row>
       </Container>
-      {/* <Stack direction="horizontal" gap={3}>
-        <h1>Bilgilerim</h1>
-        {!!data ? (
-          <div className="role">Role: {data.role}</div>
-        ) : (
-          <div></div>
-        )}
-      </Stack>
-      {!!data ? (
-        <div className="bg">
-
-          <Stack direction="horizontal" gap={1}>
-            <img src={JSON.parse(localStorage.getItem("loginData")).picture} className="masked" />
-            <Stack>
-                <div>{JSON.parse(localStorage.getItem("loginData")).name}</div>
-              <Button className="btn-product" size="sm" href="#">{JSON.parse(localStorage.getItem("loginData")).email}</Button>
-              <Stack className="department" direction="horizontal" gap={3}>
-                <div>Department: </div>
-                <div className="ms-auto">{data.department}</div>
-              </Stack>
-              <Stack className="id" direction="horizontal" gap={3}>
-                <div>Student number: </div>
-                <div className="ms-auto">{data.id}</div>
-              </Stack>
-            </Stack>
-            <Stack className="ls">
-              <h3 className="head">Major Info</h3>
-              <Stack direction="horizontal">
-                <Stack className="o-t">
-                  <h4>{data.faculty}</h4>
-                  <div>{data.department}</div>
-                </Stack>
-                <div className="o-o">Grade: {data.class} </div>
-                <div className="o-o">GPA: {data.gpa} </div>
-              </Stack>
-              <Stack className="sch" direction="horizontal" gap={3}>
-                <div>Scholarship: </div>
-                <div className="ms-auto">{data.scholarship}</div>
-              </Stack>
-              <Stack className="term" direction="horizontal" gap={3}>
-                <div>Term: </div>
-                <div className="ms-auto">{data.term}</div>
-              </Stack>
-              <Stack className="curr" direction="horizontal" gap={3}>
-                <div>Curriculum: </div>
-                <div className="ms-auto">{data.curriculum}</div>
-              </Stack>
-              <Stack className="enr" direction="horizontal" gap={3}>
-                <div>Enrolled in: </div>
-                <div className="ms-auto">{data.createdAt}</div>
-              </Stack>
-              <Stack className="stat" direction="horizontal" gap={3}>
-                <div>Status: </div>
-                <div className="ms-auto">{data.status}</div>
-              </Stack>
-              <Stack direction="horizontal">
-                <div className="w-w">Credits Taken: {data.creditsTaken} </div>
-                <div className="w-w">Credits Completed: {data.credit} </div>
-              </Stack>
-            </Stack>
-          </Stack>
-        </div>
-      ) : (
-        <div>
-          Couldn't load data...
-        </div>
-      )} */}
     </>
   );
 }
