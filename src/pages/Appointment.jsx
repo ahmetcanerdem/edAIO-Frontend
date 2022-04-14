@@ -21,7 +21,9 @@ const Appointment = () => {
   const [buttons, setButtons] = useState(null);
   const [rowShown, setRowShown] = useState(null);
   const [shownPanelContext, setShownPanelContext] = useState();
-  const [buttonHeader, setButtonHeader] = useState("Öğretim Görevlisi Randevuları");
+  const [buttonHeader, setButtonHeader] = useState();
+  const [reload, setReload] = useState(1);
+
   useEffect(async () => {
     let response = await axios.get(
       "http://localhost:5000/student/getAppointment/id=" + studentId
@@ -182,7 +184,7 @@ const Appointment = () => {
   },[shownNewData]);
 
   return (
-    <>
+    reload && <>
       <div>
         <Accordion>
           <AccordionItem>
@@ -190,6 +192,7 @@ const Appointment = () => {
               onClick={(e) => {
                 setExpanded(!isExpanded);
                 setButtonHeader(e.target.innerText);
+                setReload(prevState => prevState + 1);
               }}
             >
               <AccordionItemButton>
@@ -201,9 +204,25 @@ const Appointment = () => {
             </AccordionItemHeading>
             {
               !!shownData && (
-                <AccordionItemPanel>{shownPanelContext}</AccordionItemPanel>
+                <AccordionItemPanel> {shownPanelContext}</AccordionItemPanel>
               )
             }
+          </AccordionItem>
+          <AccordionItem>
+            <AccordionItemHeading
+              onClick={(e) => {
+                setReload(prevState => prevState + 1);
+              }}
+            >
+              <AccordionItemButton>
+                <h4 className="accordion-item-button-header appointment">
+                  Randevu Al
+                </h4>
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              <h2>Loading</h2>
+            </AccordionItemPanel>
           </AccordionItem>
         </Accordion>
       </div>
