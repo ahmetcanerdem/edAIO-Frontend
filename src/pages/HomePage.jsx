@@ -36,6 +36,7 @@ const HomePage = () => {
     axios
       .get("http://localhost:5000/student/homePage/id=" + id)
       .then((response) => {
+        console.log(response.data)
         setData(response.data);
       })
       .catch((error) => {
@@ -84,7 +85,7 @@ const HomePage = () => {
           {!!data &&
             data.home.map((home) => {
               const row = [];
-
+              console.log(home)
               row.push(
                 <Row key={home}>
                   <Row>

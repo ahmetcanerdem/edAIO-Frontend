@@ -15,6 +15,8 @@ import BlogPage from "./pages/BlogPage";
 import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
 import AdminPage from "./pages/AdminPage";
 import { Appointment, PaymentInfo, InternshipInfo, Grades } from "./pages";
+import CreateUser from "./pages/CreateUser";
+
 
 function App() {
   const [loginData, setLoginData] = useState(
@@ -60,6 +62,8 @@ function App() {
                 />
                 <Route path="/login" element={<GirisCikisSayfasi />} />
                 <Route path="/admin" element={<AdminPage />} />
+                <Route path="/createUser" element={<CreateUser />} />
+                
               </Routes>
             </div>
           ) : (
