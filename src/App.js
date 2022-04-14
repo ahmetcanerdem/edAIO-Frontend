@@ -17,7 +17,6 @@ import AdminPage from "./pages/AdminPage";
 import { Appointment, PaymentInfo, InternshipInfo, Grades } from "./pages";
 
 function App() {
-
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
@@ -28,9 +27,15 @@ function App() {
     <Router>
       <div className="application-etuao">
         <Navigation />
-        <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}>
+        <div
+          className={
+            !!loginData
+              ? "application-menu-container"
+              : "application-menu-container-first"
+          }
+        >
           {!!loginData ? (
-            <div style = {{width: "100%", height: "100%"}}>
+            <div style={{ width: "100%", height: "100%" }}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />

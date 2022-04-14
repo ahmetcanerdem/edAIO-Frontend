@@ -8,7 +8,6 @@ export { default as IkinciYabanciDilBilgileri} from "./IkinciYabanciDilBilgileri
 export { default as AddressPage} from "./AddressPage";
 export { default as MidtermsPage} from "./MidtermsPage";
 export { default as BlogPage} from "./BlogPage";
-export { default as InfoPage} from "./InfoPage";
 export { default as MakeUpsPage} from "./MakeUpsPage";
 export { default as Appointment } from "./Appointment";
 export { default as PaymentInfo } from "./PaymentInfo";

@@ -4,10 +4,13 @@ import { NavDropdown, Nav, Container, Row, Col, Stack } from "react-bootstrap";
 import "../styles/Buttons.css";
 import "../styles/ProfilePage.css";
 import { getCurrentDate } from "../helpers/functions";
+import Spinner from '../components/Loading/spinner';
 
 function ProfilPage() {
   const [data, setData] = useState(null);
   let studentNumber = "623e3bbb92a74c8f919058c7";
+
+  const user = JSON.parse(localStorage.getItem("loginData"));
 
   useEffect(() => {
     axios.get("http://localhost:5000/student")
@@ -36,14 +39,14 @@ function ProfilPage() {
           <Col xs={8}></Col>
           <Col>
             Rol:{" "}
-            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+            {user.isAdmin ? (
               <>Admin</>
             ) : (
               <>Ogrenci</>
             )}
           </Col>
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {user.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
@@ -141,6 +144,7 @@ function ProfilPage() {
           </Col>
         </Row>
       </Container>
+
       {/* <Stack direction="horizontal" gap={3}>
         <h1>Bilgilerim</h1>
         {!!data ? (

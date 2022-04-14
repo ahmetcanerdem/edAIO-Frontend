@@ -5,6 +5,8 @@ import { getCurrentDate } from "../helpers/functions";
 
 const Appointment = () => {
   const [data, setData] = useState(null);
+  const user = JSON.parse(localStorage.getItem("loginData"));
+  
   useEffect(() => {
     axios
       .get("http://localhost:5000/student")
@@ -17,13 +19,14 @@ const Appointment = () => {
   }, []);
   const handleUser = ((id) =>{ 
     axios
-      .get("http://localhost:5000/appointment/id=" + id)
+      .get("http://localhost:5000/student/getAppointment/id=" + id)
       .then((response) => {
 
-        console.log(response);
+        console.log(JSON.parse(localStorage.getItem("loginData")));
         setData(response.data);
       })
       .catch((error) => {
+        console.log("AAAAAAAAAA");
         console.log(error);
       });
   });
@@ -35,14 +38,14 @@ const Appointment = () => {
           <Col xs={8}></Col>
           <Col>
             Rol:{" "}
-            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+            {user.isAdmin ? (
               <>Admin</>
             ) : (
               <>Ogrenci</>
             )}
           </Col>
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {user.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
@@ -56,7 +59,7 @@ const Appointment = () => {
             <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
               <h2>Öğretim Görevlisi Randevuları:</h2>
               {!!data &&
-                data.lectureAppointments.map((lecture) => {
+                data.lecturerAppointments.map((lecture) => {
                   const row = [];
 
                   row.push(

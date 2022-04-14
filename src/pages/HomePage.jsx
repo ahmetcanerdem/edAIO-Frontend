@@ -23,6 +23,8 @@ import {
 fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
+
+  const user = JSON.parse(localStorage.getItem("loginData"));
   useEffect(() => {
     axios
       .get("http://localhost:5000/student")
@@ -66,14 +68,14 @@ const HomePage = () => {
           <Col xs={8}></Col>
           <Col>
             Rol:{" "}
-            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
+            {user.isAdmin ? (
               <>Admin</>
             ) : (
               <>Ogrenci</>
             )}
           </Col>
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {user.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>

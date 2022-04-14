@@ -4,7 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 import convertToShortDate from "../helpers/functions";
-import columns from   "../helpers/table";
+import columns from "../helpers/table";
 
 const MakeUpsPage = () => {
   const [isLoading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ const MakeUpsPage = () => {
     const makeUp = [];
     let announcement = false;
     data?.makeUpExam.forEach((exam) => {
-      if(exam.makeUpExam.location != null){
+      if (exam.makeUpExam.location != null) {
         announcement = true;
       }
       makeUp.push({
@@ -44,7 +44,7 @@ const MakeUpsPage = () => {
         observer: exam.makeUpExam.observer,
       });
     });
-    if(announcement){
+    if (announcement) {
       setAnnouncement(announcement);
     }
     setMakeUpExam(makeUp);
@@ -53,7 +53,7 @@ const MakeUpsPage = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   } else if (!isAnnouncement) {
-    return <h2>Bütünleme Sınavları Döneminde Bulunmamaktayız.</h2>
+    return <h2>Bütünleme Sınavları Döneminde Bulunmamaktayız.</h2>;
   } else {
     return (
       <div style={{ width: "100%", height: "80%" }}>
