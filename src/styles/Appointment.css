@@ -1,0 +1,21 @@
+.button-appointment{
+    width: 50% !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    background-color: #86afef;
+    border: darkblue solid 1px;
+}
+
+.accordion-item-button-header.appointment{
+    text-align: center;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+}
+
+.button-appointment-div{
+    margin-left: 10% !important;
+}

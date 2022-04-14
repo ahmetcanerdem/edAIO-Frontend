@@ -8,30 +8,30 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+import "../styles/Appointment.css";
 
 const Appointment = () => {
   const [data, setData] = useState(null);
-  const [reload, setReload] = useState(1);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
   const studentId = userInfo.studentId;
   const [isExpanded, setExpanded] = useState(false);
   const [dataClassification, setDataClassification] = useState([]);
   const [shownData, setShownData] = useState(null);
-  const [shownRows, setShownRows] = useState(null);
+  const [shownNewData, setNewShownData] = useState(null);
   const [buttons, setButtons] = useState(null);
-
+  const [rowShown, setRowShown] = useState(null);
+  const [shownPanelContext, setShownPanelContext] = useState();
+  const [buttonHeader, setButtonHeader] = useState("Öğretim Görevlisi Randevuları");
   useEffect(async () => {
     let response = await axios.get(
       "http://localhost:5000/student/getAppointment/id=" + studentId
     );
     if (!!response.data) {
       setData(response.data);
-      setDataWithDatabase();
-    }
-    else console.log(response.error);
+    } else console.log(response.error);
   }, []);
 
-  const setDataWithDatabase = () => {
+  useEffect(async () => {
     if (!!data) {
       const classifications = [
         {
@@ -39,7 +39,7 @@ const Appointment = () => {
           appointmentHeader: "Öğretim Görevlisi",
           appointments: data.lecturerAppointments,
           code: data.lecturerAppointments.code,
-          attName: "teacherName",
+          attName: "appointmentsWith",
         },
         {
           header: "Öğrenci İşleri Randevuları",
@@ -47,7 +47,7 @@ const Appointment = () => {
           appointments: data.studentAffairsAppointments,
           toAppointment: data.studentAffairsAppointments.appointmentToName,
           code: data.studentAffairsAppointments.code,
-          attName: "personnelName",
+          attName: "appointmentsWith",
         },
         {
           header: "Danışman Öğretmen Randevuları",
@@ -55,35 +55,30 @@ const Appointment = () => {
           appointments: data.advisorAppointments,
           toAppointment: data.advisorAppointments.appointmentToName,
           code: data.advisorAppointments.code,
-          attName: "teacherName",
+          attName: "appointmentsWith",
         },
         {
           header: "Bilişim Teknolojileri Randevuları",
+          appointmentHeader: "IT Yetkilisi",
           appointments: data.ITAppointments,
           toAppointment: data.ITAppointments.appointmentToName,
           code: data.ITAppointments.code,
-          attName: "personnelName",
+          attName: "appointmentsWith",
         },
       ];
       setDataClassification(classifications);
-      setButtonsByClassification();
     }
-  }
+  }, [data]);
 
-  const setButtonsByClassification = () => {
+  useEffect(async () => {
     if (dataClassification.length > 0) {
       const options = [];
       dataClassification.forEach((classfct) => {
         options.push(
-          <div style={{ textAlign: "center", width: "100% !important" }}>
-            <button
-              style={{
-                backgroundColor: "#86afef",
-                border: "darkblue solid 1px",
-                width: "75% !important",
-              }}
+          <div className="button-appointment-div">
+            <button className="button-appointment"
               onClick={(e) => {
-                willBeShown(e.target.innerText);
+                setButtonHeader(e.target.innerText);
               }}
             >
               {classfct.header}
@@ -92,26 +87,24 @@ const Appointment = () => {
         );
       });
       setButtons(options);
-      setReload(prevState => prevState + 1);
     }
-  };
+  }, [dataClassification]);
 
-  const willBeShown = (shownAppointments) => {
+  useEffect(async () => {
     let classificationShown = null;
     dataClassification.forEach((clss) => {
-      if (clss.header == shownAppointments) {
+      if (clss.header == buttonHeader) {
         classificationShown = clss;
       }
     });
     setShownData(classificationShown);
-    setRowsByShownButton();
-  };
+  }, [buttonHeader]);
 
-  const setRowsByShownButton = () => {
+  useEffect(async () => {
     if (!!shownData) {
       const rows = [];
       shownData?.appointments?.forEach((appointment) => {
-        setShownData({
+        setNewShownData({
           ...shownData,
           toAppointment: appointment[shownData.attName],
         });
@@ -132,86 +125,85 @@ const Appointment = () => {
             </Row>
           );
         });
+        setRowShown(rows);
       });
-      setShownRows(rows);
     }
-  }
+  }, [shownData]);
+
+  useEffect(()=>{
+      setShownPanelContext(
+        <Row>
+          <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
+            <h2>{shownNewData?.header}</h2>
+            <Row>
+              <div>
+                <Row style={{ paddingBottom: 10, paddingTop: 10 }}>
+                  <Container
+                    style={{
+                      paddingBottom: 10,
+                      paddingTop: 10,
+                      backgroundColor: `#dcdcdc`,
+                      borderRadius: 10,
+                      border: "2px solid gray",
+                    }}
+                  >
+                    <Row>
+                      <Col style={{ fontWeight: "bold" }}>
+                        {shownNewData?.appointmentHeader
+                          ? shownNewData.appointmentHeader +
+                            ": " +
+                            shownNewData?.toAppointment
+                          : null}
+                      </Col>
+                    </Row>
+                  </Container>
+                </Row>
+                <Row>
+                  <Container
+                    style={{
+                      backgroundColor: `#dcdcdc`,
+                      borderRadius: 10,
+                      border: "2px solid gray",
+                    }}
+                  >
+                    <Row style={{ fontWeight: "bold", paddingLeft: 10 }}>
+                      Randevular:{" "}
+                    </Row>
+                    <Container style={{ paddingTop: 10, paddingBottom: 10 }}>
+                      {rowShown}
+                    </Container>
+                  </Container>
+                </Row>
+              </div>
+            </Row>
+          </Container>
+        </Row>
+      );
+  },[shownNewData]);
 
   return (
-    reload && <>
+    <>
       <div>
         <Accordion>
           <AccordionItem>
             <AccordionItemHeading
-              onClick={() => {
+              onClick={(e) => {
                 setExpanded(!isExpanded);
-                setReload(prevState => prevState + 1)
+                setButtonHeader(e.target.innerText);
               }}
             >
               <AccordionItemButton>
-                <h4 className="accordion-item-button-header">
+                <h4 className="accordion-item-button-header appointment">
                   Randevuları Görüntüle
                 </h4>
                 {buttons}
               </AccordionItemButton>
             </AccordionItemHeading>
-
-            <AccordionItemPanel>
-              {!!shownData && (
-                <Row>
-                  <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
-                    <h2>{shownData?.header}</h2>
-                    <Row>
-                      <div>
-                        <Row style={{ paddingBottom: 10, paddingTop: 10 }}>
-                          <Container
-                            style={{
-                              paddingBottom: 10,
-                              paddingTop: 10,
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                            }}
-                          >
-                            <Row>
-                              <Col style={{ fontWeight: "bold" }}>
-                                <div>
-                                  {shownData?.appointmentHeader
-                                    ? shownData.appointmentHeader +
-                                      ": " +
-                                      shownData.toAppointment
-                                    : null}
-                                </div>
-                              </Col>
-                            </Row>
-                          </Container>
-                        </Row>
-                        <Row>
-                          <Container
-                            style={{
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                            }}
-                          >
-                            <Row
-                              style={{ fontWeight: "bold", paddingLeft: 10 }}
-                            >
-                              Randevular:{" "}
-                            </Row>
-                            <Container
-                              style={{ paddingTop: 10, paddingBottom: 10 }}
-                            >
-                              {shownRows}
-                            </Container>
-                          </Container>
-                        </Row>
-                      </div>
-                    </Row>
-                  </Container>
-                </Row>
-              )}
-            </AccordionItemPanel>
+            {
+              !!shownData && (
+                <AccordionItemPanel>{shownPanelContext}</AccordionItemPanel>
+              )
+            }
           </AccordionItem>
         </Accordion>
       </div>
