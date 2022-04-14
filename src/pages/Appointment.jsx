@@ -1,67 +1,167 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { getCurrentDate } from "../helpers/functions";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from "react-accessible-accordion";
 
 const Appointment = () => {
   const [data, setData] = useState(null);
+  const [reload, setReload] = useState(1);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/student")
-      .then((response) => {
-        handleUser(response.data.student[0]._id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  const handleUser = ((id) =>{ 
-    axios
-      .get("http://localhost:5000/appointment/id=" + id)
-      .then((response) => {
+  const studentId = userInfo.studentId;
+  const [isExpanded, setExpanded] = useState(false);
+  const [dataClassification, setDataClassification] = useState([]);
+  const [shownData, setShownData] = useState(null);
+  const [shownRows, setShownRows] = useState(null);
+  const [buttons, setButtons] = useState(null);
 
-        console.log(response);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
+  useEffect(async () => {
+    let response = await axios.get(
+      "http://localhost:5000/student/getAppointment/id=" + studentId
+    );
+    if (!!response.data) {
+      setData(response.data);
+      setDataWithDatabase();
+    }
+    else console.log(response.error);
+  }, []);
+
+  const setDataWithDatabase = () => {
+    if (!!data) {
+      const classifications = [
+        {
+          header: "Öğretim Görevlisi Randevuları",
+          appointmentHeader: "Öğretim Görevlisi",
+          appointments: data.lecturerAppointments,
+          code: data.lecturerAppointments.code,
+          attName: "teacherName",
+        },
+        {
+          header: "Öğrenci İşleri Randevuları",
+          appointmentHeader: "Personel",
+          appointments: data.studentAffairsAppointments,
+          toAppointment: data.studentAffairsAppointments.appointmentToName,
+          code: data.studentAffairsAppointments.code,
+          attName: "personnelName",
+        },
+        {
+          header: "Danışman Öğretmen Randevuları",
+          appointmentHeader: "Danışman Öğretmen",
+          appointments: data.advisorAppointments,
+          toAppointment: data.advisorAppointments.appointmentToName,
+          code: data.advisorAppointments.code,
+          attName: "teacherName",
+        },
+        {
+          header: "Bilişim Teknolojileri Randevuları",
+          appointments: data.ITAppointments,
+          toAppointment: data.ITAppointments.appointmentToName,
+          code: data.ITAppointments.code,
+          attName: "personnelName",
+        },
+      ];
+      setDataClassification(classifications);
+      setButtonsByClassification();
+    }
+  }
+
+  const setButtonsByClassification = () => {
+    if (dataClassification.length > 0) {
+      const options = [];
+      dataClassification.forEach((classfct) => {
+        options.push(
+          <div style={{ textAlign: "center", width: "100% !important" }}>
+            <button
+              style={{
+                backgroundColor: "#86afef",
+                border: "darkblue solid 1px",
+                width: "75% !important",
+              }}
+              onClick={(e) => {
+                willBeShown(e.target.innerText);
+              }}
+            >
+              {classfct.header}
+            </button>
+          </div>
+        );
       });
-  });
+      setButtons(options);
+      setReload(prevState => prevState + 1);
+    }
+  };
+
+  const willBeShown = (shownAppointments) => {
+    let classificationShown = null;
+    dataClassification.forEach((clss) => {
+      if (clss.header == shownAppointments) {
+        classificationShown = clss;
+      }
+    });
+    setShownData(classificationShown);
+    setRowsByShownButton();
+  };
+
+  const setRowsByShownButton = () => {
+    if (!!shownData) {
+      const rows = [];
+      shownData?.appointments?.forEach((appointment) => {
+        setShownData({
+          ...shownData,
+          toAppointment: appointment[shownData.attName],
+        });
+        appointment?.appointments?.forEach((anApp) => {
+          rows.push(
+            <Row style={{ paddingTop: 5 }}>
+              <Container
+                style={{
+                  backgroundColor: `#CDCFCE`,
+                  borderRadius: 10,
+                  border: "1px solid gray",
+                  paddingLeft: 20,
+                }}
+              >
+                <Row>Tarih: {anApp.date}</Row>
+                <Row>Saat: {anApp.hours}</Row>
+              </Container>
+            </Row>
+          );
+        });
+      });
+      setShownRows(rows);
+    }
+  }
 
   return (
-    <>
+    reload && <>
       <div>
-      <Row>
-          <Col xs={8}></Col>
-          {/* <Col>
-            Rol:{" "}
-            {userInfo?.isAdmin ? (
-              <>Admin</>
-            ) : (
-              <>Ogrenci</>
-            )}
-          </Col> */}
-          <Col>
-            Merhaba {userInfo.name}
-          </Col>
-        </Row>
-        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
-          <Col xs={10}>
-            <h2>Randevular</h2>
-          </Col>
-          <Col>Bugun: {getCurrentDate("/")}</Col>
-        </Row>
-        <Container>
-          <Row>
-            <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
-              <h2>Öğretim Görevlisi Randevuları:</h2>
-              {!!data &&
-                data?.lectureAppointments?.map((lecture) => {
-                  const row = [];
+        <Accordion>
+          <AccordionItem>
+            <AccordionItemHeading
+              onClick={() => {
+                setExpanded(!isExpanded);
+                setReload(prevState => prevState + 1)
+              }}
+            >
+              <AccordionItemButton>
+                <h4 className="accordion-item-button-header">
+                  Randevuları Görüntüle
+                </h4>
+                {buttons}
+              </AccordionItemButton>
+            </AccordionItemHeading>
 
-                  row.push(
-                    <Row key={lecture}>
+            <AccordionItemPanel>
+              {!!shownData && (
+                <Row>
+                  <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
+                    <h2>{shownData?.header}</h2>
+                    <Row>
                       <div>
                         <Row style={{ paddingBottom: 10, paddingTop: 10 }}>
                           <Container
@@ -75,18 +175,13 @@ const Appointment = () => {
                           >
                             <Row>
                               <Col style={{ fontWeight: "bold" }}>
-                                Ders Kodu:{" "}
-                              </Col>
-                              <Col style={{ paddingRight: 800 }}>
-                                {lecture.code}
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col style={{ fontWeight: "bold" }}>
-                                Öğretim Görevlisi:
-                              </Col>
-                              <Col style={{ paddingRight: 800 }}>
-                                {lecture.teacherName}
+                                <div>
+                                  {shownData?.appointmentHeader
+                                    ? shownData.appointmentHeader +
+                                      ": " +
+                                      shownData.toAppointment
+                                    : null}
+                                </div>
                               </Col>
                             </Row>
                           </Container>
@@ -107,232 +202,18 @@ const Appointment = () => {
                             <Container
                               style={{ paddingTop: 10, paddingBottom: 10 }}
                             >
-                              {lecture.appointments.map((appointment) => {
-                                const row2 = [];
-                                row2.push(
-                                  <Row
-                                    key={appointment}
-                                    style={{ paddingTop: 5 }}
-                                  >
-                                    <Container
-                                      style={{
-                                        backgroundColor: `#CDCFCE`,
-                                        borderRadius: 10,
-                                        border: "1px solid gray",
-                                        paddingLeft: 20,
-                                      }}
-                                    >
-                                      <Row>Date: {appointment.date}</Row>
-                                      <Row>Hours: {appointment.hours}</Row>
-                                    </Container>
-                                  </Row>
-                                );
-                                return row2;
-                              })}
+                              {shownRows}
                             </Container>
                           </Container>
                         </Row>
                       </div>
                     </Row>
-                  );
-                  return row;
-                })}
-            </Container>
-          </Row>
-
-          <Row>
-            <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
-              <h2>Öğrenci İşleri Randevuları:</h2>
-              {!!data &&
-                data?.studentAffairsAppointments?.map((studentAffairs) => {
-                  const row = [];
-
-                  row.push(
-                    <Row key={studentAffairs}>
-                      <div>
-                        <Row style={{ paddingTop: 10, paddingBottom: 10 }}>
-                          <Container
-                            style={{
-                              paddingBottom: 10,
-                              paddingTop: 10,
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                            }}
-                          >
-                            <Row>
-                              <Col style={{ fontWeight: "bold" }}>
-                                Personel:
-                              </Col>
-                              <Col style={{ paddingRight: 800 }}>
-                                {studentAffairs.personnelName}
-                              </Col>
-                            </Row>
-                          </Container>
-                        </Row>
-                        <Row>
-                          <Container
-                            style={{
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                            }}
-                          >
-                            <Row
-                              style={{ fontWeight: "bold", paddingLeft: 10 }}
-                            >
-                              Randevular:{" "}
-                            </Row>
-
-                            <Container
-                              style={{ paddingTop: 10, paddingBottom: 10 }}
-                            >
-                              {studentAffairs.appointments.map(
-                                (appointment) => {
-                                  const row2 = [];
-                                  row2.push(
-                                    <Row
-                                      key={appointment}
-                                      style={{ paddingTop: 5 }}
-                                    >
-                                      <Container
-                                        style={{
-                                          backgroundColor: `#CDCFCE`,
-                                          borderRadius: 10,
-                                          border: "1px solid gray",
-                                          paddingLeft: 20,
-                                        }}
-                                      >
-                                        <Row>Tarih: {appointment.date}</Row>
-                                        <Row>Saat: {appointment.hours}</Row>
-                                      </Container>
-                                    </Row>
-                                  );
-                                  return row2;
-                                }
-                              )}
-                            </Container>
-                          </Container>
-                        </Row>
-                      </div>
-                    </Row>
-                  );
-                  return row;
-                })}
-            </Container>
-          </Row>
-          <Row>
-            <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
-              <h2>Danışman Öğretmen Randevuları:</h2>
-              {!!data &&
-                data?.advisorAppointments?.map((advisor) => {
-                  const row = [];
-                  row.push(
-                    <Row key={advisor}>
-                      <div>
-                        <Row style={{ paddingTop: 10, paddingBottom: 10 }}>
-                          <Container
-                            style={{
-                              paddingBottom: 10,
-                              paddingTop: 10,
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                            }}
-                          >
-                            <Row>
-                              <Col style={{ fontWeight: "bold" }}>
-                                Danışman Öğretmen:
-                              </Col>
-                              <Col style={{ paddingRight: 800 }}>
-                                {advisor.teacherName}
-                              </Col>
-                            </Row>
-                          </Container>
-                        </Row>
-                        <Row>
-                          <Container
-                            style={{
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                            }}
-                          >
-                            <Row
-                              style={{ fontWeight: "bold", paddingLeft: 10 }}
-                            >
-                              Randevular:{" "}
-                            </Row>
-                            <Container
-                              style={{ paddingTop: 10, paddingBottom: 10 }}
-                            >
-                              {advisor.appointments.map((appointment) => {
-                                const row2 = [];
-                                row2.push(
-                                  <Row
-                                    key={appointment}
-                                    style={{ paddingTop: 5 }}
-                                  >
-                                    <Container
-                                      style={{
-                                        backgroundColor: `#CDCFCE`,
-                                        borderRadius: 10,
-                                        border: "1px solid gray",
-                                        paddingLeft: 20,
-                                      }}
-                                    >
-                                      <Row>Tarih: {appointment.date}</Row>
-                                      <Row>Saat: {appointment.hours}</Row>
-                                    </Container>
-                                  </Row>
-                                );
-                                return row2;
-                              })}
-                            </Container>
-                          </Container>
-                        </Row>
-                      </div>
-                    </Row>
-                  );
-                  return row;
-                })}
-            </Container>
-          </Row>
-
-          <Row>
-            <Container style={{ paddingBottom: 20, paddingTop: 20 }}>
-              <h2>Bilişim Teknolojileri Randevuları:</h2>
-              {!!data && (
-                <div>
-                  {data?.ITAppointments?.map((it) => {
-                    const row = [];
-                    row.push(
-                      <Row key={it}>
-                        <div>
-                          <Row style={{ paddingTop: 10, paddingBottom: 10 }}>
-                            <Container
-                              style={{
-                                paddingBottom: 10,
-                                paddingTop: 10,
-                                backgroundColor: `#dcdcdc`,
-                                borderRadius: 10,
-                                border: "2px solid gray",
-                              }}
-                            >
-                              <Row style={{paddingLeft: 20}}>Tarih: {it.date}</Row>
-                              <Row style={{paddingLeft: 20}}>Saat: {it.hours}</Row>
-                            </Container>
-                          </Row>
-                        </div>
-                      </Row>
-                    );
-                    return row;
-                  })}
-                </div>
+                  </Container>
+                </Row>
               )}
-            </Container>
-          </Row>
-        </Container>
+            </AccordionItemPanel>
+          </AccordionItem>
+        </Accordion>
       </div>
     </>
   );
