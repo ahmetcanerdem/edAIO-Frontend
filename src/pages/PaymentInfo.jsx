@@ -9,15 +9,25 @@ const PaymentInfo = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/student/getFeeInfo/id="+ studentId)
+      .get("http://localhost:5000/student")
       .then((response) => {
-        setData(response.data);
+        handleUser(response.data.student[0]._id);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
+  const handleUser = ((id) =>{ 
+    axios
+      .get("http://localhost:5000/student/getFeeInfo/id=" + id)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
   return (
     <>
       <div class="row">
@@ -34,7 +44,7 @@ const PaymentInfo = () => {
           {!!data &&
             data.payments.map((payment) => {
               const row = [];
-
+              {console.log(payment)}
               row.push(
                 <div key={payment}>
                   <hr />
