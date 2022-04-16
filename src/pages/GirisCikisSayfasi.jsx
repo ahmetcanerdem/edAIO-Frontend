@@ -19,25 +19,12 @@ const GirisCikisSayfasi = () => {
         if (!!res.data.user) {
           localStorage.setItem("loginData", JSON.stringify(res.data.user));
           setLoginData(JSON.parse(localStorage.getItem("loginData")));
-          handleUser();
         }
       });
       console.log(localStorage.getItem("loginData"));
   }, []);
 
-  const handleUser = () => {
-    if (JSON.parse(localStorage.getItem("loginData")).isRegistered) {
-    axios
-      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
-      .then((response) => {
-        console.log(response.data)
-        localStorage.setItem("userData", JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }
-  }
+
 
   const handleLogout = () => {
     console.log("logout");

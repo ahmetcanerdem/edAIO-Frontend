@@ -8,12 +8,16 @@ export default function convertToShortDate(str){
 }
 export function getCurrentDate(separator=''){
 
+    let week = new Array('Pazar', 'Pazartesi', 'Sali', 'Carsamba', 'Persembe', 'Cuma', 'Cumartesi');
+    let months = new Array('Ocak', 'Subat', 'Mart', 'Nisan', 'Mayis', 'Haziran', 'Temmuz', 'Agustos', 'Eylul', 'Ekim', 'Kasim', 'Aralik');
     let newDate = new Date()
     let date = newDate.getDate();
     let month = newDate.getMonth() + 1;
     let year = newDate.getFullYear();
+    let day  = week[newDate.getDay()];
+    let monthName = months[newDate.getMonth()];
     
-    return `${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year}`
+    return `${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year} ${day} ${monthName}`
 }
 
 // export default function timeArrival(str){
