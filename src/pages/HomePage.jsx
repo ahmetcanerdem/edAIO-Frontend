@@ -21,9 +21,22 @@ fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  console.log(userInfo);
-  console.log("hebele")
   useEffect(() => {
+    axios
+      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
+      .then((response) => {
+        
+        console.log(response.data)
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        handleHome()
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    
+  }, []);
+
+  const handleHome = () => {
     axios
       .get("http://localhost:5000/student/homePage/id=" + JSON.parse(localStorage.getItem("userData")).id)
       .then((response) => {
@@ -33,13 +46,10 @@ const HomePage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
-  const handleHome = () => {
-    
   };
 
   const [datas, setDatas] = useState(null);
+  
   useEffect(() => {
     if (!!data) {
       const gpasData = [];

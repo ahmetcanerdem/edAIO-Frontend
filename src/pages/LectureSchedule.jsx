@@ -205,8 +205,8 @@ function program(data, setSchedulePlan) {
 const LectureSchedule = () => {
   const [data, setData] = useState(null);
   const [schedulePlan, setSchedulePlan] = useState(null);
-  const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const userInfo = JSON.parse(localStorage.getItem("userData"));
+  const studentId = userInfo.id;
   const defaultSchedule = useMemo(()=>{
     return{
       tooltipComponent: CustomTooltip
