@@ -51,7 +51,7 @@ const IkinciYabanciDilBilgileri = () => {
   ];
 
   useEffect(async () => {
-    let response = await axios.get("http://localhost:5000/student/getSFLanguage/id="+studentId);
+    let response = await axios.get("http://localhost:5000/student/getSFLanguage/id=" + studentId);
     if (!!response.data) {
       setSflInformation(response.data);
     } else {

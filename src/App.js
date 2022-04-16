@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -15,9 +15,13 @@ import BlogPage from "./pages/BlogPage";
 import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
 import AdminPage from "./pages/AdminPage";
 import { Appointment, PaymentInfo, InternshipInfo, Grades } from "./pages";
+import CreateUser from "./pages/CreateUser";
+import AddStudent from "./pages/AddStudent";
+import AddLecturer from "./pages/AddLecturer";
+import AddPersonnel from "./pages/AddPersonnel";
+
 
 function App() {
-
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
@@ -28,9 +32,9 @@ function App() {
     <Router>
       <div className="application-etuao">
         <Navigation />
-        <div className={!!loginData ? "application-menu-container": "application-menu-container-first"}>
+        <div className="application-menu-container">
           {!!loginData ? (
-            <div style = {{width: "100%", height: "100%"}}>
+            <div>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
@@ -61,6 +65,11 @@ function App() {
                 />
                 <Route path="/login" element={<GirisCikisSayfasi />} />
                 <Route path="/admin" element={<AdminPage />} />
+                <Route path="/createUser" element={<CreateUser />} />
+                <Route path="/addStudent" element={<AddStudent />} />
+                <Route path="/addLecturer" element={<AddLecturer />} />
+                <Route path="/addPersonnel" element={<AddPersonnel/>} />
+                
               </Routes>
             </div>
           ) : (

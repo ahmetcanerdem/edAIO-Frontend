@@ -9,12 +9,23 @@ const InternshipInfo = () => {
     axios
       .get("http://localhost:5000/student")
       .then((response) => {
-        setData(response.data.student[0]);
+        handleUser(response.data.student[0]._id);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
+  const handleUser = ((id) =>{ 
+    axios
+      .get("http://localhost:5000/student/getInternship/id=" + id)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   return (
     <>

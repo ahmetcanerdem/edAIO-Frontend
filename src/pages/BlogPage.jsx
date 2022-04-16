@@ -21,39 +21,31 @@ const BlogPage = () => {
 	const [course, setCourse] = useState(null);
 	const [isLoading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
+  	const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/student")
+      .then((response) => {
+        handleHome(response.data.student[0]._id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-	useEffect(() => {
-		axios
-			.get(
-				"http://localhost:1337/blog"
-			)
-			.then((response) => {
-				console.log(response.data);
-				setData(response.data);
-				setCourse(response.data.lectures[0]);
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.log(error);
-				// localStorage.removeItem("loginData");
-			});
-	}, []
-	);
+  const handleHome = (id) => {
+    axios
+      .get("http://localhost:5000/course/getBlog/id=" + id)
+      .then((response) => {
+        console.log(response.data)
+        // setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+	
 
-	useEffect(() => {
-		axios
-			.post(
-				"http://192.168.0.11:3000/student"
-			)
-			.then((response) => {
-				console.log(response.data);
-			})
-			.catch((error) => {
-				// localStorage.removeItem("loginData");
-				console.log(error);
-			});
-	}, []
-	);
 
 	const handleNav = ((e) => {
 		if (e.target.text === "Q & A") {
