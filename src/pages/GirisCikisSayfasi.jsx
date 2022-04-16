@@ -24,7 +24,34 @@ const GirisCikisSayfasi = () => {
       console.log(localStorage.getItem("loginData"));
   }, []);
 
+<<<<<<< Updated upstream
 
+=======
+  const handleUser = () => {
+    if (JSON.parse(localStorage.getItem("loginData")).isRegistered) {
+      localStorage.setItem("userData", JSON.stringify({
+        id: "625a028dbc2928b8a98c61a4",
+        isStudent: true,
+        isLecturer: false,
+        isPersonnel: false
+    }));
+    axios
+      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
+      .then((response) => {
+        console.log(response.data)
+        localStorage.setItem("userData", JSON.stringify({
+          id: "625a028dbc2928b8a98c61a4",
+          isStudent: true,
+          isLecturer: false,
+          isPersonnel: false
+      }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+  }
+>>>>>>> Stashed changes
 
   const handleLogout = () => {
     console.log("logout");
