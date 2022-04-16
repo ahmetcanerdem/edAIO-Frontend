@@ -21,27 +21,33 @@ fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  console.log(userInfo);
+  console.log("hebele")
   useEffect(() => {
     axios
-      .get("http://localhost:5000/student")
+      .get("http://localhost:5000/user/getId/id=" + userInfo._id)
       .then((response) => {
-        handleHome(response.data.student[0]._id);
+        console.log(response.data)
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        handleHome();
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
-  const handleHome = (id) => {
-    axios
-      .get("http://localhost:5000/student/homePage/id=" + id)
-      .then((response) => {
-        console.log(response.data)
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleHome = () => {
+    console.log("AAAA")
+    console.log(JSON.parse(localStorage.getItem("userData")));
+    // axios
+    //   .get("http://localhost:5000/student/homePage/id=" + )
+    //   .then((response) => {
+    //     console.log(response.data)
+    //     setData(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   const [datas, setDatas] = useState(null);

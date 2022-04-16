@@ -13,21 +13,38 @@ const GirisCikisSayfasi = () => {
   useEffect(() => {
     console.log("girisCikisSayfasi");
     axios
-      .get("http://localhost:5000/getuser", { withCredentials: true })
+      .get("http://localhost:5000/getUser", { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        console.log(res.data, "  AAAAAA");
         if (!!res.data.user) {
           localStorage.setItem("loginData", JSON.stringify(res.data.user));
           setLoginData(JSON.parse(localStorage.getItem("loginData")));
+          handleUser();
         }
       });
       console.log(localStorage.getItem("loginData"));
   }, []);
 
+  const handleUser = () => {
+    if (JSON.parse(localStorage.getItem("loginData")).isRegistered) {
+    axios
+      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
+      .then((response) => {
+        console.log(response.data)
+        localStorage.setItem("userData", JSON.stringify(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+  }
+
   const handleLogout = () => {
+    console.log("logout");
     axios.get("http://localhost:5000/logout", {
             withCredentials: true
         }).then((res) => {
+            console.log("Alo")
             if (res.data === "done") {
                 localStorage.removeItem("loginData");
                 window.location.reload();

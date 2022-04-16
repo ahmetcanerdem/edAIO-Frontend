@@ -28,7 +28,7 @@ const CreateUser = () => {
   const requestUser = () => {
     axios
 
-      .get("http://192.168.0.11:5000/user?name=" + userName)
+      .get("http://localhost:5000/user?name=" + userName)
       .then((response) => {
         setUsers(response.data.users);
       })

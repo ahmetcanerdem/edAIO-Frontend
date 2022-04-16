@@ -22,20 +22,12 @@ const BlogPage = () => {
 	const [isLoading, setLoading] = useState(true);
 	const [data, setData] = useState(null);
   	const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/student")
-      .then((response) => {
-        handleHome(response.data.student[0]._id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+		const studentId = userInfo._id;
+		console.log(userInfo);
 
-  const handleHome = (id) => {
+		useEffect(() => {
     axios
-      .get("http://localhost:5000/course/getBlog/id=" + id)
+      .get("http://192.168.0.11:5000/course/getBlog/id=" + studentId)
       .then((response) => {
         console.log(response.data)
         // setData(response.data);
@@ -43,10 +35,7 @@ const BlogPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  };
-	
-
-
+		}, []);
 	const handleNav = ((e) => {
 		if (e.target.text === "Q & A") {
 			setQA(true);

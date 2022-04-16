@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
+import { NavLink, Nav } from "react-bootstrap";
+import "../styles/Buttons.css";
 
 const Derslerim = () => {
   const [dersler, derslerimiAyarla] = React.useState();
@@ -11,7 +13,7 @@ const Derslerim = () => {
   let buttons = [];
   const [butonDersler, butonDerslerEklensin] = useState([]);
   useEffect(async () => {
-    let findAllLessons = await axios.get("http://localhost:5000/course");
+    let findAllLessons = await axios.get("http://192.168.0.11:5000/course");
     if (!!findAllLessons.data) {
       derslerimiAyarla(findAllLessons.data);
     } else {
@@ -109,6 +111,10 @@ const Derslerim = () => {
       <div style={{maxHeight:"40rem", overflow: "auto"}}>
         <div style={{marginTop: "20px"}}>
           <h3 style={{ color: "red"}}>Ders Bilgileri</h3>
+          <Nav.Link className="button button-4" href="/courseSelection">
+          {" "}
+          Ders Secimi{" "}
+        </Nav.Link>
           <div>
             <div
               className="lessonInfo"
