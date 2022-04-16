@@ -7,29 +7,18 @@ import axios from "axios";
 const unselectedCourses = [];
 var courses = [];
 function CourseConfirmation() {
-	// const studentId = JSON.parse(localStorage.getItem("loginData"))._id;
+	const studentId = JSON.parse(localStorage.getItem("userData")).id;
   const location = useLocation();
-	const [id, setId] = useState(null);
 	const [confirmed, setConfirmed] = useState(false);
   const selectedCourses = location.state;
-  const server = "http://192.168.0.11:5000";
+  const server = "http://localhost:5000";
 
   if (unselectedCourses.length === 0) {
     for (let i = 0; i < selectedCourses.length; i++) {
       unselectedCourses.push(false);
     }
   }
-	
-	useEffect(() => {
-    axios
-      .get(server + "/student")
-      .then((response) => {
-      	setId(response.data.student[1]._id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+
 
   const handleConfirmation = (e) => {
 		if(e.target.checked){
@@ -40,9 +29,10 @@ function CourseConfirmation() {
 					courses.push(selectedCourses[i]);
 				}
 			}
+      console.log(courses)
 			axios({
 				method: "post",
-				url: server + "/student/addBulkCourse/studentId=" + id,
+				url: server + "/student/addCourse/sid=" + studentId,
 				data: {
 					courses: courses
 				},

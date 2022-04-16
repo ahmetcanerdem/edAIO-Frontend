@@ -25,11 +25,10 @@ const HomePage = () => {
   console.log("hebele")
   useEffect(() => {
     axios
-      .get("http://localhost:5000/user/getId/id=" + userInfo._id)
+      .get("http://localhost:5000/student/homePage/id=" + JSON.parse(localStorage.getItem("userData")).id)
       .then((response) => {
         console.log(response.data)
-        localStorage.setItem("userData", JSON.stringify(response.data));
-        handleHome();
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -37,17 +36,7 @@ const HomePage = () => {
   }, []);
 
   const handleHome = () => {
-    console.log("AAAA")
-    console.log(JSON.parse(localStorage.getItem("userData")));
-    // axios
-    //   .get("http://localhost:5000/student/homePage/id=" + )
-    //   .then((response) => {
-    //     console.log(response.data)
-    //     setData(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    
   };
 
   const [datas, setDatas] = useState(null);

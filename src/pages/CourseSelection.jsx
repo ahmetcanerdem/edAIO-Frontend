@@ -9,6 +9,8 @@ function CourseSelection() {
   const [courses, setCoursesData] = useState([]);
 
   const [courseSelected, setCourseSelected] = useState(false);
+
+  const userInfo = JSON.parse(localStorage.getItem("userData"));
   const server = "http://localhost:5000";
   const navigate = useNavigate();
 
@@ -26,10 +28,10 @@ function CourseSelection() {
 
   useEffect(() => {
     axios
-      .get(server + "/student")
+      .get(server + "/student/getProfile/id=" + userInfo.id)
       .then((response) => {
         console.log(response.data);
-        handleUser(response.data.student[0].department);
+        handleUser(response.data.departmentId);
       })
       .catch((error) => {
         console.log(error);

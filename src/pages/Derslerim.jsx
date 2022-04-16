@@ -11,9 +11,10 @@ const Derslerim = () => {
   const [reload, setReload] = useState(1);
   let courseInformation = [];
   let buttons = [];
+  const server = "http://localhost:5000";
   const [butonDersler, butonDerslerEklensin] = useState([]);
   useEffect(async () => {
-    let findAllLessons = await axios.get("http://192.168.0.11:5000/course");
+    let findAllLessons = await axios.get(server + "/course");
     if (!!findAllLessons.data) {
       derslerimiAyarla(findAllLessons.data);
     } else {
