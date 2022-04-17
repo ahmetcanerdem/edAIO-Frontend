@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../styles/HomePage.css";
 import { Container, Row, Col } from "react-bootstrap";
+import moment from "moment";
 
 const InternshipInfo = () => {
   const [data, setData] = useState(null);
@@ -53,8 +54,8 @@ const InternshipInfo = () => {
                     <Col>{internship.year}</Col>
                     <Col>{internship.term}</Col>
                     <Col>{internship.companyName}</Col>
-                    <Col>{internship.startDate}</Col>
-                    <Col>{internship.endDate}</Col>
+                    <Col>{moment(internship.startDate).format("DD/MM/YYYY")}</Col>
+                    <Col>{moment(internship.endDate).format("DD/MM/YYYY")}</Col>
                     <Col>{internship.grade}</Col>
                   </Row>
                 </div>
