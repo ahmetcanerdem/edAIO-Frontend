@@ -46,8 +46,7 @@ const AddAppointment = (props) => {
 
   const [reload, setReload] = React.useState(1);
   const [lecturerAppointment, setLecturerAppointment] = React.useState(false);
-  const [studentAffairsAppointment, setStudentAffairsAppointment] =
-    React.useState(false);
+  const [studentAffairsAppointment, setStudentAffairsAppointment] = React.useState(false);
   const [advisorAppointment, setAdvisorAppointment] = React.useState(false);
   const [itAppointment, setITAppointment] = React.useState(false);
 

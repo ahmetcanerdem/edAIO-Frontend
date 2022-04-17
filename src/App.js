@@ -5,7 +5,7 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import Navigation from "./components/Navigation";
 import LectureSchedule from "./pages/LectureSchedule";
-import Derslerim from "./pages/Derslerim";
+import CoursePage from "./pages/CoursePage";
 import DonemSonuSinavi from "./pages/DonemSonuSinavi";
 import IkinciYabanciDilBilgileri from "./pages/IkinciYabanciDilBilgileri";
 import AddressPage from "./pages/AddressPage";
@@ -60,7 +60,7 @@ function App() {
                     path="/semester/curriculum"
                     element={<LectureSchedule />}
                   />
-                  <Route path="/semester/courses" element={<Derslerim />} />
+                  <Route path="/semester/courses" element={<CoursePage />} />
                   <Route path="/exams/finals" element={<DonemSonuSinavi />} />
                   <Route
                     path="/profile/sfl"
