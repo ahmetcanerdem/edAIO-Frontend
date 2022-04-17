@@ -4,84 +4,66 @@ import "../styles/AddressPage.css";
 
 import { getCurrentDate } from "../helpers/functions";
 
-import { NavDropdown, Nav, Row, Container, Col } from "react-bootstrap";
+import { Nav, Row, Container, Col } from "react-bootstrap";
 
 const AddressPage = () => {
-  const [isAddrLoading, setAddrLoading] = useState(true);
-
-  const [isInfoLoading, setInfoLoading] = useState(true);
+  const [isAddrLoading, setAddrLoading] = useState(false);
+  const [isContactLoading, setContactLoading] = useState(false);
+  const [isInfoLoading, setInfoLoading] = useState(false);
+  const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  const dataUser = JSON.parse(localStorage.getItem("userData"));
+  const studentId = userInfo.studentId;
   const [info, setInfo] = useState(null);
+  const [addr, setAddr] = useState(null);
   const [data, setData] = useState(null);
   const [contacts, setContacts] = useState(null);
+  const [reload, setReload] = useState(1);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/student")
-      .then((response) => {
-        handleAddresses(response.data.student[0]._id);
-        handleUser(response.data.student[0]._id);
-        handleContacts(response.data.student[0]._id);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  useEffect(async () => {
+    if(!!studentId){
+      const getContacts = await axios.get("http://localhost:5000/student/getContact/id=" + studentId);
+      if (!!getContacts.data) {
+        setContacts(getContacts.data.contacts);
+        setContactLoading(false);
+      } else
+        console.log(getContacts.error);
+
+      const getProfile = await axios.get("http://localhost:5000/student/getProfile/id=" + studentId);
+      if (!!getProfile.data) {
+        setInfo(getProfile.data);
+        setInfoLoading(false);
+      }else
+        console.log(getProfile.error);
+
+      const getAddress = await axios.get("http://localhost:5000/student/getAddress/id=" + studentId);
+      if (!!getAddress.data) {
+        setAddr(getAddress.data.address);
+        setAddrLoading(false);
+      } else
+        console.log(getAddress.error);
+
+      setReload(prevState => prevState + 1);  
+    }
   }, []);
 
-  const handleContacts = (id) => {
-    axios
-      .get("http://localhost:5000/student/getContact/id=" + id)
-      .then((response) => {
-        console.log(response.data);
-        setContacts(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const handleUser = (id) => {
-    axios
-      .get("http://localhost:5000/student/getProfile/id=" + id)
-      .then((response) => {
-        console.log(response.data);
-        setInfo(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const handleAddresses = (id) => {
-    axios
-      .get("http://localhost:5000/student/getAddress/id=" + id)
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  if (isAddrLoading) {
-    return <div>Loading...</div>;
-  } else if (isInfoLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
+
+    !(isAddrLoading && isInfoLoading && isContactLoading) && reload && 
+    
     <>
       <div>
         <Row>
           <Col xs={8}></Col>
           <Col>
             Rol:{" "}
-            {JSON.parse(localStorage.getItem("userData")).isStudent ? (
+            {dataUser.isStudent ? (
               <>Ogrenci</>
             ) : (
               <>Ogretmen</>
             )}
           </Col>
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).name}
+            Merhaba {userInfo.name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
@@ -93,21 +75,16 @@ const AddressPage = () => {
         <div className="col-md-1" />
         <div className="col-md-3" style={{ padding: 10 }}>
           <div className="row">
-            <div className="col-md-4">
-              <img
-                className="pic"
-                src={JSON.parse(localStorage.getItem("loginData")).picture}
-              ></img>
-            </div>
+    
             <div className="col-md-8">
-              <div>{JSON.parse(localStorage.getItem("loginData")).name}</div>
-              <div>{info.department}</div>
+              <div>{userInfo.name}</div>
+              <div>{info?.department}</div>
             </div>
           </div>
-          <div>{info.id}</div>
-          <div>{JSON.parse(localStorage.getItem("loginData")).email}</div>
-          <div>{info.advisor}</div>
-          <div>{info.advisorMail}</div>
+          <div>{info?.id}</div>
+          <div>{userInfo.email}</div>
+          <div>{info?.advisor}</div>
+          <div>{info?.advisorMail}</div>
           <Nav className="button-container">
             <Row style={{ padding: 10 }}>
               <Row>
@@ -138,7 +115,7 @@ const AddressPage = () => {
           </Nav>
         </div>
         <div className="col-md-8">
-          <h4 className="res">Adres Bilgilerim</h4>
+          <h4 className="res" style={{marginTop: 140}}>Adres Bilgilerim</h4>
           <Container style={{ paddingRight: 40, paddingTop: 30 }}>
             <Container
               style={{
@@ -146,7 +123,6 @@ const AddressPage = () => {
                 borderRadius: 10,
                 border: "2px solid gray",
                 paddingRight: 10,
-                paddingTop: 10,
               }}
             >
               <Row style={{ textAlign: "left" }}>
@@ -156,16 +132,16 @@ const AddressPage = () => {
                 <Col>Ilce</Col>
                 <Col>Posta Kodu</Col>
               </Row>
-              {data.addresses.map((addr) => {
+              {addr?.map((address) => {
                 const row = [];
                 row.push(
-                  <Row key={addr} style={{ padding: 10 }}>
+                  <Row key={address} style={{ padding: 10 }}>
                     <Row style={{ textAlign: "left" }}>
-                      <Col>{addr.type}</Col>
-                      <Col>{addr.address}</Col>
-                      <Col>{addr.city}</Col>
-                      <Col>{addr.district}</Col>
-                      <Col>{addr.postalCode}</Col>
+                      <Col>{address?.addrType}</Col>
+                      <Col>{address?.country}</Col>
+                      <Col>{address?.city}</Col>
+                      <Col>{address?.state}</Col>
+                      <Col>{address?.postalCode}</Col>
                     </Row>
                     <hr />
                   </Row>
@@ -192,13 +168,13 @@ const AddressPage = () => {
                 <Col>Iletisim Turu</Col>
                 <Col>Iletisim Bilgisi</Col>
               </Row>
-              {contacts.contacts.map((addr) => {
+              {contacts?.map((contact) => {
                 const row = [];
                 row.push(
-                  <Row key={addr} style={{ padding: 10 }}>
+                  <Row key={contact} style={{ padding: 10 }}>
                     <Row style={{ textAlign: "left" }}>
-                      <Col>{addr.type}</Col>
-                      <Col>{addr.value}</Col>
+                      <Col>{contact?.name}</Col>
+                      <Col>{contact?.value}</Col>
                     </Row>
                     <hr />
                   </Row>

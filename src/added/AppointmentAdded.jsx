@@ -2,8 +2,7 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavDropdown, Col } from "react-bootstrap";
-import moment from 'moment'
-
+import convertToShortDate from "../helpers/functions";
 import {
   AccordionItem,
   AccordionItemHeading,
@@ -13,7 +12,8 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 
 const hours = [
-  { id: "first", value: "08:30-09:20" },
+  { id: "zero", value: "08:30-09:20"},
+  { id: "first", value: "08:30-09:20"},
   { id: "second", value: "09:30-10:20" },
   { id: "third", value: "10:30-11:20" },
   { id: "fourth", value: "11:30-12:20" },
@@ -29,7 +29,6 @@ const AddAppointment = (props) => {
   const [hoursSelected, setHoursSelected] = useState();
   const [dateSelected, setDateSelected] = useState();
   const [dateShown, setDateShown] = useState(new Date());
-  const [appoitmentWith, setAppoitmentWith] = useState();
   const [appointmentHeader, setAppointmentHeader] = useState();
 
   const [header, setHeader] = useState();
@@ -54,17 +53,22 @@ const AddAppointment = (props) => {
 
   const [yesShown, setYesNoShown] = React.useState(false);
 
-
   let appointment = {
     date: null,
-    hours: "08:30-09:20",
+    hours: "",
   };
 
   let optionList =
     hours.length > 0 &&
     hours.map((item, i) => {
       return (
-        <option key={i} value={item.value}>
+        <option
+          style={{
+            height: "50px",
+          }}
+          key={i}
+          value={item.value}
+        >
           {item.value}
         </option>
       );
@@ -165,7 +169,7 @@ const AddAppointment = (props) => {
   };
 
   const handleDateSetting = (date) => {
-    let stringDate = moment.utc(date).format();
+    let stringDate = convertToShortDate(date);
     setDateSelected(stringDate);
     setDateShown(date);
   };
@@ -182,52 +186,60 @@ const AddAppointment = (props) => {
     }
   };
 
+  useEffect(()=>{
+    console.log(hoursSelected);
+  },[hoursSelected])
+
   const FormShow = () => {
     return (
       <div>
         <h1>{header}</h1>
-        {yesShown && 
-        <form>
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">{formLabel}</label>
-            <Col xs={4}>
-              <NavDropdown className="button button-1" title={textForm}>
-                {buttons}
-              </NavDropdown>
-            </Col>
-          </div>
-          {!!selectedInfo && (
+        {yesShown && (
+          <form>
             <div className="form-group">
-              <label htmlFor="exampleInputEmail1">
-                Randevu Almak İstediğiniz Tarihi Giriniz:
-              </label>
+              <label htmlFor="exampleInputEmail1">{formLabel}</label>
               <Col xs={4}>
-                <DatePicker
-                  selected={dateShown}
-                  onChange={(date) => {
-                    handleDateSetting(date);
-                  }}
-                  dateFormat="mm/dd/yyyy"
-                ></DatePicker>
+                <NavDropdown className="button button-1" title={textForm}>
+                  {buttons}
+                </NavDropdown>
               </Col>
             </div>
-          )}
-          {!!dateSelected && !!selectedInfo && (
-            <div className="form-group">
-              <label htmlFor="exampleInputEmail1">
-                Randevu Almak İstediğiniz Saati Giriniz:
-              </label>
-              <Col xs={4}>
-                <select 
-                  onChange={(e)=>{
-                    setHoursSelected(e.target.value)}
-                  }
-                  selected={hoursSelected}
-                  >{optionList}</select>
-              </Col>
-            </div>
-          )}
-        </form>}
+            {!!selectedInfo && (
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">
+                  Randevu Almak İstediğiniz Tarihi Giriniz:
+                </label>
+                <Col xs={4}>
+                  <DatePicker
+                    selected={dateShown}
+                    onChange={(date) => {
+                      handleDateSetting(date);
+                    }}
+                    dateFormat="dd/MM/yyyy"
+                  ></DatePicker>
+                </Col>
+              </div>
+            )}
+            {!!dateSelected && !!selectedInfo && (
+              <div className="form-group">
+                <label htmlFor="exampleInputEmail1">
+                  Randevu Almak İstediğiniz Saati Giriniz:
+                </label>
+                <Col xs={4}>
+                  <select
+                    style={{
+                      height: "50px",
+                    }}
+                    onChange={(e) => setHoursSelected(e.target.value)}
+                    selected={hoursSelected}
+                  >
+                    {optionList}
+                  </select>
+                </Col>
+              </div>
+            )}
+          </form>
+        )}
         {!!dateSelected && !!selectedInfo && (
           <button
             type="submit"
