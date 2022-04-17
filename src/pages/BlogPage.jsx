@@ -19,6 +19,8 @@ const BlogPage = () => {
   const studentId = userInfo.id;
   const [isPosting, setPosting] = useState(false);
   const [courseId, setCourseId] = useState("");
+  const [rowsAssignmentRender, setRowsAssignmentRender] = React.useState();
+  const [rowsExamsRender, setRowsExamsRender] = React.useState();
   const userId = JSON.parse(localStorage.getItem("loginData"))._id;
   console.log(JSON.parse(localStorage.getItem("loginData")));
   let server = "http://localhost:5000";
@@ -98,7 +100,6 @@ const BlogPage = () => {
         createdBy: JSON.parse(localStorage.getItem("loginData"))._id,
       },
     });
-    
   };
 
   const handleResponseContent = (e) => {
@@ -115,7 +116,6 @@ const BlogPage = () => {
         createdBy: JSON.parse(localStorage.getItem("loginData"))._id,
       },
     });
-    
   };
 
   const [assignmentData, setAssignmentData] = useState(null);
@@ -240,7 +240,7 @@ const BlogPage = () => {
 
   const handleExamUpload = () => {
     setUploadingExam(false);
-    console.log(examData)
+    console.log(examData);
     const formData = new FormData();
     formData.append("file", examData.file);
     formData.append("title", examData.title);
@@ -354,25 +354,276 @@ const BlogPage = () => {
     setAssignmentData({ ...assignmentData, description: e.target.value });
   };
 
-  const handleAssgSubmitCheck = (id) => {
-    axios
-      .get(
-        server +
-          "/assignment/upload/cid=" +
-          courseId +
-          "/aid=" +
-          id +
-          "/sid=" +
-          studentId
-      )
-      .then((response) => {
-        console.log(response.data, "  ASSSGGGGG");
-        return response.data.isRegistered;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleAssgSubmitCheck = async (id) => {
+    const handleInfo = await axios.get(
+      server +
+        "/assignment/upload/cid=" +
+        courseId +
+        "/aid=" +
+        id +
+        "/sid=" +
+        studentId
+    );
+    if (!!handleInfo.data) {
+      console.log(handleInfo.data, "  ASSSGGGGG");
+      return handleInfo.data.isRegistered;
+    } else {
+      console.log("HATALİ" + handleInfo.error);
+    }
   };
+
+  useEffect(async () => {
+    if (!!course) {
+      let index = 0;
+      let assignment = null;
+      const row = [];
+      const length =
+        course?.resources?.assignments?.length > 0
+          ? course?.resources?.assignments?.length
+          : 0;
+      while (index < length) {
+        assignment = course.resources.assignments[index];
+        let submitCheckTrue = await handleAssgSubmitCheck(assignment._id);
+        row.push(
+          <>
+            <hr />
+            <Row key={assignment} style={{ textAlign: "center" }}>
+              <Col>{assignment.title}</Col>
+              <Col>{assignment.fileName}</Col>
+              <Col>
+                {new Date(assignment.uploadedDate).toLocaleDateString()}
+              </Col>
+              <Col>{new Date(assignment.dueDate).toLocaleDateString()}</Col>
+              <Col>
+                {new Date().getTime() <
+                new Date(assignment.dueDate).getTime() ? (
+                  <>
+                    {!submitCheckTrue ? (
+                      <>
+                        {!submittingAssg ? (
+                          <Nav.Link
+                            type="file"
+                            className="button button-1"
+                            onClick={handleSubmittingAssg}
+                          >
+                            Teslim Et
+                          </Nav.Link>
+                        ) : (
+                          <>
+                            <Row>
+                              <input
+                                type="file"
+                                className="form-control"
+                                onChange={handleSubmitAssg}
+                              ></input>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <Nav.Link
+                                  className="button button-1"
+                                  onClick={() => {
+                                    handleAssignmentSubmit(assignment._id);
+                                  }}
+                                >
+                                  Yukle
+                                </Nav.Link>
+                              </Col>
+                              <Col>
+                                <Nav.Link
+                                  className="button button-1"
+                                  onClick={handleSubmittingAssg}
+                                >
+                                  Vazgec
+                                </Nav.Link>
+                              </Col>
+                            </Row>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {!submittingAssg ? (
+                          <Nav.Link
+                            type="file"
+                            className="button button-1"
+                            onClick={handleSubmittingAssg}
+                          >
+                            Teslim Edildi
+                          </Nav.Link>
+                        ) : (
+                          <>
+                            <Row>
+                              <input
+                                type="file"
+                                className="form-control"
+                                onChange={handleSubmitAssg}
+                              ></input>
+                            </Row>
+                            <Row>
+                              <Col>
+                                <Nav.Link
+                                  className="button button-1"
+                                  onClick={() => {
+                                    handleAssignmentSubmit(assignment._id);
+                                  }}
+                                >
+                                  Yukle
+                                </Nav.Link>
+                              </Col>
+                              <Col>
+                                <Nav.Link
+                                  className="button button-1"
+                                  onClick={handleSubmittingAssg}
+                                >
+                                  Vazgec
+                                </Nav.Link>
+                              </Col>
+                            </Row>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <label>Gecmis</label>
+                  </>
+                )}
+              </Col>
+            </Row>
+          </>
+        );
+        index++;
+      }
+      setRowsAssignmentRender(row);
+    }
+  }, [course]);
+
+  useEffect(async () => {
+    if (!!course) {
+      let index = 0;
+      let exam = null;
+      const row = [];
+      const length =
+        course?.resources?.exams?.length > 0
+          ? course?.resources?.exams?.length
+          : 0;
+      while (index < length) {
+        exam = course.resources.exams[index];
+        let submitCheckTrue = await handleAssgSubmitCheck(exam._id);
+        row.push(
+          <>
+            <hr />
+            <Row key={exam} style={{ padding: 10 }}>
+              <Row style={{ textAlign: "center" }}>
+                <Col>{exam.title}</Col>
+                <Col>{new Date(exam.uploadedDate).toLocaleDateString()}</Col>
+                <Col>{new Date(exam.dueDate).toLocaleDateString()}</Col>
+                <Col>
+                  {new Date().getTime() < new Date(exam.dueDate).getTime() ? (
+                    <>
+                      {!submitCheckTrue ? (
+                        <>
+                          {!submittingExam ? (
+                            <Nav.Link
+                              type="file"
+                              className="button button-1"
+                              onClick={handleSubmittingExam}
+                            >
+                              Teslim Et
+                            </Nav.Link>
+                          ) : (
+                            <>
+                              <Row>
+                                <input
+                                  type="file"
+                                  className="form-control"
+                                  onChange={handleSubmitExam}
+                                ></input>
+                              </Row>
+                              <Row>
+                                <Col>
+                                  <Nav.Link
+                                    className="button button-1"
+                                    onClick={() => {
+                                      handleExamSubmit(exam._id);
+                                    }}
+                                  >
+                                    Yukle
+                                  </Nav.Link>
+                                </Col>
+                                <Col>
+                                  <Nav.Link
+                                    className="button button-1"
+                                    onClick={handleSubmittingExam}
+                                  >
+                                    Vazgec
+                                  </Nav.Link>
+                                </Col>
+                              </Row>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {!submittingAssg ? (
+                            <Nav.Link
+                              type="file"
+                              className="button button-1"
+                              onClick={handleSubmittingExam}
+                            >
+                              Teslim Edildi
+                            </Nav.Link>
+                          ) : (
+                            <>
+                              <Row>
+                                <input
+                                  type="file"
+                                  className="form-control"
+                                  onChange={handleSubmitExam}
+                                ></input>
+                              </Row>
+                              <Row>
+                                <Col>
+                                  <Nav.Link
+                                    className="button button-1"
+                                    onClick={() => {
+                                      handleExamSubmit(exam._id);
+                                    }}
+                                  >
+                                    Yukle
+                                  </Nav.Link>
+                                </Col>
+                                <Col>
+                                  <Nav.Link
+                                    className="button button-1"
+                                    onClick={handleSubmittingExam}
+                                  >
+                                    Vazgec
+                                  </Nav.Link>
+                                </Col>
+                              </Row>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <label>Gecmis</label>
+                    </>
+                  )}
+                </Col>
+              </Row>
+            </Row>
+          </>
+        );
+        index++;
+      }
+      setRowsExamsRender(row);
+    }
+  }, [rowsAssignmentRender]);
+
   const handleExamSubmitCheck = (id) => {
     axios
       .get(
@@ -672,128 +923,7 @@ const BlogPage = () => {
                   <Col>Teslim Tarihi</Col>
                   <Col>Teslim</Col>
                 </Row>
-                {course.resources.assignments.map((assignment) => {
-                  const row = [];
-                  row.push(
-                    <>
-                      <hr />
-                      <Row key={assignment} style={{ textAlign: "center" }}>
-                        <Col>{assignment.title}</Col>
-                        <Col>{assignment.fileName}</Col>
-                        <Col>
-                          {new Date(
-                            assignment.uploadedDate
-                          ).toLocaleDateString()}
-                        </Col>
-                        <Col>
-                          {new Date(assignment.dueDate).toLocaleDateString()}
-                        </Col>
-                        <Col>
-                          {new Date().getTime() <
-                          new Date(assignment.dueDate).getTime() ? (
-                            <>
-                              {!handleAssgSubmitCheck(assignment._id) ? (
-                                <>
-                                  {!submittingAssg ? (
-                                    <Nav.Link
-                                      type="file"
-                                      className="button button-1"
-                                      onClick={handleSubmittingAssg}
-                                    >
-                                      Teslim Et
-                                    </Nav.Link>
-                                  ) : (
-                                    <>
-                                      <Row>
-                                        <input
-                                          type="file"
-                                          className="form-control"
-                                          onChange={handleSubmitAssg}
-                                        ></input>
-                                      </Row>
-                                      <Row>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={() => {
-                                              handleAssignmentSubmit(
-                                                assignment._id
-                                              );
-                                            }}
-                                          >
-                                            Yukle
-                                          </Nav.Link>
-                                        </Col>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={handleSubmittingAssg}
-                                          >
-                                            Vazgec
-                                          </Nav.Link>
-                                        </Col>
-                                      </Row>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  {!submittingAssg ? (
-                                    <Nav.Link
-                                      type="file"
-                                      className="button button-1"
-                                      onClick={handleSubmittingAssg}
-                                    >
-                                      Teslim Edildi
-                                    </Nav.Link>
-                                  ) : (
-                                    <>
-                                      
-                                      <Row>
-                                        <input
-                                          type="file"
-                                          className="form-control"
-                                          onChange={handleSubmitAssg}
-                                        ></input>
-                                      </Row>
-                                      <Row>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={() => {
-                                              handleAssignmentSubmit(
-                                                assignment._id
-                                              );
-                                            }}
-                                          >
-                                            Yukle
-                                          </Nav.Link>
-                                        </Col>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={handleSubmittingAssg}
-                                          >
-                                            Vazgec
-                                          </Nav.Link>
-                                        </Col>
-                                      </Row>
-                                    </>
-                                  )}
-                                </>
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              <label>Gecmis</label>
-                            </>
-                          )}
-                        </Col>
-                      </Row>
-                    </>
-                  );
-                  return row;
-                })}
+                {rowsAssignmentRender}
               </Container>
             </Container>
             <br />
@@ -1082,127 +1212,7 @@ const BlogPage = () => {
                   <Col>Teslim Tarihi</Col>
                   <Col>Teslim</Col>
                 </Row>
-                {course.resources.exams.map((exam) => {
-                  const row = [];
-                  row.push(
-                    <>
-                      <hr />
-                      <Row key={exam} style={{ padding: 10 }}>
-                        <Row style={{ textAlign: "center" }}>
-                          <Col>{exam.title}</Col>
-                          <Col>
-                            {new Date(exam.uploadedDate).toLocaleDateString()}
-                          </Col>
-                          <Col>
-                            {new Date(exam.dueDate).toLocaleDateString()}
-                          </Col>
-                          <Col>
-                            {new Date().getTime() <
-                            new Date(exam.dueDate).getTime() ? (
-                              <>
-                                {!handleExamSubmitCheck(exam._id) ? (
-                                <>
-                                  {!submittingExam ? (
-                                    <Nav.Link
-                                      type="file"
-                                      className="button button-1"
-                                      onClick={handleSubmittingExam}
-                                    >
-                                      Teslim Et
-                                    </Nav.Link>
-                                  ) : (
-                                    <>
-                                      <Row>
-                                        <input
-                                          type="file"
-                                          className="form-control"
-                                          onChange={handleSubmitExam}
-                                        ></input>
-                                      </Row>
-                                      <Row>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={() => {
-                                              handleExamSubmit(
-                                                exam._id
-                                              );
-                                            }}
-                                          >
-                                            Yukle
-                                          </Nav.Link>
-                                        </Col>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={handleSubmittingExam}
-                                          >
-                                            Vazgec
-                                          </Nav.Link>
-                                        </Col>
-                                      </Row>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  {!submittingAssg ? (
-                                    <Nav.Link
-                                      type="file"
-                                      className="button button-1"
-                                      onClick={handleSubmittingExam}
-                                    >
-                                      Teslim Edildi
-                                    </Nav.Link>
-                                  ) : (
-                                    <>
-                                      
-                                      <Row>
-                                        <input
-                                          type="file"
-                                          className="form-control"
-                                          onChange={handleSubmitExam}
-                                        ></input>
-                                      </Row>
-                                      <Row>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={() => {
-                                              handleExamSubmit(
-                                                exam._id
-                                              );
-                                            }}
-                                          >
-                                            Yukle
-                                          </Nav.Link>
-                                        </Col>
-                                        <Col>
-                                          <Nav.Link
-                                            className="button button-1"
-                                            onClick={handleSubmittingExam}
-                                          >
-                                            Vazgec
-                                          </Nav.Link>
-                                        </Col>
-                                      </Row>
-                                    </>
-                                  )}
-                                </>
-                              )}
-                              </>
-                            ) : (
-                              <>
-                                <label>Gecmis</label>
-                              </>
-                            )}
-                          </Col>
-                        </Row>
-                      </Row>
-                    </>
-                  );
-                  return row;
-                })}
+                {rowsExamsRender}
               </Container>
             </Container>
             <br />
