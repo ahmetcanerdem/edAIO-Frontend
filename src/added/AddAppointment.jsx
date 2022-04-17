@@ -4,7 +4,7 @@ function AddAppointment() {
   const [appoitmentWith, setAppoitmentWith] = useState();
 
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
 
   let appointment = {
     date: "",

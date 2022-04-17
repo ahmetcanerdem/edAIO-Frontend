@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 const PaymentInfo = () => {
   const [data, setData] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
 
   useEffect(() => {
     axios

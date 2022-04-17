@@ -16,7 +16,7 @@ import "../styles/Appointment.css";
 const Appointment = () => {
   const [data, setData] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
   const [isExpanded, setExpanded] = useState(false);
   const [dataClassification, setDataClassification] = useState([]);
   const [shownData, setShownData] = useState(null);
@@ -113,6 +113,7 @@ const Appointment = () => {
           ...shownData,
           toAppointment: appointment[shownData.attName],
         });
+
         appointment?.appointments?.forEach((anApp) => {
           rows.push(
             <Row style={{ paddingTop: 5 }}>

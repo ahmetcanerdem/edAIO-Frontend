@@ -18,7 +18,7 @@ const IkinciYabanciDilBilgileri = () => {
   const [allDstr, setAllDstr] = useState(null);
   // const [facultyDstr, setFacultyDstr] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
   const [departmentDstr, setDepartmentDstr] = useState(null);
   const [data, setData] = useState(null);
   const [isExpanded, setExpanded] = useState(false);

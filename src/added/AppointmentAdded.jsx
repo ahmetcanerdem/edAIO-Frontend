@@ -12,7 +12,7 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 
 const hours = [
-  { id: "zero", value: "08:30-09:20"},
+  { id: "zero", value: "07:30-08:20"},
   { id: "first", value: "08:30-09:20"},
   { id: "second", value: "09:30-10:20" },
   { id: "third", value: "10:30-11:20" },
@@ -36,7 +36,7 @@ const AddAppointment = (props) => {
   const [textForm, setTextForm] = useState();
 
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
   const userId = userInfo._id;
 
   const [courses, setCourses] = React.useState();
@@ -46,8 +46,7 @@ const AddAppointment = (props) => {
 
   const [reload, setReload] = React.useState(1);
   const [lecturerAppointment, setLecturerAppointment] = React.useState(false);
-  const [studentAffairsAppointment, setStudentAffairsAppointment] =
-    React.useState(false);
+  const [studentAffairsAppointment, setStudentAffairsAppointment] = React.useState(false);
   const [advisorAppointment, setAdvisorAppointment] = React.useState(false);
   const [itAppointment, setITAppointment] = React.useState(false);
 
@@ -256,7 +255,7 @@ const AddAppointment = (props) => {
   const postAppointmentToLecturer = () => {
     appointment.hours = hoursSelected;
     appointment.date = dateSelected;
-    console.log(appointment);
+    //console.log(appointment);
     axios({
       method: "post",
       url:
@@ -265,6 +264,11 @@ const AddAppointment = (props) => {
         "/cid=" +
         selectedInfo.appointmentWith,
       data: appointment,
+    }).then(e=>{
+      if(e.status==200)
+        console.log("success-save");
+    }).catch(()=>{
+        console.log("Error!");
     });
   };
 
@@ -275,6 +279,11 @@ const AddAppointment = (props) => {
       method: "post",
       url: "http://localhost:5000/appointment/advisor/id=" + userId,
       data: appointment,
+    }).then(e=>{
+      if(e.status==200)
+        console.log("success-save");
+    }).catch(()=>{
+        console.log("Error!");
     });
   };
 
@@ -289,6 +298,11 @@ const AddAppointment = (props) => {
         "/wid=" +
         selectedInfo.appointmentWith,
       data: appointment,
+    }).then(e=>{
+      if(e.status==200)
+        console.log("success-save");
+    }).catch(()=>{
+        console.log("Error!");
     });
   };
 
@@ -347,6 +361,11 @@ const AddAppointment = (props) => {
         "/wid=" +
         selectedInfo.appointmentWith,
       data: appointment,
+    }).then(e=>{
+      if(e.status==200)
+        console.log("success-save");
+    }).catch(()=>{
+        console.log("Error!");
     });
   };
 
