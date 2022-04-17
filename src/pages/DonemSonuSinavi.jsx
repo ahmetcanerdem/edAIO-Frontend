@@ -11,7 +11,7 @@ const DonemSonuSinavi = () => {
   const [isLoading, setLoading] = useState(true);
   const [isAnnouncement, setAnnouncement] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
   const [data, setData] = useState(null);
   const [finalExam, setFinalExam] = useState(null);
   useEffect(() => {

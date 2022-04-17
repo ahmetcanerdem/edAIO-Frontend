@@ -12,7 +12,7 @@ const AddressPage = () => {
   const [isInfoLoading, setInfoLoading] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
   const dataUser = JSON.parse(localStorage.getItem("userData"));
-  const studentId = userInfo.studentId;
+  const studentId = userInfo.studentID;
   const [info, setInfo] = useState(null);
   const [addr, setAddr] = useState(null);
   const [data, setData] = useState(null);
