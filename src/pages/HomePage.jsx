@@ -23,18 +23,22 @@ const HomePage = () => {
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
   useEffect(() => {
     axios
-      .get("http://localhost:5000/student")
+      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
       .then((response) => {
-        handleHome(response.data.student[0]._id);
+        
+        console.log(response.data)
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        handleHome()
       })
       .catch((error) => {
         console.log(error);
       });
+    
   }, []);
 
-  const handleHome = (id) => {
+  const handleHome = () => {
     axios
-      .get("http://localhost:5000/student/homePage/id=" + id)
+      .get("http://localhost:5000/student/homePage/id=" + JSON.parse(localStorage.getItem("userData")).id)
       .then((response) => {
         console.log(response.data)
         setData(response.data);
@@ -45,6 +49,7 @@ const HomePage = () => {
   };
 
   const [datas, setDatas] = useState(null);
+  
   useEffect(() => {
     if (!!data) {
       const gpasData = [];

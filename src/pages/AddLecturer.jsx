@@ -3,7 +3,6 @@ import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { NavDropdown, Row, Col, Form } from "react-bootstrap";
 import "../styles/Buttons.css";
-import { Link, useNavigate } from "react-router-dom";
 
 function AddLecturer() {
   const location = useLocation();

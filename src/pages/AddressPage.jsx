@@ -74,14 +74,14 @@ const AddressPage = () => {
           <Col xs={8}></Col>
           <Col>
             Rol:{" "}
-            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
-              <>Admin</>
-            ) : (
+            {JSON.parse(localStorage.getItem("userData")).isStudent ? (
               <>Ogrenci</>
+            ) : (
+              <>Ogretmen</>
             )}
           </Col>
           <Col>
-            Merhaba {JSON.parse(localStorage.getItem("loginData")).user.name}
+            Merhaba {JSON.parse(localStorage.getItem("loginData")).name}
           </Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>

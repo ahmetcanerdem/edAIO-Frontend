@@ -13,9 +13,9 @@ const GirisCikisSayfasi = () => {
   useEffect(() => {
     console.log("girisCikisSayfasi");
     axios
-      .get("http://localhost:5000/getuser", { withCredentials: true })
+      .get("http://localhost:5000/getUser", { withCredentials: true })
       .then((res) => {
-        console.log(res);
+        console.log(res.data, "  AAAAAA");
         if (!!res.data.user) {
           localStorage.setItem("loginData", JSON.stringify(res.data.user));
           setLoginData(JSON.parse(localStorage.getItem("loginData")));
@@ -24,10 +24,41 @@ const GirisCikisSayfasi = () => {
       console.log(localStorage.getItem("loginData"));
   }, []);
 
+<<<<<<< Updated upstream
+
+=======
+  const handleUser = () => {
+    if (JSON.parse(localStorage.getItem("loginData")).isRegistered) {
+      localStorage.setItem("userData", JSON.stringify({
+        id: "625a028dbc2928b8a98c61a4",
+        isStudent: true,
+        isLecturer: false,
+        isPersonnel: false
+    }));
+    axios
+      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
+      .then((response) => {
+        console.log(response.data)
+        localStorage.setItem("userData", JSON.stringify({
+          id: "625a028dbc2928b8a98c61a4",
+          isStudent: true,
+          isLecturer: false,
+          isPersonnel: false
+      }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
+  }
+>>>>>>> Stashed changes
+
   const handleLogout = () => {
+    console.log("logout");
     axios.get("http://localhost:5000/logout", {
             withCredentials: true
         }).then((res) => {
+            console.log("Alo")
             if (res.data === "done") {
                 localStorage.removeItem("loginData");
                 window.location.reload();

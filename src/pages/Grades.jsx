@@ -3,26 +3,21 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 const Grades = () => {
+  const studentId = JSON.parse(localStorage.getItem("userData")).id;
   const [data, setData] = useState(null);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/student")
+      .get("http://localhost:5000/student/getTranscript/id=" + studentId)
       .then((response) => {
-        handleUser(response.data.student[0]._id);
+        console.log(response.data);
+        setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
   const handleUser = ((id) =>{ 
-    axios
-      .get("http://localhost:5000/student/getTranscript/id=" + id)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    
   });
 
   return (

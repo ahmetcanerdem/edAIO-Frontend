@@ -10,8 +10,10 @@ import { faArrowRightToBracket } from "@fortawesome/free-solid-svg-icons";
 fontawesome.library.add(faArrowRightToBracket);
 
 const Sidebar = (props) => {
+  const loginData = JSON.parse(localStorage.getItem("loginData"));
   return (
     <>
+    {(!!loginData && loginData.isRegistered) && (
       <IconContext.Provider value={{ color: "#fff" }}>
         <nav
           className="sidebarNav"
@@ -37,6 +39,7 @@ const Sidebar = (props) => {
           </div>
         </nav>
       </IconContext.Provider>
+      )}
     </>
   );
 };
