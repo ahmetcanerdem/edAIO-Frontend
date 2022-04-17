@@ -14,6 +14,7 @@ import MakeUpsPage from "./pages/MakeUpsPage";
 import BlogPage from "./pages/BlogPage";
 import GirisCikisSayfasi from "./pages/GirisCikisSayfasi";
 import AdminPage from "./pages/AdminPage";
+import EditStudent from "./pages/EditStudent";
 import { Appointment, PaymentInfo, InternshipInfo, Grades } from "./pages";
 import CreateUser from "./pages/CreateUser";
 import AddStudent from "./pages/AddStudent";
@@ -68,6 +69,7 @@ function App() {
                   />
                   <Route path="/login" element={<GirisCikisSayfasi />} />
                   <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/editStudent" element={<EditStudent />} />
                   <Route path="/createUser" element={<CreateUser />} />
                   <Route path="/addStudent" element={<AddStudent />} />
                   <Route path="/addLecturer" element={<AddLecturer />} />
