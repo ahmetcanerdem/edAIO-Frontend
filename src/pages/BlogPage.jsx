@@ -21,7 +21,7 @@ const BlogPage = () => {
   const [isPosting, setPosting] = useState(false);
   const [courseId, setCourseId] = useState("");
   const userId = JSON.parse(localStorage.getItem("loginData"))._id;
-  console.log(JSON.parse(localStorage.getItem("loginData")))
+  console.log(JSON.parse(localStorage.getItem("loginData")));
   let server = "http://localhost:5000";
 
   useEffect(() => {
@@ -121,37 +121,180 @@ const BlogPage = () => {
 
   const [assignmentData, setAssignmentData] = useState(null);
   const [uploadingAssg, setUploadingAssg] = useState(false);
-  const handleNoteUpload = (e) => {};
-  const handleVideoUpload = (e) => {};
-  const handleExamUpload = (e) => {};
-  const handleUploadingAssg = () => {
-    setUploadingAssg(true);
+  const [uploadingNote, setUploadingNote] = useState(false);
+  const [noteData, setNoteData] = useState(null);
+  const [videoData, setVideoData] = useState(null);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [examData, setExamData] = useState(null);
+  const [uploadingExam, setUploadingExam] = useState(false);
+  const [generalResourceData, setGeneralResourceData] = useState(null);
+  const [uploadingGeneralResource, setUploadingGeneralResource] = useState(false);
+
+  const handleUploadingGeneralResource = () => {
+    setUploadingGeneralResource(!uploadingGeneralResource);
   };
-  const handleAssignmentUpload = (e) => {
+
+  const handleGeneralResourceTitle = (e) => {
+    setGeneralResourceData({
+      ...generalResourceData,
+      title: e.target.value,
+    });
+  };
+
+  const handleGeneralResourceDescription = (e) => {
+    setGeneralResourceData({
+      ...generalResourceData,
+      description: e.target.value,
+    });
+  };
+
+  const handleGeneralResourceSelect = (e) => {
+    setGeneralResourceData({
+      ...generalResourceData,
+      file: e.target.files[0],
+    });
+  };
+
+
+
+
+  const handleUploadingExam = () => {
+    setUploadingExam(!uploadingExam);
+  };
+
+  const handleExamSelect = (e) => {
+    setExamData({ ...examData, exam: e.target.files[0] });
+  };
+
+  const handleExamDescription = (e) => {
+    setExamData({ ...examData, description: e.target.value });
+  };
+
+  const handleExamDueDate = (e) => {
+    setExamData({ ...examData, dueDate: e.target.value });
+  };
+
+  const handleExamTitle = (e) => {
+    setExamData({ ...examData, title: e.target.value });
+  };
+
+
+
+  const handleUploadingVideo = () => {
+    setUploadingVideo(!uploadingVideo);
+  };
+
+  const handleVideoTitle = (e) => {
+    setVideoData({ ...videoData, title: e.target.value });
+  };
+
+  const handleVideoDescription = (e) => {
+    setVideoData({ ...videoData, description: e.target.value });
+  };
+
+  const handleVideoSelect = (e) => {
+    setVideoData({ ...videoData, video: e.target.files[0] });
+  };
+
+  const handleVideoUpload = () => {
+    setUploadingVideo(false);
+    const formData = new FormData();
+        formData.append('file', videoData.file);
+        formData.append('title', videoData.title);
+        formData.append('description', videoData.description);
+    axios({
+      method: "post",
+      url: server + "/resource/upload/lectureVideos/cid=" + courseId,
+      data: formData,
+    });
+  };
+
+
+  const handleUploadingNote = () => {
+    setUploadingNote(!uploadingNote);
+  };
+
+  const handleNoteTitle = (e) => {
+    setNoteData({ ...noteData, title: e.target.value });
+  };
+
+  const handleNoteDescription = (e) => {
+    setNoteData({ ...noteData, description: e.target.value });
+  };
+
+  const handleNoteSelection = (e) => {
+    setNoteData({ ...noteData, file: e.target.files[0] });
+  };
+
+  const handleNoteUpload  = () => {
+    setUploadingNote(false);
+    const formData = new FormData();
+        formData.append('file', noteData.file);
+        formData.append('title', noteData.title);
+        formData.append('description', noteData.description);
+    axios({
+      method: "post",
+      url: server + "/resource/upload/lectureNotes/cid=" + courseId,
+      data: formData,
+    });
+  };
+
+  const handleExamUpload = () => {
+    setUploadingExam(false);
+    const formData = new FormData();
+        formData.append('file', examData.file);
+        formData.append('title', examData.title);
+        formData.append('description', examData.description);
+        formData.append('dueDate', examData.dueDate);
+    axios({
+      method: "post",
+      url: server + "/exam/upload/cid=" + courseId,
+      data: formData,
+    });
+  };
+  const handleUploadingAssg = () => {
+    setUploadingAssg(!uploadingAssg);
+  };
+  const handleAssignmentUpload = () => {
     setUploadingAssg(false);
-    console.log(assignmentData)
+    const formData = new FormData();
+        formData.append('file', assignmentData.file);
+        formData.append('title', assignmentData.title);
+        formData.append('description', assignmentData.description);
+        formData.append('dueDate', assignmentData.dueDate);
+    console.log(assignmentData);
     axios({
       method: "post",
       url: server + "/assignment/upload/cid=" + courseId,
-      data: assignmentData,
+      data: formData,
     });
   };
-  const handleGeneralResourceUpload = (e) => {};
+  const handleGeneralResourceUpload = (data) => {
+    setUploadingGeneralResource(false);
+    const formData = new FormData();
+        formData.append('file', generalResourceData.file);
+        formData.append('title', generalResourceData.title);
+        formData.append('description', generalResourceData.description);
+    axios({
+      method: "post",
+      url: server + "/resource/upload/otherResources/cid=" + courseId,
+      data: formData,
+    });
+  };
   const handleAssignmentSubmit = (e) => {};
   const handleExamSubmit = (e) => {};
   const handleAssingmentSelection = (e) => {
-    setAssignmentData({... assignmentData, file : e.target.files[0]});
+    setAssignmentData({ ...assignmentData, file: e.target.files[0] });
   };
   const handleAssingmentDueDate = (e) => {
-    setAssignmentData({... assignmentData, dueDate : e.target.value});
+    setAssignmentData({ ...assignmentData, dueDate: e.target.value });
   };
   const handleAssignmentTitle = (e) => {
-    setAssignmentData({... assignmentData, title : e.target.value});
+    setAssignmentData({ ...assignmentData, title: e.target.value });
   };
   const handleAssignmentDescription = (e) => {
-    setAssignmentData({... assignmentData, description : e.target.value});
+    setAssignmentData({ ...assignmentData, description: e.target.value });
   };
-
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -217,7 +360,9 @@ const BlogPage = () => {
                           >
                             <div className="col-md-6">{post.title}</div>
                             <div className="col-md-6">
-                              <label id="post-writer">{post.createdBy.name}</label>
+                              <label id="post-writer">
+                                {post.createdBy.name}
+                              </label>
                             </div>
                           </Nav.Link>
                         </Row>
@@ -342,35 +487,75 @@ const BlogPage = () => {
         {isResource ? (
           <div className="res">
             <h1>{course.code}</h1>
-            <br/>
+            <br />
             <Row>
-              
               <Col xs={8}>
                 <h3>Assignments</h3>
               </Col>
-              <Col xs={1}>
+              <Col xs={2}>
                 {userInfo.isStudent ? (
-                  
                   <>
-                  {uploadingAssg ? (
-                    <>
-                    <input type="file" onChange={handleAssingmentSelection}></input>
-                    <input type="date" onChange={handleAssingmentDueDate}></input>
-                    <input type="text" onChange={handleAssignmentTitle} placeholder="Baslik"></input>
-                    <input type="text" onChange={handleAssignmentDescription} placeholder="Aciklama"></input>
-                    <Nav.Link
-                      className="button button-1"
-                      onClick={handleAssignmentUpload}
-                    >
-                      Yukle
-                    </Nav.Link></>) : (
-                      <><Nav.Link className="button button-1" onClick={handleUploadingAssg}>+</Nav.Link></>)}
+                    {uploadingAssg ? (
+                      <>
+                        <div>
+                          <input
+                            type="file"
+                            className="form-control"
+                            onChange={handleAssingmentSelection}
+                          ></input>
+                          <input
+                            type="date"
+                            className="form-control"
+                            onChange={handleAssingmentDueDate}
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleAssignmentTitle}
+                            placeholder="Baslik"
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleAssignmentDescription}
+                            placeholder="Aciklama"
+                          ></input>
+                          <Row>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleAssignmentUpload}
+                              >
+                                Yukle
+                              </Nav.Link>
+                            </Col>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleUploadingAssg}
+                              >
+                                Vazgec
+                              </Nav.Link>
+                            </Col>
+                          </Row>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleUploadingAssg}
+                        >
+                          +
+                        </Nav.Link>
+                      </>
+                    )}
                   </>
                 ) : (
                   <></>
                 )}
               </Col>
-              <Col xs={3}></Col>
+              <Col xs={2}></Col>
             </Row>
             <Container style={{ paddingRight: 40, paddingTop: 30 }}>
               <Container
@@ -426,27 +611,70 @@ const BlogPage = () => {
                 })}
               </Container>
             </Container>
-            <br/>
+            <br />
             <Row>
-              
               <Col xs={8}>
                 <h3>Notes</h3>
               </Col>
-              <Col xs={1}>
+              <Col xs={2}>
                 {userInfo.isStudent ? (
                   <>
-                    <Nav.Link
-                      className="button button-1"
-                      onClick={handleNoteUpload}
-                    >
-                      +
-                    </Nav.Link>
+                    {uploadingNote ? (
+                      <>
+                        <div>
+                          <input
+                            type="file"
+                            className="form-control"
+                            onChange={handleNoteSelection}
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleNoteTitle}
+                            placeholder="Baslik"
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleNoteDescription}
+                            placeholder="Aciklama"
+                          ></input>
+                          <Row>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleNoteUpload}
+                              >
+                                Yukle
+                              </Nav.Link>
+                            </Col>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleUploadingNote}
+                              >
+                                Vazgec
+                              </Nav.Link>
+                            </Col>
+                          </Row>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleUploadingNote}
+                        >
+                          +
+                        </Nav.Link>
+                      </>
+                    )}
                   </>
                 ) : (
                   <></>
                 )}
               </Col>
-              <Col xs={3}></Col>
+              <Col xs={2}></Col>
             </Row>
             <Container style={{ paddingRight: 40, paddingTop: 30 }}>
               <Container
@@ -470,7 +698,7 @@ const BlogPage = () => {
                       <Row key={note} style={{ padding: 10 }}>
                         <Row style={{ textAlign: "center" }}>
                           <Col>{note.title}</Col>
-                          <Col>{note.uploadDate}</Col>
+                          <Col>{note.uploadedDate}</Col>
                         </Row>
                         <hr />
                       </Row>
@@ -480,27 +708,70 @@ const BlogPage = () => {
                 })}
               </Container>
             </Container>
-            <br/>
+            <br />
             <Row>
-              
               <Col xs={8}>
                 <h3>Videos</h3>
               </Col>
-              <Col xs={1}>
+              <Col xs={2}>
                 {userInfo.isStudent ? (
                   <>
-                    <Nav.Link
-                      className="button button-1"
-                      onClick={handleVideoUpload}
-                    >
-                      +
-                    </Nav.Link>
+                    {uploadingVideo ? (
+                      <>
+                        <div>
+                          <input
+                            type="file"
+                            className="form-control"
+                            onChange={handleVideoSelect}
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleVideoTitle}
+                            placeholder="Baslik"
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleVideoDescription}
+                            placeholder="Aciklama"
+                          ></input>
+                          <Row>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleVideoUpload}
+                              >
+                                Yukle
+                              </Nav.Link>
+                            </Col>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleUploadingVideo}
+                              >
+                                Vazgec
+                              </Nav.Link>
+                            </Col>
+                          </Row>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleUploadingVideo}
+                        >
+                          +
+                        </Nav.Link>
+                      </>
+                    )}
                   </>
                 ) : (
                   <></>
                 )}
               </Col>
-              <Col xs={3}></Col>
+              <Col xs={2}></Col>
             </Row>
             <Container style={{ paddingRight: 40, paddingTop: 30 }}>
               <Container
@@ -527,7 +798,7 @@ const BlogPage = () => {
                           <Col>
                             <a href={video.title}>Video{index + 1}</a>
                           </Col>
-                          <Col>{video.uploadDate}</Col>
+                          <Col>{video.uploadedDate}</Col>
                         </Row>
                       </Row>
                     </>
@@ -536,27 +807,75 @@ const BlogPage = () => {
                 })}
               </Container>
             </Container>
-            <br/>
+            <br />
             <Row>
-              
               <Col xs={8}>
                 <h3>Exams</h3>
               </Col>
-              <Col xs={1}>
+              <Col xs={2}>
                 {userInfo.isStudent ? (
                   <>
-                    <Nav.Link
-                      className="button button-1"
-                      onClick={handleExamUpload}
-                    >
-                      +
-                    </Nav.Link>
+                    {uploadingExam ? (
+                      <>
+                        <div>
+                          <input
+                            type="file"
+                            className="form-control"
+                            onChange={handleExamSelect}
+                          ></input>
+                          <input
+                            type="date"
+                            className="form-control"
+                            onChange={handleExamDueDate}
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleExamTitle}
+                            placeholder="Baslik"
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleExamDescription}
+                            placeholder="Aciklama"
+                          ></input>
+                          <Row>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleExamUpload}
+                              >
+                                Yukle
+                              </Nav.Link>
+                            </Col>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleUploadingExam}
+                              >
+                                Vazgec
+                              </Nav.Link>
+                            </Col>
+                          </Row>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleUploadingExam}
+                        >
+                          +
+                        </Nav.Link>
+                      </>
+                    )}
                   </>
                 ) : (
                   <></>
                 )}
               </Col>
-              <Col xs={3}></Col>
+              <Col xs={2}></Col>
             </Row>
             <Container style={{ paddingRight: 40, paddingTop: 30 }}>
               <Container
@@ -582,7 +901,7 @@ const BlogPage = () => {
                       <Row key={exam} style={{ padding: 10 }}>
                         <Row style={{ textAlign: "center" }}>
                           <Col>{exam.title}</Col>
-                          <Col>{exam.uploadDate}</Col>
+                          <Col>{exam.uploadedDate}</Col>
                           <Col>
                             {new Date(exam.dueDate).toLocaleDateString()}
                           </Col>
@@ -611,27 +930,70 @@ const BlogPage = () => {
                 })}
               </Container>
             </Container>
-            <br/>
+            <br />
             <Row>
-              
               <Col xs={8}>
                 <h3>General Resources</h3>
               </Col>
-              <Col xs={1}>
+              <Col xs={2}>
                 {userInfo.isStudent ? (
                   <>
-                    <Nav.Link
-                      className="button button-1"
-                      onClick={handleGeneralResourceUpload}
-                    >
-                      +
-                    </Nav.Link>
+                    {uploadingGeneralResource ? (
+                      <>
+                        <div>
+                          <input
+                            type="file"
+                            className="form-control"
+                            onChange={handleGeneralResourceSelect}
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleGeneralResourceTitle}
+                            placeholder="Baslik"
+                          ></input>
+                          <input
+                            type="text"
+                            className="form-control"
+                            onChange={handleGeneralResourceDescription}
+                            placeholder="Aciklama"
+                          ></input>
+                          <Row>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleGeneralResourceUpload}
+                              >
+                                Yukle
+                              </Nav.Link>
+                            </Col>
+                            <Col>
+                              <Nav.Link
+                                className="button button-1"
+                                onClick={handleUploadingGeneralResource}
+                              >
+                                Vazgec
+                              </Nav.Link>
+                            </Col>
+                          </Row>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleUploadingGeneralResource}
+                        >
+                          +
+                        </Nav.Link>
+                      </>
+                    )}
                   </>
                 ) : (
                   <></>
                 )}
               </Col>
-              <Col xs={3}></Col>
+              <Col xs={2}></Col>
             </Row>
             <Container
               style={{ paddingRight: 40, paddingTop: 30, paddingBottom: 20 }}
@@ -657,7 +1019,7 @@ const BlogPage = () => {
                         <Col>
                           <a href="">{resource.title}</a>
                         </Col>
-                        <Col>{resource.uploadDate}</Col>
+                        <Col>{resource.uploadedDate}</Col>
                       </Row>
                       <hr />
                     </Row>
