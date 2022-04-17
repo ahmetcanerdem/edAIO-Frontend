@@ -17,7 +17,6 @@ const BlogPage = () => {
   const userInfo = JSON.parse(localStorage.getItem("userData"));
   const [courses, setCourses] = useState(null);
   const studentId = userInfo.id;
-  const [creator, setCreator] = useState(null);
   const [isPosting, setPosting] = useState(false);
   const [courseId, setCourseId] = useState("");
   const userId = JSON.parse(localStorage.getItem("loginData"))._id;
@@ -28,7 +27,7 @@ const BlogPage = () => {
     axios
       .get(server + "/student/getTermCourses/id=" + studentId)
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data, "courses");
         setCourseId(response.data.courses[0].id);
         setCourses(response.data.courses);
         handleCourses(response.data.courses[0].id);
@@ -64,9 +63,9 @@ const BlogPage = () => {
   };
 
   const handleCourse = (e) => {
-    setCourseId(courses[e.target.attributes.value.value].id);
-    setCourse(courses[e.target.attributes.value.value]);
-    console.log(courses[e.target.attributes.value.value]);
+    setCourseId(courses[e.target.id].id);
+    handleCourses(courses[e.target.id].id);
+    console.log(courses[e.target.id]);
   };
   const handlePost = (e) => {
     setPostClicked(true);
@@ -99,7 +98,7 @@ const BlogPage = () => {
         createdBy: JSON.parse(localStorage.getItem("loginData"))._id,
       },
     });
-    window.location.reload();
+    
   };
 
   const handleResponseContent = (e) => {
@@ -116,7 +115,7 @@ const BlogPage = () => {
         createdBy: JSON.parse(localStorage.getItem("loginData"))._id,
       },
     });
-    window.location.reload();
+    
   };
 
   const [assignmentData, setAssignmentData] = useState(null);
@@ -128,7 +127,13 @@ const BlogPage = () => {
   const [examData, setExamData] = useState(null);
   const [uploadingExam, setUploadingExam] = useState(false);
   const [generalResourceData, setGeneralResourceData] = useState(null);
-  const [uploadingGeneralResource, setUploadingGeneralResource] = useState(false);
+  const [uploadingGeneralResource, setUploadingGeneralResource] =
+    useState(false);
+  const [submittingAssg, setSubmittingAssg] = useState(false);
+  const [submitAssgData, setSubmitAssgData] = useState(null);
+  const [isExamUploaded, setExamUploaded] = useState(false);
+  const [submitExamData, setSubmitExamData] = useState(null);
+  const [submittingExam, setSubmittingExam] = useState(false);
 
   const handleUploadingGeneralResource = () => {
     setUploadingGeneralResource(!uploadingGeneralResource);
@@ -155,15 +160,12 @@ const BlogPage = () => {
     });
   };
 
-
-
-
   const handleUploadingExam = () => {
     setUploadingExam(!uploadingExam);
   };
 
   const handleExamSelect = (e) => {
-    setExamData({ ...examData, exam: e.target.files[0] });
+    setExamData({ ...examData, file: e.target.files[0] });
   };
 
   const handleExamDescription = (e) => {
@@ -177,8 +179,6 @@ const BlogPage = () => {
   const handleExamTitle = (e) => {
     setExamData({ ...examData, title: e.target.value });
   };
-
-
 
   const handleUploadingVideo = () => {
     setUploadingVideo(!uploadingVideo);
@@ -199,16 +199,15 @@ const BlogPage = () => {
   const handleVideoUpload = () => {
     setUploadingVideo(false);
     const formData = new FormData();
-        formData.append('file', videoData.file);
-        formData.append('title', videoData.title);
-        formData.append('description', videoData.description);
+    formData.append("file", videoData.file);
+    formData.append("title", videoData.title);
+    formData.append("description", videoData.description);
     axios({
       method: "post",
       url: server + "/resource/upload/lectureVideos/cid=" + courseId,
       data: formData,
     });
   };
-
 
   const handleUploadingNote = () => {
     setUploadingNote(!uploadingNote);
@@ -226,12 +225,12 @@ const BlogPage = () => {
     setNoteData({ ...noteData, file: e.target.files[0] });
   };
 
-  const handleNoteUpload  = () => {
+  const handleNoteUpload = () => {
     setUploadingNote(false);
     const formData = new FormData();
-        formData.append('file', noteData.file);
-        formData.append('title', noteData.title);
-        formData.append('description', noteData.description);
+    formData.append("file", noteData.file);
+    formData.append("title", noteData.title);
+    formData.append("description", noteData.description);
     axios({
       method: "post",
       url: server + "/resource/upload/lectureNotes/cid=" + courseId,
@@ -241,11 +240,12 @@ const BlogPage = () => {
 
   const handleExamUpload = () => {
     setUploadingExam(false);
+    console.log(examData)
     const formData = new FormData();
-        formData.append('file', examData.file);
-        formData.append('title', examData.title);
-        formData.append('description', examData.description);
-        formData.append('dueDate', examData.dueDate);
+    formData.append("file", examData.file);
+    formData.append("title", examData.title);
+    formData.append("description", examData.description);
+    formData.append("dueDate", examData.dueDate);
     axios({
       method: "post",
       url: server + "/exam/upload/cid=" + courseId,
@@ -258,10 +258,10 @@ const BlogPage = () => {
   const handleAssignmentUpload = () => {
     setUploadingAssg(false);
     const formData = new FormData();
-        formData.append('file', assignmentData.file);
-        formData.append('title', assignmentData.title);
-        formData.append('description', assignmentData.description);
-        formData.append('dueDate', assignmentData.dueDate);
+    formData.append("file", assignmentData.file);
+    formData.append("title", assignmentData.title);
+    formData.append("description", assignmentData.description);
+    formData.append("dueDate", assignmentData.dueDate);
     console.log(assignmentData);
     axios({
       method: "post",
@@ -269,20 +269,78 @@ const BlogPage = () => {
       data: formData,
     });
   };
+
   const handleGeneralResourceUpload = (data) => {
     setUploadingGeneralResource(false);
     const formData = new FormData();
-        formData.append('file', generalResourceData.file);
-        formData.append('title', generalResourceData.title);
-        formData.append('description', generalResourceData.description);
+    formData.append("file", generalResourceData.file);
+    formData.append("title", generalResourceData.title);
+    formData.append("description", generalResourceData.description);
     axios({
       method: "post",
       url: server + "/resource/upload/otherResources/cid=" + courseId,
       data: formData,
     });
   };
-  const handleAssignmentSubmit = (e) => {};
-  const handleExamSubmit = (e) => {};
+
+  const handleSubmittingAssg = () => {
+    setSubmittingAssg(!submittingAssg);
+  };
+
+  const handleSubmitAssg = (e) => {
+    setSubmitAssgData({
+      ...submitAssgData,
+      file: e.target.files[0],
+    });
+  };
+
+  const handleAssignmentSubmit = (id) => {
+    setSubmittingAssg(false);
+    console.log(submitAssgData);
+    const formData = new FormData();
+    formData.append("file", submitAssgData.file);
+    axios({
+      method: "post",
+      url:
+        server +
+        "/assignment/upload/cid=" +
+        courseId +
+        "/aid=" +
+        id +
+        "/sid=" +
+        studentId,
+      data: formData,
+    });
+  };
+
+  const handleSubmittingExam = () => {
+    setSubmittingExam(!submittingExam);
+  };
+
+  const handleSubmitExam = (e) => {
+    setSubmitExamData({
+      ...submitExamData,
+      file: e.target.files[0],
+    });
+  };
+  const handleExamSubmit = (id) => {
+    setSubmittingExam(false);
+    console.log(submitExamData);
+    const formData = new FormData();
+    formData.append("file", submitExamData.file);
+    axios({
+      method: "post",
+      url:
+        server +
+        "/exam/upload/cid=" +
+        courseId +
+        "/aid=" +
+        id +
+        "/sid=" +
+        studentId,
+      data: formData,
+    });
+  };
   const handleAssingmentSelection = (e) => {
     setAssignmentData({ ...assignmentData, file: e.target.files[0] });
   };
@@ -294,6 +352,45 @@ const BlogPage = () => {
   };
   const handleAssignmentDescription = (e) => {
     setAssignmentData({ ...assignmentData, description: e.target.value });
+  };
+
+  const handleAssgSubmitCheck = (id) => {
+    axios
+      .get(
+        server +
+          "/assignment/upload/cid=" +
+          courseId +
+          "/aid=" +
+          id +
+          "/sid=" +
+          studentId
+      )
+      .then((response) => {
+        console.log(response.data, "  ASSSGGGGG");
+        return response.data.isRegistered;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleExamSubmitCheck = (id) => {
+    axios
+      .get(
+        server +
+          "/assignment/upload/cid=" +
+          courseId +
+          "/aid=" +
+          id +
+          "/sid=" +
+          studentId
+      )
+      .then((response) => {
+        console.log(response.data, " AAAAAAAAAAAAAAAAAAAAAAAAAA");
+        return response.data.isRegistered;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   if (isLoading) {
@@ -319,9 +416,10 @@ const BlogPage = () => {
                       className="button button-1"
                       onClick={handleCourse}
                       key={index}
+                      id={index}
                       value={index}
                     >
-                      {lecture.courseCode}
+                      {lecture.code}
                     </NavDropdown.Item>
                   </div>
                 ))}
@@ -574,7 +672,6 @@ const BlogPage = () => {
                   <Col>Teslim Tarihi</Col>
                   <Col>Teslim</Col>
                 </Row>
-
                 {course.resources.assignments.map((assignment) => {
                   const row = [];
                   row.push(
@@ -583,7 +680,11 @@ const BlogPage = () => {
                       <Row key={assignment} style={{ textAlign: "center" }}>
                         <Col>{assignment.title}</Col>
                         <Col>{assignment.fileName}</Col>
-                        <Col>{assignment.uploadedDate}</Col>
+                        <Col>
+                          {new Date(
+                            assignment.uploadedDate
+                          ).toLocaleDateString()}
+                        </Col>
                         <Col>
                           {new Date(assignment.dueDate).toLocaleDateString()}
                         </Col>
@@ -591,16 +692,100 @@ const BlogPage = () => {
                           {new Date().getTime() <
                           new Date(assignment.dueDate).getTime() ? (
                             <>
-                              <Nav.Link
-                                className="button button-1"
-                                onClick={handleAssignmentSubmit}
-                              >
-                                Teslim Et
-                              </Nav.Link>
+                              {!handleAssgSubmitCheck(assignment._id) ? (
+                                <>
+                                  {!submittingAssg ? (
+                                    <Nav.Link
+                                      type="file"
+                                      className="button button-1"
+                                      onClick={handleSubmittingAssg}
+                                    >
+                                      Teslim Et
+                                    </Nav.Link>
+                                  ) : (
+                                    <>
+                                      <Row>
+                                        <input
+                                          type="file"
+                                          className="form-control"
+                                          onChange={handleSubmitAssg}
+                                        ></input>
+                                      </Row>
+                                      <Row>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={() => {
+                                              handleAssignmentSubmit(
+                                                assignment._id
+                                              );
+                                            }}
+                                          >
+                                            Yukle
+                                          </Nav.Link>
+                                        </Col>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={handleSubmittingAssg}
+                                          >
+                                            Vazgec
+                                          </Nav.Link>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  {!submittingAssg ? (
+                                    <Nav.Link
+                                      type="file"
+                                      className="button button-1"
+                                      onClick={handleSubmittingAssg}
+                                    >
+                                      Teslim Edildi
+                                    </Nav.Link>
+                                  ) : (
+                                    <>
+                                      
+                                      <Row>
+                                        <input
+                                          type="file"
+                                          className="form-control"
+                                          onChange={handleSubmitAssg}
+                                        ></input>
+                                      </Row>
+                                      <Row>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={() => {
+                                              handleAssignmentSubmit(
+                                                assignment._id
+                                              );
+                                            }}
+                                          >
+                                            Yukle
+                                          </Nav.Link>
+                                        </Col>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={handleSubmittingAssg}
+                                          >
+                                            Vazgec
+                                          </Nav.Link>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  )}
+                                </>
+                              )}
                             </>
                           ) : (
                             <>
-                              <label>Teslim Et</label>
+                              <label>Gecmis</label>
                             </>
                           )}
                         </Col>
@@ -698,7 +883,9 @@ const BlogPage = () => {
                       <Row key={note} style={{ padding: 10 }}>
                         <Row style={{ textAlign: "center" }}>
                           <Col>{note.title}</Col>
-                          <Col>{note.uploadedDate}</Col>
+                          <Col>
+                            {new Date(note.uploadedDate).toLocaleDateString()}
+                          </Col>
                         </Row>
                         <hr />
                       </Row>
@@ -798,7 +985,9 @@ const BlogPage = () => {
                           <Col>
                             <a href={video.title}>Video{index + 1}</a>
                           </Col>
-                          <Col>{video.uploadedDate}</Col>
+                          <Col>
+                            {new Date(video.uploadedDate).toLocaleDateString()}
+                          </Col>
                         </Row>
                       </Row>
                     </>
@@ -901,7 +1090,9 @@ const BlogPage = () => {
                       <Row key={exam} style={{ padding: 10 }}>
                         <Row style={{ textAlign: "center" }}>
                           <Col>{exam.title}</Col>
-                          <Col>{exam.uploadedDate}</Col>
+                          <Col>
+                            {new Date(exam.uploadedDate).toLocaleDateString()}
+                          </Col>
                           <Col>
                             {new Date(exam.dueDate).toLocaleDateString()}
                           </Col>
@@ -909,16 +1100,100 @@ const BlogPage = () => {
                             {new Date().getTime() <
                             new Date(exam.dueDate).getTime() ? (
                               <>
-                                <Nav.Link
-                                  className="button button-1"
-                                  onClick={handleExamSubmit}
-                                >
-                                  Teslim Et
-                                </Nav.Link>
+                                {!handleExamSubmitCheck(exam._id) ? (
+                                <>
+                                  {!submittingExam ? (
+                                    <Nav.Link
+                                      type="file"
+                                      className="button button-1"
+                                      onClick={handleSubmittingExam}
+                                    >
+                                      Teslim Et
+                                    </Nav.Link>
+                                  ) : (
+                                    <>
+                                      <Row>
+                                        <input
+                                          type="file"
+                                          className="form-control"
+                                          onChange={handleSubmitExam}
+                                        ></input>
+                                      </Row>
+                                      <Row>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={() => {
+                                              handleExamSubmit(
+                                                exam._id
+                                              );
+                                            }}
+                                          >
+                                            Yukle
+                                          </Nav.Link>
+                                        </Col>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={handleSubmittingExam}
+                                          >
+                                            Vazgec
+                                          </Nav.Link>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  {!submittingAssg ? (
+                                    <Nav.Link
+                                      type="file"
+                                      className="button button-1"
+                                      onClick={handleSubmittingExam}
+                                    >
+                                      Teslim Edildi
+                                    </Nav.Link>
+                                  ) : (
+                                    <>
+                                      
+                                      <Row>
+                                        <input
+                                          type="file"
+                                          className="form-control"
+                                          onChange={handleSubmitExam}
+                                        ></input>
+                                      </Row>
+                                      <Row>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={() => {
+                                              handleExamSubmit(
+                                                exam._id
+                                              );
+                                            }}
+                                          >
+                                            Yukle
+                                          </Nav.Link>
+                                        </Col>
+                                        <Col>
+                                          <Nav.Link
+                                            className="button button-1"
+                                            onClick={handleSubmittingExam}
+                                          >
+                                            Vazgec
+                                          </Nav.Link>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  )}
+                                </>
+                              )}
                               </>
                             ) : (
                               <>
-                                <label>Teslim Et</label>
+                                <label>Gecmis</label>
                               </>
                             )}
                           </Col>
@@ -1019,7 +1294,9 @@ const BlogPage = () => {
                         <Col>
                           <a href="">{resource.title}</a>
                         </Col>
-                        <Col>{resource.uploadedDate}</Col>
+                        <Col>
+                          {new Date(resource.uploadedDate).toLocaleDateString()}
+                        </Col>
                       </Row>
                       <hr />
                     </Row>
