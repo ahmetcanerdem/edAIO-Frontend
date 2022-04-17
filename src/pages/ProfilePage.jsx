@@ -207,7 +207,7 @@ function ProfilPage() {
                         <Nav.Link
                           style={{ width: "100%", height: "100%" }}
                           className="button button-4"
-                          href="/blog"
+                          href="/otherpages/blog"
                         >
                           <div
                             style={{
