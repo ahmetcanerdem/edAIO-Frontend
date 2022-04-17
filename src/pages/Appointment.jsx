@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+
 import {
   Accordion,
   AccordionItem,
@@ -8,6 +9,8 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+import AppointmentAdded from "../added/AppointmentAdded";
+// import CourseP from "../helpers/CourseP";
 import "../styles/Appointment.css";
 
 const Appointment = () => {
@@ -208,22 +211,10 @@ const Appointment = () => {
               )
             }
           </AccordionItem>
-          <AccordionItem>
-            <AccordionItemHeading
-              onClick={(e) => {
-                setReload(prevState => prevState + 1);
-              }}
-            >
-              <AccordionItemButton>
-                <h4 className="accordion-item-button-header appointment">
-                  Randevu Al
-                </h4>
-              </AccordionItemButton>
-            </AccordionItemHeading>
-            <AccordionItemPanel>
-              <h2>Loading</h2>
-            </AccordionItemPanel>
-          </AccordionItem>
+          <AppointmentAdded 
+            setExpanded={setExpanded}
+            isExpanded={isExpanded}
+            />
         </Accordion>
       </div>
     </>

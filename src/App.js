@@ -34,7 +34,7 @@ function App() {
         <Navigation />
         <div className="application-menu-container">
           {!!loginData ? (
-            <div>
+            <div style={{width: "100%", height: "100%"}}>
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/home" element={<HomePage />} />
