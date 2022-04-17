@@ -34,7 +34,7 @@ function CourseConfirmation() {
 				method: "post",
 				url: server + "/student/addCourse/sid=" + studentId,
 				data: {
-					courses: courses
+					course: courses
 				},
 			});
 		}
