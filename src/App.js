@@ -39,9 +39,9 @@ function App() {
 
   return (
     <Router>
-      <div></div>
       <div className="application-etuao">
         <Navigation />
+        <div></div>
         {!!loginData ? (
           <>
             {loginData.isRegistered ? (

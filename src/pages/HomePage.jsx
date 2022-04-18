@@ -14,8 +14,11 @@ import {
 fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
+  const [datax, setDatax] = useState(null);
   const [alertShown, setAlertShown] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
   useEffect(() => {
     axios
       .get(
@@ -33,20 +36,31 @@ const HomePage = () => {
   }, []);
 
   const handleHome = () => {
-    axios
-      .get(
-        "http://localhost:5000/student/homePage/id=" +
-          JSON.parse(localStorage.getItem("userData")).id
-      )
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (userData?.isStudent) {
+      axios
+        .get("http://localhost:5000/student/homePage/id=" + userData.id)
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (userData?.isLecturer) {
+      axios
+        .get("http://localhost:5000/lecturer/getCourses/id=" + userData.id)
+        .then((response) => {
+          setDatax(response.data.courses);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
 
-    if (JSON.parse(localStorage.getItem("userData")).isLecturer && !alertShown) {
+    if (
+      JSON.parse(localStorage.getItem("userData")).isLecturer &&
+      !alertShown
+    ) {
       alert("Onaylanmamis Randevulariniz Bulunmaktadir");
       setAlertShown(true);
     }
@@ -69,152 +83,173 @@ const HomePage = () => {
 
   return (
     <>
-      <div>
-        <Row>
-          <Col xs={8}></Col>
-          {/* <Col>
-            Rol:{" "}
-            {JSON.parse(localStorage.getItem("loginData")).user.isAdmin ? (
-              <>Admin</>
-            ) : (
-              <>Ogrenci</>
-            )}
-          </Col> */}
-          <Col>Merhaba {userInfo.name}</Col>
-        </Row>
-        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
-          <Col xs={10}>
-            <h2>Ana Sayfa</h2>
-          </Col>
-          <Col>Bugün: {getCurrentDate("/")}</Col>
-        </Row>
-        <Container>
-          {!!data &&
-            data.home.map((home) => {
-              const row = [];
-              console.log(home);
-              row.push(
-                <Row key={home}>
-                  <Row>
-                    <Col style={{ paddingRight: 50 }}>
-                      <Container style={{ paddingTop: 100 }}>
-                        <LineChart
-                          width={500}
-                          height={200}
-                          data={datas}
-                          margin={{
-                            top: 10,
-                            right: 30,
-                            left: 30,
-                            bottom: 0,
-                          }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <Tooltip
-                            wrapperStyle={{ backgroundColor: "#ffffff" }}
-                          />
-                          <Line
-                            dataKey="value"
-                            stroke="#ff0000"
-                            fill="#ff0000"
-                          />
-                        </LineChart>
-                      </Container>
-                    </Col>
-                    <Col>
-                      <Container>
-                        <h2>Incoming Courses: </h2>
-                        {home.incomingCourses.map((incomingCourses) => {
-                          const row3 = [];
-                          row3.push(
-                            <Row
-                              key={incomingCourses}
-                              style={{ paddingTop: 10 }}
+      {!!userData && (
+        <div>
+          <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
+            <Col xs={10}>
+              <h2>Ana Sayfa</h2>
+            </Col>{" "}
+            <div
+              style={{
+                position: "absolute",
+                justifyContent: "right",
+                right: "0",
+                textAlign: "right",
+              }}
+            >
+              Rol:{" "}
+              {userData?.isPersonnel
+                ? "Personel"
+                : userData?.isLecturer
+                ? "Öğretmen"
+                : "Öğrenci"}
+              <div>Kullanıcı: {userInfo.name}</div>
+              <div>Tarih: {getCurrentDate("/")}</div>
+            </div>
+          </Row>
+        </div>
+      )}
+      {userData?.isStudent ? (
+        <div>
+          <Container>
+            {!!data &&
+              data.home.map((home) => {
+                const row = [];
+                console.log(home);
+                row.push(
+                  <Row key={home}>
+                    <Row>
+                      <Col style={{ paddingRight: 50 }}>
+                        <Container style={{ paddingTop: 100 }}>
+                          <LineChart
+                            width={500}
+                            height={200}
+                            data={datas}
+                            margin={{
+                              top: 10,
+                              right: 30,
+                              left: 30,
+                              bottom: 0,
+                            }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <Tooltip
+                              wrapperStyle={{ backgroundColor: "#ffffff" }}
+                            />
+                            <Line
+                              dataKey="value"
+                              stroke="#ff0000"
+                              fill="#ff0000"
+                            />
+                          </LineChart>
+                        </Container>
+                      </Col>
+                      <Col>
+                        <Container>
+                          <h2>Incoming Courses: </h2>
+                          {home.incomingCourses.map((incomingCourses) => {
+                            const row3 = [];
+                            row3.push(
+                              <Row
+                                key={incomingCourses}
+                                style={{ paddingTop: 10 }}
+                              >
+                                <a href="https://us02web.zoom.us/j/86086854065">
+                                  <Container
+                                    style={{
+                                      backgroundColor: `#dcdcdc`,
+                                      borderRadius: 10,
+                                      border: "2px solid gray",
+                                      paddingRight: 10,
+                                      paddingTop: 10,
+                                      paddingLeft: 10,
+                                    }}
+                                  >
+                                    <Row style={{ paddingLeft: 10 }}>
+                                      Tarih: {incomingCourses.date}
+                                    </Row>
+                                    <Row style={{ paddingLeft: 10 }}>
+                                      Ders Kodu: {incomingCourses.shortCode}
+                                    </Row>
+                                    <Row style={{ paddingLeft: 10 }}>
+                                      Şube: {incomingCourses.section}
+                                    </Row>
+                                    <Row style={{ paddingLeft: 10 }}>
+                                      Ders: {incomingCourses.description}
+                                    </Row>
+                                    <Row style={{ paddingLeft: 10 }}>
+                                      Saat: {incomingCourses.time}
+                                    </Row>
+                                  </Container>
+                                </a>
+                              </Row>
+                            );
+                            return row3;
+                          })}
+                        </Container>
+                      </Col>
+                      <Col>
+                        <Container style={{ paddingTop: 60 }}>
+                          <Row>
+                            <Container
+                              style={{
+                                backgroundColor: `#dcdcdc`,
+                                borderRadius: 10,
+                                border: "2px solid gray",
+                                paddingRight: 10,
+                                paddingTop: 10,
+                                paddingLeft: 10,
+                              }}
                             >
-                              <a href="https://us02web.zoom.us/j/86086854065">
-                                <Container
-                                  style={{
-                                    backgroundColor: `#dcdcdc`,
-                                    borderRadius: 10,
-                                    border: "2px solid gray",
-                                    paddingRight: 10,
-                                    paddingTop: 10,
-                                    paddingLeft: 10,
-                                  }}
-                                >
-                                  <Row style={{ paddingLeft: 10 }}>
-                                    Tarih: {incomingCourses.date}
-                                  </Row>
-                                  <Row style={{ paddingLeft: 10 }}>
-                                    Ders Kodu: {incomingCourses.shortCode}
-                                  </Row>
-                                  <Row style={{ paddingLeft: 10 }}>
-                                    Şube: {incomingCourses.section}
-                                  </Row>
-                                  <Row style={{ paddingLeft: 10 }}>
-                                    Ders: {incomingCourses.description}
-                                  </Row>
-                                  <Row style={{ paddingLeft: 10 }}>
-                                    Saat: {incomingCourses.time}
-                                  </Row>
-                                </Container>
-                              </a>
-                            </Row>
-                          );
-                          return row3;
-                        })}
-                      </Container>
-                    </Col>
-                    <Col>
-                      <Container style={{ paddingTop: 60 }}>
-                        <Row>
-                          <Container
-                            style={{
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                              paddingRight: 10,
-                              paddingTop: 10,
-                              paddingLeft: 10,
-                            }}
-                          >
-                            Öğrenci Onayı:{" "}
-                            {home.isStudentConfirmed ? (
-                              <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon>
-                            ) : (
-                              <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>
-                            )}
-                          </Container>
-                        </Row>
-                        <Row style={{ paddingTop: 20 }}>
-                          <Container
-                            style={{
-                              backgroundColor: `#dcdcdc`,
-                              borderRadius: 10,
-                              border: "2px solid gray",
-                              paddingRight: 10,
-                              paddingTop: 10,
-                              paddingLeft: 10,
-                            }}
-                          >
-                            Danışman Onayı:{" "}
-                            {home.isAdvisorConfirmed ? (
-                              <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon>
-                            ) : (
-                              <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>
-                            )}
-                          </Container>
-                        </Row>
-                      </Container>
-                    </Col>
+                              Öğrenci Onayı:{" "}
+                              {home.isStudentConfirmed ? (
+                                <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon>
+                              ) : (
+                                <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>
+                              )}
+                            </Container>
+                          </Row>
+                          <Row style={{ paddingTop: 20 }}>
+                            <Container
+                              style={{
+                                backgroundColor: `#dcdcdc`,
+                                borderRadius: 10,
+                                border: "2px solid gray",
+                                paddingRight: 10,
+                                paddingTop: 10,
+                                paddingLeft: 10,
+                              }}
+                            >
+                              Danışman Onayı:{" "}
+                              {home.isAdvisorConfirmed ? (
+                                <FontAwesomeIcon icon="circle-check"></FontAwesomeIcon>
+                              ) : (
+                                <FontAwesomeIcon icon="circle-xmark"></FontAwesomeIcon>
+                              )}
+                            </Container>
+                          </Row>
+                        </Container>
+                      </Col>
+                    </Row>
                   </Row>
-                </Row>
-              );
-              return row;
-            })}
-        </Container>
-      </div>
+                );
+                return row;
+              })}
+          </Container>
+        </div>
+      ) : (
+        !!datax &&
+        datax.map((course) => {
+          console.log(datax);
+          return (
+            <>
+              <h4>{course.code}</h4>
+              <label>{course.name}</label>
+            </>
+          );
+        })
+      )}
     </>
   );
 };

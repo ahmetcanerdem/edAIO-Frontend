@@ -9,14 +9,14 @@ function ProfilPage() {
   const server = "http://localhost:5000";
   const [data, setData] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
-
+  const userData = JSON.parse(localStorage.getItem("userData"));
   useEffect(() => {
-    if(JSON.parse(localStorage.getItem("userData")).isStudent){
+    if(userData.isStudent){
     axios
       .get(
         server +
           "/student/getProfile/id=" +
-          JSON.parse(localStorage.getItem("userData")).id
+          userData.id
       )
       .then((response) => {
         console.log(response.data);
@@ -26,12 +26,12 @@ function ProfilPage() {
         console.log(error);
       });
     }
-    else if(JSON.parse(localStorage.getItem("userData")).isLecturer){
+    else if(userData.isLecturer){
       axios
       .get(
         server +
           "/lecturer/id=" +
-          JSON.parse(localStorage.getItem("userData")).id
+          userData.id
       )
       .then((response) => {
         console.log(response.data);
@@ -45,24 +45,32 @@ function ProfilPage() {
 
   return (
     <>
-      <Row>
-        <Col xs={8}></Col>
-        <Col>
-          Rol:{" "}
-          {JSON.parse(localStorage.getItem("userData")).isStudent ? (
-            <>Ogrenci</>
-          ) : (
-            <>Ogretmen</>
-          )}
-        </Col>
-        <Col>Merhaba {userInfo.name}</Col>
-      </Row>
-      <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
-        <Col xs={10}>
-          <h2>Bilgilerim</h2>
-        </Col>
-        <Col>Bugün: {getCurrentDate("/")}</Col>
-      </Row>
+            {!!userData && (
+        <div>
+          <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
+            <Col xs={10}>
+              <h2>Ana Sayfa</h2>
+            </Col>{" "}
+            <div
+              style={{
+                position: "absolute",
+                justifyContent: "right",
+                right: "0",
+                textAlign: "right",
+              }}
+            >
+              Rol:{" "}
+              {userData?.isPersonnel
+                ? "Personel"
+                : userData?.isLecturer
+                ? "Öğretmen"
+                : "Öğrenci"}
+              <div>Kullanıcı: {userInfo.name}</div>
+              <div>Tarih: {getCurrentDate("/")}</div>
+            </div>
+          </Row>
+        </div>
+      )}
       {JSON.parse(localStorage.getItem("userData")).isLecturer && (
         <>
           {!!data && (
