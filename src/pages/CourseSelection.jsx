@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
+import { Nav , Row, Col} from "react-bootstrap";
 import "../styles/Buttons.css";
 
 const selectedCourses = [];
@@ -59,7 +60,19 @@ function CourseSelection() {
 
   return (
     <div>
-      <h1>Select Courses</h1>
+      <h1>Ders Seçimi</h1>
+      <Col>
+        <Nav.Link className="button button-4" href="/semester/courses">
+          <h3
+            style={{
+              padding: "10px",
+            }}
+          >
+            {" "}
+            Derslerim Ekranına Geri Dön{" "}
+          </h3>
+        </Nav.Link>
+      </Col>
       <form>
         <div className="form-group">
           {!!courses && (

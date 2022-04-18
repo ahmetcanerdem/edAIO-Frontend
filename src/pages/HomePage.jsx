@@ -86,7 +86,7 @@ const HomePage = () => {
           <Col xs={10}>
             <h2>Ana Sayfa</h2>
           </Col>
-          <Col>Bugun: {getCurrentDate("/")}</Col>
+          <Col>Bugün: {getCurrentDate("/")}</Col>
         </Row>
         <Container>
           {!!data &&

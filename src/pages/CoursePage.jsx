@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { Nav } from "react-bootstrap";
+import { Nav, Row, Col } from "react-bootstrap";
 import "../styles/Buttons.css";
 
 const CoursePage = () => {
@@ -9,13 +9,15 @@ const CoursePage = () => {
   const studentId = userInfo.studentID;
   const [courses, setCourses] = React.useState();
   const [buttons, setButtons] = React.useState();
-  const [selectCourseInformation, setSelectCourseInformation] = React.useState();
+  const [selectCourseInformation, setSelectCourseInformation] =
+    React.useState();
   const [isShown, setShown] = React.useState();
   const [reload, setReload] = React.useState(1);
-  const [data, setData] = React.useState();  
+  const [isAddedCourseTime, setAddedCourseTime] = React.useState(true);
+  const [data, setData] = React.useState();
   const [isLectureSet, setLectureSet] = React.useState(false);
 
-  const [courseShown,setCourseShown] = React.useState({
+  const [courseShown, setCourseShown] = React.useState({
     courseId: null,
     courseCode: null,
     courseName: null,
@@ -60,26 +62,26 @@ const CoursePage = () => {
 
   const handleSelectCourse = async (id) => {
     setCourseShown({
-        courseId: null,
-        courseCode: null,
-        courseName: null,
-        credit: null,
-        department: null,
-        lessonHours: null,
-        studentList: null,
-        lessonInstructor: null,
-        courseAssignment: null,
-        numberStudents: null,
-        averageGrade: null,
-        mail: null,
-        title: null,
-      });
+      courseId: null,
+      courseCode: null,
+      courseName: null,
+      credit: null,
+      department: null,
+      lessonHours: null,
+      studentList: null,
+      lessonInstructor: null,
+      courseAssignment: null,
+      numberStudents: null,
+      averageGrade: null,
+      mail: null,
+      title: null,
+    });
 
     let getCourseInfo = await axios.get(
       "http://localhost:5000/course/id=" + id
     );
     if (!!getCourseInfo.data) {
-        setCourseShown({
+      setCourseShown({
         ...courseShown,
         courseId: getCourseInfo.data.course._id,
         courseCode: getCourseInfo.data.course.code,
@@ -97,54 +99,63 @@ const CoursePage = () => {
 
   useEffect(async () => {
     // console.log(selectCourseInformation);
-    if(!!selectCourseInformation){
-        await axios.get(
-            "http://localhost:5000/course/getCourseInfo/id=" +
-              selectCourseInformation._id
-          ).then( async (findLecturer) => {
-            setCourseShown({
-                ...courseShown,
-                numberStudents: findLecturer.data.students,
-                averageGrade: findLecturer.data.avgGpa,
-              });
-            setLectureSet(true);
+    if (!!selectCourseInformation) {
+      await axios
+        .get(
+          "http://localhost:5000/course/getCourseInfo/id=" +
+            selectCourseInformation._id
+        )
+        .then(async (findLecturer) => {
+          setCourseShown({
+            ...courseShown,
+            numberStudents: findLecturer.data.students,
+            averageGrade: findLecturer.data.avgGpa,
           });
-        }
-  }, [selectCourseInformation]);  
-  
+          setLectureSet(true);
+        });
+    }
+  }, [selectCourseInformation]);
+
   useEffect(async () => {
     // console.log(selectCourseInformation);
-    if(isLectureSet)
-    await axios.get(
-        "http://localhost:5000/lecturer/id=" + selectCourseInformation.lecturer
-      ).then(infoInstructor => {
-        setCourseShown({
+    if (isLectureSet)
+      await axios
+        .get(
+          "http://localhost:5000/lecturer/id=" +
+            selectCourseInformation.lecturer
+        )
+        .then((infoInstructor) => {
+          setCourseShown({
             ...courseShown,
             mail: infoInstructor.data.lecturer.schoolMail,
             title: infoInstructor.data.lecturer.title,
           });
-      });
-  }, [isLectureSet]);
-  
-  useEffect(async () => {
-    if((!!courseShown.numberStudents || !!courseShown.averageGrade)&& (!!courseShown.mail || !!courseShown.title)){
-        setData({ courseId: null,
-            courseCode: null,
-            courseName: null,
-            credit: null,
-            department: null,
-            lessonHours: null,
-            studentList: null,
-            lessonInstructor: null,
-            courseAssignment: null,
-            numberStudents: null,
-            averageGrade: null,
-            mail: null,
-            title: null
         });
-        setData(courseShown);
-        setShown(true);
-        setReload(prevState => prevState + 1);
+  }, [isLectureSet]);
+
+  useEffect(async () => {
+    if (
+      (!!courseShown.numberStudents || !!courseShown.averageGrade) &&
+      (!!courseShown.mail || !!courseShown.title)
+    ) {
+      setData({
+        courseId: null,
+        courseCode: null,
+        courseName: null,
+        credit: null,
+        department: null,
+        lessonHours: null,
+        studentList: null,
+        lessonInstructor: null,
+        courseAssignment: null,
+        numberStudents: null,
+        averageGrade: null,
+        mail: null,
+        title: null,
+      });
+      setData(courseShown);
+      setShown(true);
+      setReload((prevState) => prevState + 1);
     }
   }, [courseShown]);
 
@@ -254,10 +265,6 @@ const CoursePage = () => {
       <div style={{ maxHeight: "40rem", overflow: "auto" }}>
         <div style={{ marginTop: "20px" }}>
           <h3 style={{ color: "red" }}>Ders Bilgileri</h3>
-          <Nav.Link className="button button-4" href="/courseSelection">
-            {" "}
-            Ders Secimi{" "}
-          </Nav.Link>
           <div>
             <div
               className="lessonInfo"
@@ -413,10 +420,30 @@ const CoursePage = () => {
   return (
     <>
       <h1>Derslerim:</h1>
-      {buttons?.length > 0 ? (
-        <div style={{ textAlign: "center" }}> {buttons} </div>
-      ) : null}
-      {isShown ? EkranaBas() : null}
+      <div>
+        <Row>
+          {isAddedCourseTime && (
+            <Col>
+              <Nav.Link className="button button-4" href="/courseSelection">
+                <h3
+                  style={{
+                    padding: "10px",
+                  }}
+                >
+                  {" "}
+                  Ders Secimi{" "}
+                </h3>{" "}
+              </Nav.Link>
+            </Col>
+          )}
+          <Col>
+            {buttons?.length > 0 ? (
+              <div style={{ textAlign: "center" }}> {buttons} </div>
+            ) : null}
+            {isShown ? EkranaBas() : null}
+          </Col>
+        </Row>
+      </div>
     </>
   );
 };
