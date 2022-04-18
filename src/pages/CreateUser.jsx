@@ -7,7 +7,7 @@ import {Link, useNavigate} from 'react-router-dom';
 
 
 const CreateUser = () => {
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(null);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
@@ -22,19 +22,33 @@ const CreateUser = () => {
   }
 
   const handlePersonnel=()=>{
-    navigate('/addPersonel',{state:user});
+    navigate('/addPersonnel',{state:user});
   }
 
   const requestUser = () => {
+    let name = "%20";
+    if(!userName){
     axios
 
-      .get("http://localhost:5000/user?name=" + userName)
+      .get("http://localhost:5000/user/add/name="  + name)
       .then((response) => {
         setUsers(response.data.users);
       })
       .catch((error) => {
         console.log(error);
       });
+    }
+    else {
+      axios
+
+      .get("http://localhost:5000/user/add/name=" + userName)
+      .then((response) => {
+        setUsers(response.data.users);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   };
 
   const handleUserName = (e) => {
@@ -42,7 +56,9 @@ const CreateUser = () => {
   };
 
   const handleUser = (e) => {
-    if (e.target.checked) setUser(e.target.id);
+    if (e.target.checked){ setUser(e.target.id);
+    console.log(e.target.id);
+    }
   };
 
   return (

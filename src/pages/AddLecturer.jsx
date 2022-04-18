@@ -40,6 +40,14 @@ function AddLecturer() {
         console.log(error);
       });
   }, []);
+  
+  useEffect(() => {
+    axios({
+      method: "post",
+      url: "http://localhost:5000/user/add/id=" + studentId,
+      data: {isStudent:false,isLecturer:true,isPersonnel:false},
+    });
+  }, []);
 
   const putStudent = () => {
     user.department = depSelected;
