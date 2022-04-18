@@ -21,6 +21,8 @@ const BlogPage = () => {
   const [courseId, setCourseId] = useState("");
   const [rowsAssignmentRender, setRowsAssignmentRender] = React.useState();
   const [rowsExamsRender, setRowsExamsRender] = React.useState();
+  const [submittingAssgId, setSubmittingAssgId] = useState();
+  const [submittingExamId, setSubmittingExamId] = useState();
   const userId = JSON.parse(localStorage.getItem("loginData"))._id;
   console.log(JSON.parse(localStorage.getItem("loginData")));
   let server = "http://localhost:5000";
@@ -131,7 +133,6 @@ const BlogPage = () => {
     useState(false);
   const [submittingAssg, setSubmittingAssg] = useState(false);
   const [submitAssgData, setSubmitAssgData] = useState(null);
-  const [isExamUploaded, setExamUploaded] = useState(false);
   const [submitExamData, setSubmitExamData] = useState(null);
   const [submittingExam, setSubmittingExam] = useState(false);
 
@@ -287,6 +288,11 @@ const BlogPage = () => {
     setSubmittingAssg(!submittingAssg);
   };
 
+  const handleSubmittingAssgId = (id) => {
+    setSubmittingAssg(!submittingAssg);
+    setSubmittingAssgId(id);
+  };
+
   const handleSubmitAssg = (e) => {
     setSubmitAssgData({
       ...submitAssgData,
@@ -315,6 +321,11 @@ const BlogPage = () => {
 
   const handleSubmittingExam = () => {
     setSubmittingExam(!submittingExam);
+  };
+
+  const handleSubmittingExamId = (id) => {
+    setSubmittingExam(!submittingExam);
+    setSubmittingExamId(id);
   };
 
   const handleSubmitExam = (e) => {
@@ -400,87 +411,27 @@ const BlogPage = () => {
                   <>
                     {!submitCheckTrue ? (
                       <>
-                        {!submittingAssg ? (
-                          <Nav.Link
-                            type="file"
-                            className="button button-1"
-                            onClick={handleSubmittingAssg}
-                          >
-                            Teslim Et
-                          </Nav.Link>
-                        ) : (
-                          <>
-                            <Row>
-                              <input
-                                type="file"
-                                className="form-control"
-                                onChange={handleSubmitAssg}
-                              ></input>
-                            </Row>
-                            <Row>
-                              <Col>
-                                <Nav.Link
-                                  className="button button-1"
-                                  onClick={() => {
-                                    handleAssignmentSubmit(assignment._id);
-                                  }}
-                                >
-                                  Yukle
-                                </Nav.Link>
-                              </Col>
-                              <Col>
-                                <Nav.Link
-                                  className="button button-1"
-                                  onClick={handleSubmittingAssg}
-                                >
-                                  Vazgec
-                                </Nav.Link>
-                              </Col>
-                            </Row>
-                          </>
-                        )}
+                        <Nav.Link
+                          type="file"
+                          className="button button-1"
+                          onClick={() => {
+                            handleSubmittingAssgId(assignment._id);
+                          }}
+                        >
+                          Teslim Et
+                        </Nav.Link>
                       </>
                     ) : (
                       <>
-                        {!submittingAssg ? (
-                          <Nav.Link
-                            type="file"
-                            className="button button-1"
-                            onClick={handleSubmittingAssg}
-                          >
-                            Teslim Edildi
-                          </Nav.Link>
-                        ) : (
-                          <>
-                            <Row>
-                              <input
-                                type="file"
-                                className="form-control"
-                                onChange={handleSubmitAssg}
-                              ></input>
-                            </Row>
-                            <Row>
-                              <Col>
-                                <Nav.Link
-                                  className="button button-1"
-                                  onClick={() => {
-                                    handleAssignmentSubmit(assignment._id);
-                                  }}
-                                >
-                                  Yukle
-                                </Nav.Link>
-                              </Col>
-                              <Col>
-                                <Nav.Link
-                                  className="button button-1"
-                                  onClick={handleSubmittingAssg}
-                                >
-                                  Vazgec
-                                </Nav.Link>
-                              </Col>
-                            </Row>
-                          </>
-                        )}
+                        <Nav.Link
+                          type="file"
+                          className="button button-1"
+                          onClick={() => {
+                            handleSubmittingAssgId(assignment._id);
+                          }}
+                        >
+                          Teslim Edildi
+                        </Nav.Link>
                       </>
                     )}
                   </>
@@ -524,87 +475,27 @@ const BlogPage = () => {
                     <>
                       {!submitCheckTrue ? (
                         <>
-                          {!submittingExam ? (
-                            <Nav.Link
-                              type="file"
-                              className="button button-1"
-                              onClick={handleSubmittingExam}
-                            >
-                              Teslim Et
-                            </Nav.Link>
-                          ) : (
-                            <>
-                              <Row>
-                                <input
-                                  type="file"
-                                  className="form-control"
-                                  onChange={handleSubmitExam}
-                                ></input>
-                              </Row>
-                              <Row>
-                                <Col>
-                                  <Nav.Link
-                                    className="button button-1"
-                                    onClick={() => {
-                                      handleExamSubmit(exam._id);
-                                    }}
-                                  >
-                                    Yukle
-                                  </Nav.Link>
-                                </Col>
-                                <Col>
-                                  <Nav.Link
-                                    className="button button-1"
-                                    onClick={handleSubmittingExam}
-                                  >
-                                    Vazgec
-                                  </Nav.Link>
-                                </Col>
-                              </Row>
-                            </>
-                          )}
+                          <Nav.Link
+                            type="file"
+                            className="button button-1"
+                            onClick={() => {
+                              handleSubmittingExamId(exam._id);
+                            }}
+                          >
+                            Teslim Et
+                          </Nav.Link>
                         </>
                       ) : (
                         <>
-                          {!submittingAssg ? (
-                            <Nav.Link
-                              type="file"
-                              className="button button-1"
-                              onClick={handleSubmittingExam}
-                            >
-                              Teslim Edildi
-                            </Nav.Link>
-                          ) : (
-                            <>
-                              <Row>
-                                <input
-                                  type="file"
-                                  className="form-control"
-                                  onChange={handleSubmitExam}
-                                ></input>
-                              </Row>
-                              <Row>
-                                <Col>
-                                  <Nav.Link
-                                    className="button button-1"
-                                    onClick={() => {
-                                      handleExamSubmit(exam._id);
-                                    }}
-                                  >
-                                    Yukle
-                                  </Nav.Link>
-                                </Col>
-                                <Col>
-                                  <Nav.Link
-                                    className="button button-1"
-                                    onClick={handleSubmittingExam}
-                                  >
-                                    Vazgec
-                                  </Nav.Link>
-                                </Col>
-                              </Row>
-                            </>
-                          )}
+                          <Nav.Link
+                            type="file"
+                            className="button button-1"
+                            onClick={() => {
+                              handleSubmittingExamId(exam._id);
+                            }}
+                          >
+                            Teslim Edildi
+                          </Nav.Link>
                         </>
                       )}
                     </>
@@ -927,6 +818,46 @@ const BlogPage = () => {
               </Container>
             </Container>
             <br />
+            {submittingAssg ? (
+              <>
+                <Row>
+                  <Col xs={6}></Col>
+                  <Col xs={4} style={{ paddingLeft: "200px" }}>
+                    <Row>
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={handleSubmitAssg}
+                      ></input>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={() => {
+                            handleAssignmentSubmit(submittingAssgId);
+                          }}
+                        >
+                          Yukle
+                        </Nav.Link>
+                      </Col>
+                      <Col>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleSubmittingAssg}
+                        >
+                          Vazgec
+                        </Nav.Link>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={2}></Col>
+                </Row>
+              </>
+            ) : (
+              <></>
+            )}
+            <br />
             <Row>
               <Col xs={8}>
                 <h3>Notes</h3>
@@ -1215,6 +1146,46 @@ const BlogPage = () => {
                 {rowsExamsRender}
               </Container>
             </Container>
+            <br />
+            {submittingExam ? (
+              <>
+                <Row>
+                  <Col xs={6}></Col>
+                  <Col xs={4} style={{ paddingLeft: "200px" }}>
+                    <Row>
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={handleSubmitExam}
+                      ></input>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={() => {
+                            handleExamSubmit(submittingExamId);
+                          }}
+                        >
+                          Yukle
+                        </Nav.Link>
+                      </Col>
+                      <Col>
+                        <Nav.Link
+                          className="button button-1"
+                          onClick={handleSubmittingExam}
+                        >
+                          Vazgec
+                        </Nav.Link>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={2}></Col>
+                </Row>
+              </>
+            ) : (
+              <></>
+            )}
             <br />
             <Row>
               <Col xs={8}>
