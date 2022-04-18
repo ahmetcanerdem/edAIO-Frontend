@@ -74,10 +74,19 @@ function App() {
                     element={<IkinciYabanciDilBilgileri />}
                   />
                   <Route path="/login" element={<GirisCikisSayfasi />} />
-                  
-                    <Route path="/courseApproval" element={<CourseApproval />} />
-                  
-                  {(userData.isPersonnel || userData.isLecturer) ? (
+
+                  {!!userData ? (
+                    userData.isLecturer
+                  ) : null ? (
+                    <Route
+                      path="/courseApproval"
+                      element={<CourseApproval />}
+                    />
+                  ) : null}
+
+                  {!!userData ? (
+                    userData.isPersonnel
+                  ) : null ? (
                     <>
                       <Route path="/admin" element={<AdminPage />} />
                       <Route path="/editStudent" element={<EditStudent />} />
@@ -86,9 +95,7 @@ function App() {
                       <Route path="/addLecturer" element={<AddLecturer />} />
                       <Route path="/addPersonnel" element={<AddPersonnel />} />
                     </>
-                  ) : (
-                    <></>
-                  )}
+                  ) : null}
                   <Route
                     path="/courseSelection"
                     element={<CourseSelection />}

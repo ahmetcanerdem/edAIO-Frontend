@@ -15,6 +15,7 @@ const BlogPage = () => {
   const [isLoading, setLoading] = useState(true);
   const [responseData, setResponseData] = useState(null);
   const userInfo = JSON.parse(localStorage.getItem("userData"));
+  console.log(userInfo, "AAA");
   const [courses, setCourses] = useState(null);
   const studentId = userInfo.id;
   const [isPosting, setPosting] = useState(false);
@@ -44,12 +45,12 @@ const BlogPage = () => {
     else if(userInfo.isLecturer)
     {
     axios
-    .get(server + "/lecturer/getTermCourses/id=" + studentId)
+    .get(server + "/lecturer/getCourses/id=" + studentId)
     .then((response) => {
       console.log(response.data, "courses");
-      setCourseId(response.data.courses[0].id);
+      setCourseId(response.data.courses[0]._id);
       setCourses(response.data.courses);
-      handleCourses(response.data.courses[0].id);
+      handleCourses(response.data.courses[0]._id);
     })
     .catch((error) => {
       console.log(error);
@@ -61,7 +62,7 @@ const BlogPage = () => {
     axios
       .get(server + "/course/getBlog/id=" + id)
       .then((response) => {
-        console.log(response.data, " AAAAAAAA");
+        console.log(response.data, " BBBBBBBBBBBBBBB");
 
         setCourse(response.data);
         setLoading(false);
