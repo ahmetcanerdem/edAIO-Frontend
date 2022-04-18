@@ -124,6 +124,7 @@ function CourseConfirmation() {
           })}
         </>
       )}
+      
     </div>
   );
 }

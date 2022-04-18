@@ -23,11 +23,12 @@ const BlogPage = () => {
   const [rowsExamsRender, setRowsExamsRender] = React.useState();
   const [submittingAssgId, setSubmittingAssgId] = useState();
   const [submittingExamId, setSubmittingExamId] = useState();
-  const userId = JSON.parse(localStorage.getItem("loginData"))._id;
   console.log(JSON.parse(localStorage.getItem("loginData")));
   let server = "http://localhost:5000";
 
   useEffect(() => {
+    if(userInfo.isStudent)
+    {
     axios
       .get(server + "/student/getTermCourses/id=" + studentId)
       .then((response) => {
@@ -39,6 +40,21 @@ const BlogPage = () => {
       .catch((error) => {
         console.log(error);
       });
+    }
+    else if(userInfo.isLecturer)
+    {
+    axios
+    .get(server + "/lecturer/getTermCourses/id=" + studentId)
+    .then((response) => {
+      console.log(response.data, "courses");
+      setCourseId(response.data.courses[0].id);
+      setCourses(response.data.courses);
+      handleCourses(response.data.courses[0].id);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    }
   }, []);
 
   const handleCourses = (id) => {
@@ -527,7 +543,6 @@ const BlogPage = () => {
           studentId
       )
       .then((response) => {
-        console.log(response.data, " AAAAAAAAAAAAAAAAAAAAAAAAAA");
         return response.data.isRegistered;
       })
       .catch((error) => {
@@ -733,7 +748,7 @@ const BlogPage = () => {
                 <h3>Assignments</h3>
               </Col>
               <Col xs={2}>
-                {userInfo.isStudent ? (
+                {userInfo.isLecturer ? (
                   <>
                     {uploadingAssg ? (
                       <>
@@ -818,7 +833,7 @@ const BlogPage = () => {
               </Container>
             </Container>
             <br />
-            {submittingAssg ? (
+            {(submittingAssg && userInfo.isStudent) ? (
               <>
                 <Row>
                   <Col xs={6}></Col>
@@ -863,7 +878,7 @@ const BlogPage = () => {
                 <h3>Notes</h3>
               </Col>
               <Col xs={2}>
-                {userInfo.isStudent ? (
+                {userInfo.isLecturer ? (
                   <>
                     {uploadingNote ? (
                       <>
@@ -962,7 +977,7 @@ const BlogPage = () => {
                 <h3>Videos</h3>
               </Col>
               <Col xs={2}>
-                {userInfo.isStudent ? (
+                {userInfo.isLecturer ? (
                   <>
                     {uploadingVideo ? (
                       <>
@@ -1063,7 +1078,7 @@ const BlogPage = () => {
                 <h3>Exams</h3>
               </Col>
               <Col xs={2}>
-                {userInfo.isStudent ? (
+                {userInfo.isLecturer ? (
                   <>
                     {uploadingExam ? (
                       <>
@@ -1147,7 +1162,7 @@ const BlogPage = () => {
               </Container>
             </Container>
             <br />
-            {submittingExam ? (
+            {(submittingExam && userInfo.isStudent) ? (
               <>
                 <Row>
                   <Col xs={6}></Col>
@@ -1192,7 +1207,7 @@ const BlogPage = () => {
                 <h3>General Resources</h3>
               </Col>
               <Col xs={2}>
-                {userInfo.isStudent ? (
+                {userInfo.isLecturer ? (
                   <>
                     {uploadingGeneralResource ? (
                       <>

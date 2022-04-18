@@ -21,23 +21,16 @@ function AddLecturer() {
   const [mail, setMail] = useState(null);
 
   let user = {
-    id: 0,
-    scholarship: 0,
     department: "",
-    courses: [],
-    email: "",
+    schoolMail: "",
     user: studentId,
     status: "aktif",
-    grade: 1,
-    gpa: 0,
-    secondForeignLanguage: "",
-    credit: 0,
-    advisor: "",
+    title: "",
   };
 
   useEffect(() => {
     axios
-      .get("http://192.168.0.11:5000/department")
+      .get("http://localhost:5000/department")
       .then((response) => {
         console.log(response.data);
         setDepData(response.data.department);
@@ -49,142 +42,59 @@ function AddLecturer() {
   }, []);
 
   const putStudent = () => {
-		
     user.department = depSelected;
-    user.scholarship = schlrs;
-    user.id = id;
-    user.email = mail;
-    user.advisor = lecSelected;
+    user.schoolMail = mail;
+    user.title = id;
 
     console.log(user);
     axios({
       method: "post",
-      url: "http://192.168.0.11:5000/student/add",
+      url: "http://localhost:5000/lecturer/add",
       data: user,
     });
   };
 
-  const handleScholar = (e) => {
-    setScholarShip(scholars[e.target.attributes.value.value]);
-    setSchlrs(scholars[e.target.attributes.value.value]);
-  };
-
-  const handleAdvisor = (e) => {};
-
   const handleDepartment = (e) => {
     setDepSelected(depData[e.target.attributes.value.value]._id);
     setDepartment(depData[e.target.attributes.value.value].name);
-    console.log(user);
-    axios
-      .get(
-        "http://192.168.0.11:5000/course/dept=" +
-          depData[e.target.attributes.value.value]._id
-      )
-      .then((response) => {
-        console.log(response.data);
-        setCoursesData(response.data.course);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    axios
-      .get(
-        "http://192.168.0.11:5000/lecturer/dept=" +
-          depData[e.target.attributes.value.value]._id
-      )
-      .then((response) => {
-        setLecturersData(response.data.lecturer);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
-  const handleStudentID = (event) => {
+  const handleTitle = (event) => {
     //
     setId(event.target.value);
   };
-  const handleEmail = (event) => {
+
+  const handleMail = (event) => {
+    //
     setMail(event.target.value);
   };
 
-  const handleLecturer = (e) => {
-    setLecSelected(lecturers[e.target.id]._id);
-  };
-
-  const handleCourses = (e) => {
-    user.courses.push(courses[e.target.id]._id);
-  };
 
   return (
     // make form
     <div>
-      <h1>Add Student</h1>
+      <h1>Add Lecturer</h1>
       <form>
         <div className="form-group">
           <label htmlFor="exampleInputEmail1">Ogrenci No</label>
           <input
             className="form-control"
-            placeholder="ogrenci no"
-            onChange={handleStudentID}
+            placeholder="Unvan"
+            onChange={handleTitle}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="exampleInputEmail1">Ogrenci Maili</label>
+          <label htmlFor="exampleInputEmail1">Email</label>
           <input
             className="form-control"
-            placeholder="ogrenci no"
-            onChange={handleEmail}
+            placeholder="Unvan"
+            onChange={handleMail}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="exampleInputEmail1">Burs</label>
+
           <Col xs={4}>
-            <NavDropdown className="button button-1" title={scholarShip}>
-              <NavDropdown.Item
-                className="button button-1"
-                onClick={handleScholar}
-                key={0}
-                value={0}
-              >
-                100
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                className="button button-1"
-                onClick={handleScholar}
-                key={1}
-                value={1}
-              >
-                75
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                className="button button-1"
-                onClick={handleScholar}
-                key={2}
-                value={2}
-              >
-                50
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                className="button button-1"
-                onClick={handleScholar}
-                key={3}
-                value={3}
-              >
-                25
-              </NavDropdown.Item>
-              <NavDropdown.Item
-                className="button button-1"
-                onClick={handleScholar}
-                key={4}
-                value={4}
-              >
-                0
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Col>
-          <Col xs={4}>
-            <label htmlFor="exampleInputEmail1">Bolum</label>
+            <label>Bolum</label>
             <NavDropdown className="button button-1" title={department}>
               {!!depData &&
                 depData.map((dep, index) => (
@@ -201,47 +111,9 @@ function AddLecturer() {
                 ))}
             </NavDropdown>
           </Col>
-          {!!courses && (
-            //list users for selection
-            <ul>
-              {courses.map((user, index) => {
-                return (
-                  <li key={index}>
-                    <input
-                      type="checkbox"
-                      id={index}
-                      onChange={handleCourses}
-                    />
-                    <label htmlFor={user.id}>
-                      {user.code} {user.name}
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-          {!!lecturers && (
-            <Col xs={4}>
-              <label htmlFor="exampleInputEmail1">Danisman</label>
-              <NavDropdown className="button button-1" title={lecSelected}>
-                {lecturers.map((dep, index) => (
-                  <div>
-                    <NavDropdown.Item
-                      className="button button-1"
-                      onClick={handleLecturer}
-                      key={index}
-                      value={index}
-                    >
-                      {dep.name}
-                    </NavDropdown.Item>
-                  </div>
-                ))}
-              </NavDropdown>
-            </Col>
-          )}
         </div>
       </form>
-      {!!lecSelected && (
+      {!!department && (
         <button type="submit" className="button button-1" onClick={putStudent}>
           Submit
         </button>

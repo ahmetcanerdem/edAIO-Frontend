@@ -146,7 +146,7 @@ function ProfilPage() {
                       }}
                     >
                       <div>
-                        <Row>{data.class}</Row>
+                        <Row>{data.class}. Sinif</Row>
                         <Row>{data.status}</Row>
                       </div>
                     </Col>

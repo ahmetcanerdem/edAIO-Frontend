@@ -23,11 +23,17 @@ import AddPersonnel from "./pages/AddPersonnel";
 import CourseSelection from "./pages/CourseSelection";
 import CourseConfirmation from "./pages/CourseConfirmation";
 import SigningUp from "./pages/SigningUp";
+import CourseApproval from "./pages/CourseApproval";
 
 function App() {
   const [loginData, setLoginData] = useState(
     localStorage.getItem("loginData")
       ? JSON.parse(localStorage.getItem("loginData"))
+      : null
+  );
+  const [userData, setUserData] = useState(
+    localStorage.getItem("userData")
+      ? JSON.parse(localStorage.getItem("userData"))
       : null
   );
 
@@ -68,12 +74,21 @@ function App() {
                     element={<IkinciYabanciDilBilgileri />}
                   />
                   <Route path="/login" element={<GirisCikisSayfasi />} />
-                  <Route path="/admin" element={<AdminPage />} />
-                  <Route path="/editStudent" element={<EditStudent />} />
-                  <Route path="/createUser" element={<CreateUser />} />
-                  <Route path="/addStudent" element={<AddStudent />} />
-                  <Route path="/addLecturer" element={<AddLecturer />} />
-                  <Route path="/addPersonnel" element={<AddPersonnel />} />
+                  
+                    <Route path="/courseApproval" element={<CourseApproval />} />
+                  
+                  {(userData.isPersonnel || userData.isLecturer) ? (
+                    <>
+                      <Route path="/admin" element={<AdminPage />} />
+                      <Route path="/editStudent" element={<EditStudent />} />
+                      <Route path="/createUser" element={<CreateUser />} />
+                      <Route path="/addStudent" element={<AddStudent />} />
+                      <Route path="/addLecturer" element={<AddLecturer />} />
+                      <Route path="/addPersonnel" element={<AddPersonnel />} />
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   <Route
                     path="/courseSelection"
                     element={<CourseSelection />}

@@ -2,13 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { getCurrentDate } from "../helpers/functions";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  CartesianGrid,
-  Tooltip
-} from "recharts";
+import { LineChart, Line, XAxis, CartesianGrid, Tooltip } from "recharts";
 
 import fontawesome from "@fortawesome/fontawesome";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,36 +14,46 @@ import {
 fontawesome.library.add(faCircleXmark, faCircleCheck);
 const HomePage = () => {
   const [data, setData] = useState(null);
+  const [alertShown, setAlertShown] = useState(false);
   const userInfo = JSON.parse(localStorage.getItem("loginData"));
   useEffect(() => {
     axios
-      .get("http://localhost:5000/user/getId/id=" + JSON.parse(localStorage.getItem("loginData"))._id)
+      .get(
+        "http://localhost:5000/user/getId/id=" +
+          JSON.parse(localStorage.getItem("loginData"))._id
+      )
       .then((response) => {
-        
-        console.log(response.data)
+        console.log(response.data);
         localStorage.setItem("userData", JSON.stringify(response.data));
-        handleHome()
+        handleHome();
       })
       .catch((error) => {
         console.log(error);
       });
-    
   }, []);
 
   const handleHome = () => {
     axios
-      .get("http://localhost:5000/student/homePage/id=" + JSON.parse(localStorage.getItem("userData")).id)
+      .get(
+        "http://localhost:5000/student/homePage/id=" +
+          JSON.parse(localStorage.getItem("userData")).id
+      )
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         setData(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    if (JSON.parse(localStorage.getItem("userData")).isLecturer && !alertShown) {
+      alert("Onaylanmamis Randevulariniz Bulunmaktadir");
+      setAlertShown(true);
+    }
   };
 
   const [datas, setDatas] = useState(null);
-  
+
   useEffect(() => {
     if (!!data) {
       const gpasData = [];
@@ -76,9 +80,7 @@ const HomePage = () => {
               <>Ogrenci</>
             )}
           </Col> */}
-          <Col>
-            Merhaba {userInfo.name}
-          </Col>
+          <Col>Merhaba {userInfo.name}</Col>
         </Row>
         <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
           <Col xs={10}>
@@ -90,7 +92,7 @@ const HomePage = () => {
           {!!data &&
             data.home.map((home) => {
               const row = [];
-              console.log(home)
+              console.log(home);
               row.push(
                 <Row key={home}>
                   <Row>
