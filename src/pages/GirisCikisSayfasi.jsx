@@ -32,7 +32,9 @@ const GirisCikisSayfasi = () => {
             console.log("Alo")
             if (res.data === "done") {
                 localStorage.removeItem("loginData");
+                localStorage.removeItem("userData");
                 window.location.reload();
+                localStorage.clear();
                 setLoginData(null);
             }
         })

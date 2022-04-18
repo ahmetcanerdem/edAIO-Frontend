@@ -10,6 +10,7 @@ import {
   faFilePen,
   faChalkboardUser,
   faHouseUser,
+  faUserSecret
 } from "@fortawesome/free-solid-svg-icons";
 fontawesome.library.add(
   faCircle,
@@ -17,7 +18,8 @@ fontawesome.library.add(
   faPeopleGroup,
   faFilePen,
   faChalkboardUser,
-  faHouseUser
+  faHouseUser,
+  faUserSecret
 );
 
 const SubMenu = ({ item }) => {

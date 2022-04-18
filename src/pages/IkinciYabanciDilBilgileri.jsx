@@ -24,6 +24,7 @@ const IkinciYabanciDilBilgileri = () => {
   const [isExpanded, setExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [distributeFunc, setDistributeFunc] = useState("");
+  const server = "http://localhost:5000";
 
   const ALL = "Genel";
   const DEPARTMENT = "Bölüm Bazında";
@@ -49,15 +50,28 @@ const IkinciYabanciDilBilgileri = () => {
       lectureStatus: "Almadı",
     },
   ];
+  const [sflSelect, setSflSelect] = useState();
 
   useEffect(async () => {
-    let response = await axios.get("http://localhost:5000/student/getSFLanguage/id=" + studentId);
+    let response = await axios.get(server + "/student/id=" + studentId);
+    if (!!response.data) {
+      console.log(response);
+      setSflSelect(response.data.student[0].secondForeignLanguage);
+    } else {
+      console.log(response.error);
+    }
+  }, []);
+
+  useEffect(async () => {
+    let response = await axios.get(
+      server + "/student/getSFLanguage/id=" + studentId
+    );
     if (!!response.data) {
       setSflInformation(response.data);
     } else {
       console.log(response.error);
     }
-  }, []);
+  }, [sflSelect]);
 
   useEffect(() => {
     setReload((prevState) => prevState + 1);
@@ -66,8 +80,6 @@ const IkinciYabanciDilBilgileri = () => {
   useEffect(() => {
     if (distributeFunc == ALL) {
       setData(allDstr);
-    // } else if (distributeFunc == FACULTY) {
-    //   setData(facultyDstr);
     } else if (distributeFunc == DEPARTMENT) {
       setData(departmentDstr);
     }
@@ -79,7 +91,7 @@ const IkinciYabanciDilBilgileri = () => {
     setAllDistribution();
     // setFacultyDistribution();
     setDepartmentDistribution();
-  }, sflInformation);
+  }, [sflInformation]);
 
   const setCourses = () => {
     if (!!sflInformation?.courses) {
@@ -211,100 +223,218 @@ const IkinciYabanciDilBilgileri = () => {
     setActiveIndex(index);
   };
 
-  return (
-    reload && (
-      <>
-        <div>
-          <Accordion>
-            <AccordionItem>
-              <AccordionItemHeading
-                onClick={() => {
-                  setExpanded(!isExpanded);
-                  setReload((prevState) => prevState + 1);
-                }}
-              >
-                <AccordionItemButton>
-                  <h4 className="accordion-item-button-header">
-                    İkinci Yabancı Dil Müfredatı
-                  </h4>
-                </AccordionItemButton>
-              </AccordionItemHeading>
+  let handleSFL = {
+    secondForeignLanguage: "",
+  };
+  const [selectedSFL, setSelectedSFL] = useState();
 
-              <AccordionItemPanel>
-                <div
-                  className="ag-theme-balham"
-                  style={{
-                    height: 200,
-                    width: "70%",
-                    marginLeft: "75px",
-                    marginBottom: "15px",
-                    textAlign: "center"
-                  }}
-                >
-                  <AgGridReact columnDefs={curriculumTable} rowData={sfl} />
+  const secondFL = [
+    {
+      name: "Çince",
+      short: "cin",
+    },
+    {
+      name: "Fransızca",
+      short: "fr",
+    },
+    {
+      name: "İspanyolca",
+      short: "isp",
+    },
+    {
+      name: "İtalyanca",
+      short: "itl",
+    },
+    {
+      name: "Japonca",
+      short: "jap",
+    },
+    {
+      name: "Rusça",
+      short: "rus",
+    },
+  ];
+
+  const postSFL = () => {
+    handleSFL.secondForeignLanguage = selectedSFL;
+
+    axios({
+      method: "post",
+      url: server + "/student/setSFLanguage/sid=" + studentId,
+      data: handleSFL,
+    });
+  };
+
+  const SecimComponent = () => {
+    const [isExpandedMfredat, setExpandedMfredat] = useState(false);
+    return (
+      <Accordion>
+        <AccordionItem>
+          <AccordionItemHeading
+            onClick={() => {
+              setExpandedMfredat(!isExpandedMfredat);
+            }}
+          >
+            <AccordionItemButton>
+              <h4 className="accordion-item-button-header">
+                İkinci Yabancı Dil Müfredatı
+              </h4>
+            </AccordionItemButton>
+          </AccordionItemHeading>
+
+          <AccordionItemPanel>
+            <div
+              className="ag-theme-balham"
+              style={{
+                height: 200,
+                width: "70%",
+                marginLeft: "75px",
+                marginBottom: "15px",
+                textAlign: "center",
+              }}
+            >
+              <AgGridReact columnDefs={curriculumTable} rowData={sfl} />
+            </div>
+          </AccordionItemPanel>
+        </AccordionItem>
+      </Accordion>
+    );
+  };
+
+  const ScheduleComponent = () => {
+    const [isExpandedSelect, setExpandedSelect] = useState(false);
+    return (
+      <Accordion>
+        <AccordionItem>
+          <AccordionItemHeading
+            onClick={() => {
+              setExpandedSelect(!isExpandedSelect);
+            }}
+          >
+            <AccordionItemButton>
+              <h4 className="accordion-item-button-header">
+                İkinci Yabancı Dil Seçiminizi Yapınız:
+              </h4>
+            </AccordionItemButton>
+          </AccordionItemHeading>
+
+          <AccordionItemPanel>
+            <div>
+              <form>
+                <div className="form-group">
+                  <ul>
+                    {secondFL.map((language, index) => {
+                      return (
+                        <li key={index}>
+                          <input
+                            type="checkbox"
+                            id={index}
+                            defaultChecked={false}
+                            onChange={(e) => {
+                              setSelectedSFL(e.target.value);
+                            }}
+                          />
+                          <label>{language.name}</label>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
-              </AccordionItemPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <AccordionItemHeading>
-                <AccordionItemButton>
-                  <div className="accordion-item-button-header-div">
-                    <h4 className="header-button">
-                      İkinci Yabancı Dil Tercih Dağılımı
-                    </h4>
-                    <button
-                      style={{ backgroundColor: "#86afef" }}
-                      onClick={() => {
-                        setDistributeFunc(ALL);
-                        setReload((prevState) => prevState + 1);
-                      }}
-                    >
-                      Genel
-                    </button>
-                    <button
-                      style={{ backgroundColor: "#b5f8f7" }}
-                      onClick={() => {
-                        setDistributeFunc(DEPARTMENT);
-                        setReload((prevState) => prevState + 1);
-                      }}
-                    >
-                      Bölüm Bazında
-                    </button>
-                  </div>
-                </AccordionItemButton>
-              </AccordionItemHeading>
-              <AccordionItemPanel>
-                <div className="accordion-item-panel-div">
-                  <h4
-                    style={{
-                      color: "darkblue"
+              </form>
+              {!!selectedSFL && (
+                <button
+                  type="submit"
+                  className="button button-1"
+                  onClick={postSFL}
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </AccordionItemPanel>
+        </AccordionItem>
+      </Accordion>
+    );
+  };
+
+  return (
+    <>
+      {!!sflSelect ? (
+        <div
+          style={{
+            paddingTop: "50px",
+            paddingLeft: "50px",
+          }}
+        >
+          <h3>Almış Olduğunuz İkinci Yabancı Dil:</h3>
+          <div style={{color: "red", fontWeight: 700}}>{sflSelect}</div>
+        </div>
+      ) : (
+        <h3>Henüz İkinci Yabancı Dilinizi Seçmediniz.</h3>
+      )}
+      <div>
+        {!!sflSelect ? <SecimComponent /> : <ScheduleComponent />}
+
+        <Accordion>
+          <AccordionItem>
+            <AccordionItemHeading>
+              <AccordionItemButton>
+                <div className="accordion-item-button-header-div">
+                  <h4 className="header-button">
+                    İkinci Yabancı Dil Tercih Dağılımı
+                  </h4>
+                  <button
+                    style={{ backgroundColor: "#86afef" }}
+                    onClick={() => {
+                      setDistributeFunc(ALL);
+                      setReload((prevState) => prevState + 1);
                     }}
                   >
-                    {distributeFunc} İkinci Yabancı Dil Tercih Dağılımı
-                  </h4>
-                  <div>
-                    <PieChart width={500} height={300}>
-                      <Pie
-                        activeIndex={activeIndex}
-                        activeShape={renderActiveShape}
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
-                        fill="#596868"
-                        dataKey="value"
-                        onMouseEnter={onPieEnter}
-                      />
-                    </PieChart>
-                  </div>
+                    Genel
+                  </button>
+                  <button
+                    style={{ backgroundColor: "#b5f8f7" }}
+                    onClick={() => {
+                      setDistributeFunc(DEPARTMENT);
+                      setReload((prevState) => prevState + 1);
+                    }}
+                  >
+                    Bölüm Bazında
+                  </button>
                 </div>
-              </AccordionItemPanel>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      </>
-    )
+              </AccordionItemButton>
+            </AccordionItemHeading>
+            <AccordionItemPanel>
+              <div className="accordion-item-panel-div">
+                <h4
+                  style={{
+                    color: "darkblue",
+                  }}
+                >
+                  {distributeFunc} İkinci Yabancı Dil Tercih Dağılımı
+                </h4>
+                <div>
+                  <PieChart width={500} height={300}>
+                    <Pie
+                      activeIndex={activeIndex}
+                      activeShape={renderActiveShape}
+                      data={data}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      fill="#596868"
+                      dataKey="value"
+                      onMouseEnter={onPieEnter}
+                    />
+                  </PieChart>
+                </div>
+              </div>
+            </AccordionItemPanel>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </>
   );
 };
 
