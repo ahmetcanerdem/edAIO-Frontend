@@ -13,45 +13,13 @@ function EditStudent() {
   const [dataScholarShip, setDataScholarShip] = useState(null);
   const [data, setData] = useState(null);
   const [dataPayment, setDataPayment] = useState(null);
-  const [lecturers, setLecturers] = useState(null);
+  const [dataLecturer, setDataLecturer] = useState(null);
   const [dataStatus, setDataStatus] = useState(null);
   const [dataGrade, setDataGrade] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [reload, setReload] = React.useState(1);
   const [advisor, setAdvisor] = useState(null);
   const [user, setUser] = useState(null);
-
-  const [putContext, setPutContext] = React.useState({
-    schoolMail: null,
-    id: null,
-    status: null,
-    code:null,
-    year: null,
-    companyName: null,
-    startDate: null,
-    endDate: null,
-    grade: null,
-    scholarship: null,
-    term: null,
-    value: null,
-    year: null,
-    gpa: null,
-    secondForeignLanguage: null,
-    department: null,
-    user:null,
-    advisor: null,
-    credit: null,
-    assignments: null,
-    course: null,
-    courseType: null,
-    paymentType: null,
-    fee: null,
-    collection: null,
-    approvement: null,
-    lecturerApprovement: null,
-    rank:null,
-    company: null,
-  });
 
   useEffect(() => {
     axios
@@ -64,7 +32,6 @@ function EditStudent() {
       });
   }, []);
 
-
   useEffect(() => {
     if (!!studentId) {
       axios
@@ -73,14 +40,11 @@ function EditStudent() {
           // console.log(response.data.student[0]);
           setData(response.data.student[0]);
           setAdvisor(response.data.student[0].advisor);
-          setPutContext({
-              ...putContext,
-              advisor: response.data.student[0].advisor,
-              scholarship: response.data.student[0].scholarship,
-              status: response.data.student[0].status,
-              grade: response.data.student[0].grade,
+          handlePayment();
+          setDataScholarShip(response.data.student[0].scholarship);
+          setDataStatus(response.data.student[0].status);
+          setDataGrade(response.data.student[0].grade);
 
-          });
           setReload((prevState) => prevState + 1);
         })
         .catch((error) => {
@@ -94,11 +58,7 @@ function EditStudent() {
       axios
         .get("http://localhost:5000/lecturer/id=" + advisor)
         .then((response) => {
-          setLecturers(response.data);
-          setPutContext({
-            ...putContext,
-            lecturer: response.data
-          });
+          setDataLecturer(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -116,15 +76,12 @@ function EditStudent() {
     axios
       .get("http://localhost:5000/student/getFeeInfo/id=" + studentId)
       .then((response) => {
-        setPutContext({
-          ...putContext,
-          payment: response.data
-        });
+        setDataPayment(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  },lecturers);
+  };
 
   const handleScholar = (e) => {
     setDataScholarShip(scholars[e.target.attributes.value.value]);
@@ -285,11 +242,7 @@ function EditStudent() {
                       >
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              status: status[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleStatus}
                           key={0}
                           value={0}
                         >
@@ -297,11 +250,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              status: status[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleStatus}
                           key={1}
                           value={1}
                         >
@@ -309,11 +258,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              status: status[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleStatus}
                           key={2}
                           value={2}
                         >
@@ -328,23 +273,15 @@ function EditStudent() {
                       >
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              scholarship: scholars[e.target.attributes.value.value]
-                          })}
+                          onClick={handleScholar}
                           key={0}
                           value={0}
                         >
                           100
                         </NavDropdown.Item>
                         <NavDropdown.Item
-                          className="button button-1" 
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              scholarship: scholars[e.target.attributes.value.value]
-                          })}
+                          className="button button-1"
+                          onClick={handleScholar}
                           key={1}
                           value={1}
                         >
@@ -352,11 +289,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              scholarship: scholars[e.target.attributes.value.value]
-                          })}
+                          onClick={handleScholar}
                           key={2}
                           value={2}
                         >
@@ -364,11 +297,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          oonClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              scholarship: scholars[e.target.attributes.value.value]
-                          })}
+                          onClick={handleScholar}
                           key={3}
                           value={3}
                         >
@@ -376,11 +305,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              scholarship: scholars[e.target.attributes.value.value]
-                          })}
+                          onClick={handleScholar}
                           key={4}
                           value={4}
                         >
@@ -395,11 +320,7 @@ function EditStudent() {
                       >
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              grade: grade[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleGrade}
                           key={0}
                           value={0}
                         >
@@ -407,11 +328,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              grade: grade[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleGrade}
                           key={1}
                           value={1}
                         >
@@ -419,11 +336,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              grade: grade[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleGrade}
                           key={2}
                           value={2}
                         >
@@ -431,11 +344,7 @@ function EditStudent() {
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           className="button button-1"
-                          onClick={(e) => 
-                            setPutContext({
-                              ...putContext,
-                              grade: grade[e.target.attributes.value.value]
-                          })} 
+                          onClick={handleGrade}
                           key={3}
                           value={3}
                         >
@@ -491,7 +400,7 @@ function EditStudent() {
                     <Col>
                       <input
                         type="text"
-                        placeholder={lecturers.lecturer.title}
+                        placeholder={dataLecturer.lecturer.title}
                         style={{ width: "120px" }}
                       />
                     </Col>
