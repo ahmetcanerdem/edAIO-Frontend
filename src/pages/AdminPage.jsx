@@ -42,14 +42,14 @@ function AdminPage(props) {
           <div className="col-md-12">
             <div className="card">
               <div className="card-header">
-                <h4>Kullaniciyi Guncelle</h4>
+                <h4>Kullanıcıyı Güncelle</h4>
               </div>
               <div className="card-body">
                 <Row>
                   <Col>
                     <form>
                       <div className="form-group">
-                        <label htmlFor="exampleInputEmail1">Isim Soyisim</label>
+                        <label htmlFor="exampleInputEmail1">İsim Soyisim</label>
                         <input
                           type="email"
                           className="form-control"
@@ -101,7 +101,7 @@ function AdminPage(props) {
                         href="/editStudent"
                       >
                         {" "}
-                        Kullaniciyi editle{" "}
+                        Kullanıcıyı güncelle{" "}
                       </Nav.Link>
                     </Col>
                   </>

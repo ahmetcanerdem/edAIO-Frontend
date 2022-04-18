@@ -41,7 +41,7 @@ function ProfilPage() {
         <Col xs={10}>
           <h2>Bilgilerim</h2>
         </Col>
-        <Col>Bugun: {getCurrentDate("/")}</Col>
+        <Col>Bugün: {getCurrentDate("/")}</Col>
       </Row>
       <div
         style={{
@@ -73,14 +73,14 @@ function ProfilPage() {
                   </Row>
 
                   <br/>
-                  <Row>Ogrenci No: {data.id}</Row>
+                  <Row>Öğrenci No: {data.id}</Row>
                   
                   <br/>
                   <Row>E-mail: {data.email}</Row>
                     <br/>
-                  <Row>Danisman: {data.advisor}</Row>
+                  <Row>Danışman: {data.advisor}</Row>
                     <br/>
-                  <Row>Danisman E-mail: {data.advisorMail}</Row>
+                  <Row>Danışman E-mail: {data.advisorMail}</Row>
                   
                   <br/>
                   <Nav.Link className="button button-1" href="/profile/info">
@@ -88,7 +88,7 @@ function ProfilPage() {
                   </Nav.Link>
                   
                   <Nav.Link className="button button-1" href="/profile/grades">
-                    Not Goruntuleme
+                    Not Görüntüleme
                   </Nav.Link>
                   <Nav.Link
                     className="button button-1"
@@ -97,16 +97,16 @@ function ProfilPage() {
                     Ortak Egitim Bilgileri
                   </Nav.Link>
                   <Nav.Link className="button button-1" href="/profile/sfl">
-                    Ikinci Yabanci Dil
+                    İkinci Yabancı Dil
                   </Nav.Link>
                   <Nav.Link className="button button-1" href="/profile/payment">
-                    Odeme Bilgilerim
+                    Ödeme Bilgilerim
                   </Nav.Link>
                   <Nav.Link
                     className="button button-1"
                     href="/profile/addresses"
                   >
-                    Adres/Iletisim Bilgilerim
+                    Adres/İletişim Bilgilerim
                   </Nav.Link>
                 </>
               ) : (
@@ -182,21 +182,21 @@ function ProfilPage() {
                         <br/>
                         <div>
                           <Row>
-                            <Col xs={6}>Egitim Yariyili:</Col>
+                            <Col xs={6}>Egitim Yarıyılı:</Col>
                             <Col xs={6} style={{textAlign:"right"}}>{data.term}</Col>
                           </Row>
                         </div>
                         <br/>
                         <div>
                           <Row>
-                            <Col xs={2}>Mufredat:</Col>
-                            <Col xs={10} style={{textAlign:"right"}}>{data.department} Lisans Programi</Col>
+                            <Col xs={2}>Müfredat:</Col>
+                            <Col xs={10} style={{textAlign:"right"}}>{data.department} Lisans Programı</Col>
                           </Row>
                         </div>
                         <br/>
                         <div>
                           <Row>
-                            <Col xs={6}>Kayit Tarihi:</Col>
+                            <Col xs={6}>Kayıt Tarihi:</Col>
                             <Col xs={6} style={{textAlign:"right"}}>{data.createdAt.substring(0, 10)}</Col>
                           </Row>
                         </div>
@@ -260,7 +260,7 @@ function ProfilPage() {
                           </Row>
                           <Row>
                             <label style={{ textAlign: "center" }}>
-                              Alinan Kredi
+                              Alınan Kredi
                             </label>
                           </Row>
                         </div>
