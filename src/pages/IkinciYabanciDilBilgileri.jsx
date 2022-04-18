@@ -230,6 +230,14 @@ const IkinciYabanciDilBilgileri = () => {
 
   const secondFL = [
     {
+      name: "Almanca",
+      short: "alm",
+    },
+    {
+      name: "Arapça",
+      short: "arp",
+    },
+    {
       name: "Çince",
       short: "cin",
     },
@@ -319,7 +327,7 @@ const IkinciYabanciDilBilgileri = () => {
           </AccordionItemHeading>
 
           <AccordionItemPanel>
-            <div>
+            <div style={{paddingLeft: "50px"}}>
               <form>
                 <div className="form-group">
                   <ul>
@@ -331,7 +339,7 @@ const IkinciYabanciDilBilgileri = () => {
                             id={index}
                             defaultChecked={false}
                             onChange={(e) => {
-                              setSelectedSFL(e.target.value);
+                              setSelectedSFL(secondFL[e.target.id].name);
                             }}
                           />
                           <label>{language.name}</label>
@@ -344,7 +352,7 @@ const IkinciYabanciDilBilgileri = () => {
               {!!selectedSFL && (
                 <button
                   type="submit"
-                  className="button button-1"
+                  className="button button-5"
                   onClick={postSFL}
                 >
                   Submit
@@ -358,7 +366,7 @@ const IkinciYabanciDilBilgileri = () => {
   };
 
   return (
-    <>
+    reload && <>
       {!!sflSelect ? (
         <div
           style={{

@@ -601,7 +601,7 @@ const BlogPage = () => {
                             <div className="col-md-6">{post.title}</div>
                             <div className="col-md-6">
                               <label id="post-writer">
-                                {post.createdBy.name}
+                                {post?.createdBy?.name}
                               </label>
                             </div>
                           </Nav.Link>
