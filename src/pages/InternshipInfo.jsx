@@ -10,7 +10,6 @@ const InternshipInfo = () => {
     axios
       .get("http://localhost:5000/student")
       .then((response) => {
-        console.log(response.data);
         setData(response.data.student[0]);
       })
       .catch((error) => {

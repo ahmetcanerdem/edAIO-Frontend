@@ -37,7 +37,6 @@ function EditStudent() {
       axios
         .get("http://localhost:5000/student/id=" + studentId)
         .then((response) => {
-          // console.log(response.data.student[0]);
           setData(response.data.student[0]);
           setAdvisor(response.data.student[0].advisor);
           handlePayment();
@@ -97,7 +96,6 @@ function EditStudent() {
   };
 
   const editStudent = () => {
-    console.log(user);
     axios({
       method: "put",
       url: "http://localhost:5000/student/edit/" + studentId,
@@ -132,7 +130,7 @@ function EditStudent() {
                         <Col>Firma Adı</Col>
                         <Col>Başlangıç</Col>
                         <Col>Bitiş</Col>
-                        <Col>Grade</Col>
+                        <Col>Not</Col>
                       </Row>
                       <Row>
                         <Col>
@@ -212,10 +210,10 @@ function EditStudent() {
                 >
                   <Row>
                     <Col>Mail</Col>
-                    <Col>Okul Numarasi</Col>
-                    <Col>Ogrenci Durumu</Col>
+                    <Col>Okul Numarası</Col>
+                    <Col>Öğrenci Durumu</Col>
                     <Col>Burs</Col>
-                    <Col>Sinif</Col>
+                    <Col>Sınıf</Col>
                   </Row>
                   <Row>
                     <Col>
@@ -509,7 +507,7 @@ function EditStudent() {
                       <Row>{term.name}</Row>
                       <Row>
                         <Col>Ders Kodu</Col>
-                        <Col>Ders Adi</Col>
+                        <Col>Ders Adı</Col>
                         <Col>Ders Turu</Col>
                         <Col>Harf Notu</Col>
                       </Row>
