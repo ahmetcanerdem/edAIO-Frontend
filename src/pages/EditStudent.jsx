@@ -19,6 +19,7 @@ function EditStudent() {
   const [studentId, setStudentId] = useState(null);
   const [reload, setReload] = React.useState(1);
   const [advisor, setAdvisor] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     axios
@@ -36,6 +37,7 @@ function EditStudent() {
       axios
         .get("http://localhost:5000/student/id=" + studentId)
         .then((response) => {
+          // console.log(response.data.student[0]);
           setData(response.data.student[0]);
           setAdvisor(response.data.student[0].advisor);
           handlePayment();
@@ -44,8 +46,6 @@ function EditStudent() {
           setDataGrade(response.data.student[0].grade);
 
           setReload((prevState) => prevState + 1);
-
-          user = data;
         })
         .catch((error) => {
           console.log(error);
@@ -54,7 +54,6 @@ function EditStudent() {
   }, [studentId]);
 
   useEffect(() => {
-    console.log(advisor);
     if (!!advisor) {
       axios
         .get("http://localhost:5000/lecturer/id=" + advisor)
@@ -66,6 +65,12 @@ function EditStudent() {
         });
     }
   }, [advisor]);
+
+  useEffect(() => {
+    if (!!data) {
+      setUser(data);
+    }
+  }, [data]);
 
   const handlePayment = () => {
     axios
@@ -80,30 +85,37 @@ function EditStudent() {
 
   const handleScholar = (e) => {
     setDataScholarShip(scholars[e.target.attributes.value.value]);
+    user.scholarship = scholars[e.target.attributes.value.value];
   };
   const handleStatus = (e) => {
     setDataStatus(status[e.target.attributes.value.value]);
+    user.status = status[e.target.attributes.value.value];
   };
   const handleGrade = (e) => {
     setDataGrade(grade[e.target.attributes.value.value]);
+    user.grade = grade[e.target.attributes.value.value];
   };
 
-  const editStudent = () => {};
-
-  let user;
+  const editStudent = () => {
+    console.log(user);
+    axios({
+      method: "put",
+      url: "http://localhost:5000/student/edit/" + studentId,
+      data: user,
+    });
+  };
 
   return (
     reload && (
       <div>
         <h1>Öğrenci Düzenle</h1>
-
         <div class="row">
           {!!data &&
             data.internships.map((internship) => {
               const row = [];
               row.push(
                 <Row key={internship}>
-                  <Container style={{ paddingLeft: 35,paddingTop: 30 }}>
+                  <Container style={{ paddingLeft: 35, paddingTop: 30 }}>
                     <Container
                       style={{
                         borderRadius: 10,
@@ -128,6 +140,7 @@ function EditStudent() {
                             type="text"
                             placeholder={internship.code}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].code=e.target.value}
                           />
                         </Col>
                         <Col>
@@ -135,6 +148,7 @@ function EditStudent() {
                             type="number"
                             placeholder={internship.year}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].year=e.target.value}
                           />
                         </Col>
                         <Col>
@@ -142,6 +156,7 @@ function EditStudent() {
                             type="text"
                             placeholder={internship.term}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].term=e.target.value}
                           />
                         </Col>
                         <Col>
@@ -149,6 +164,7 @@ function EditStudent() {
                             type="text"
                             placeholder={internship.companyName}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].companyName=e.target.value}
                           />
                         </Col>
                         <Col>
@@ -156,6 +172,7 @@ function EditStudent() {
                             type="date"
                             placeholder={internship.startDate}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].startDate=e.target.value}
                           />
                         </Col>
                         <Col>
@@ -163,6 +180,7 @@ function EditStudent() {
                             type="date"
                             placeholder={internship.endDate}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].endDate=e.target.value}
                           />
                         </Col>
                         <Col>
@@ -170,6 +188,7 @@ function EditStudent() {
                             type="text"
                             placeholder={internship.grade}
                             style={{ width: "120px" }}
+                            onChange={(e) => user.internships[0].grade=e.target.value}
                           />
                         </Col>
                       </Row>
@@ -179,8 +198,7 @@ function EditStudent() {
               );
               return row;
             })}
-
-          {!!data && !!dataLecturer && (
+          {!!data && !!dataLecturer && !!user && (
             <>
               <Container style={{ paddingTop: 30 }}>
                 <Container
@@ -205,6 +223,7 @@ function EditStudent() {
                         type="text"
                         placeholder={data.schoolMail}
                         style={{ witdh: "120px" }}
+                        onChange={(e) => user.schoolMail=e.target.value}
                       />
                     </Col>
                     <Col>
@@ -212,12 +231,14 @@ function EditStudent() {
                         type="number"
                         placeholder={data.id}
                         style={{ width: "120px" }}
+                        onChange={(e) => user.id=e.target.value}
                       />
                     </Col>
                     <Col>
                       <NavDropdown
                         className="button button-1"
                         title={dataStatus}
+                        
                       >
                         <NavDropdown.Item
                           className="button button-1"
@@ -352,12 +373,12 @@ function EditStudent() {
                     <Col>Kredi</Col>
                   </Row>
                   <Row>
-                    {console.log(data)}
                     <Col>
                       <input
                         type="number"
                         placeholder={data.term}
                         style={{ width: "120px" }}
+                        onChange={(e) => user.term=e.target.value}
                       />
                     </Col>
                     <Col>
@@ -365,6 +386,7 @@ function EditStudent() {
                         type="number"
                         placeholder={data.gpa}
                         style={{ width: "120px" }}
+                        onChange={(e) => user.gpa=e.target.value}
                       />
                     </Col>
                     <Col>
@@ -372,6 +394,7 @@ function EditStudent() {
                         type="text"
                         placeholder={data.secondForeignLanguage}
                         style={{ width: "120px" }}
+                        onChange={(e) => user.secondForeignLanguage=e.target.value}
                       />
                     </Col>
                     <Col>
@@ -386,6 +409,7 @@ function EditStudent() {
                         type="number"
                         placeholder={data.credit}
                         style={{ width: "120px" }}
+                        onChange={(e) => user.credit=e.target.value}
                       />
                     </Col>
                   </Row>
@@ -420,6 +444,7 @@ function EditStudent() {
                                 type="number"
                                 placeholder={payment.year}
                                 style={{ width: "120px" }}
+                                onChange={(e) => user.payments[0].year=e.target.value}
                               />
                             </Col>
                             <Col>
@@ -427,6 +452,7 @@ function EditStudent() {
                                 type="text"
                                 placeholder={payment.term}
                                 style={{ width: "120px" }}
+                                onChange={(e) => user.payments[0].term=e.target.value}
                               />
                             </Col>
                             <Col>
@@ -435,6 +461,7 @@ function EditStudent() {
                                 type="text"
                                 placeholder={payment.paymentType}
                                 style={{ width: "120px" }}
+                                onChange={(e) => user.payments[0].paymentType=e.target.value}
                               />
                             </Col>
                             <Col>
@@ -443,6 +470,7 @@ function EditStudent() {
                                 type="number"
                                 placeholder={payment.fee}
                                 style={{ width: "120px" }}
+                                onChange={(e) => user.payments[0].fee=e.target.value}
                               />
                             </Col>
                             <Col>
@@ -451,6 +479,7 @@ function EditStudent() {
                                 type="number"
                                 placeholder={payment.collection}
                                 style={{ width: "120px" }}
+                                onChange={(e) => user.payments[0].collection=e.target.value}
                               />
                             </Col>
                           </Row>
@@ -498,6 +527,7 @@ function EditStudent() {
                                           type="text"
                                           placeholder={course.code}
                                           style={{ width: "120px" }}
+                                          onChange={(e) => user.terms[0].courses[0].code=e.target.value}
                                         />
                                       </Col>
                                       <Col>
@@ -505,6 +535,7 @@ function EditStudent() {
                                           type="text"
                                           placeholder={course.name}
                                           style={{ width: "120px" }}
+                                          onChange={(e) => user.terms[0].courses[0].name=e.target.value}
                                         />
                                       </Col>
                                       <Col>
@@ -512,6 +543,7 @@ function EditStudent() {
                                           type="text"
                                           placeholder={course.courseType}
                                           style={{ width: "120px" }}
+                                          onChange={(e) => user.terms[0].courses[0].courseType=e.target.value}
                                         />
                                       </Col>
                                       <Col>
@@ -519,6 +551,7 @@ function EditStudent() {
                                           type="text"
                                           placeholder={course.grade}
                                           style={{ width: "120px" }}
+                                          onChange={(e) => user.terms[0].courses[0].grade=e.target.value}
                                         />
                                       </Col>
                                     </Row>
